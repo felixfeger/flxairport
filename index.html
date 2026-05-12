@@ -48,90 +48,96 @@
     .topbar-links { display: flex; gap: 24px; }
 
     /* ── HEADER / NAV ── */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: var(--deep);
-      border-bottom: 2px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      height: 72px;
-    }
+header {
+  position: sticky; top: 0; z-index: 1000;
+  background: var(--navy);
+  border-bottom: 3px solid var(--gold);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 32px; height: 68px;
+  gap: 24px;
+}
 
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      text-decoration: none;
-    }
-    .logo-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: 1.3rem;
-      color: var(--navy);
-      letter-spacing: -1px;
-      flex-shrink: 0;
-    }
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-    .logo-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--white);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    .logo-sub {
-      font-size: 0.65rem;
-      color: var(--gold-light);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
+.logo-area {
+  display: flex; align-items: center;
+  gap: 0; text-decoration: none; flex-shrink: 0;
+}
+.logo-code {
+  font-size: 2rem; font-weight: 800;
+  color: var(--gold); letter-spacing: -0.02em;
+  line-height: 1;
+}
+.logo-divider {
+  width: 1px; height: 36px;
+  background: rgba(255,255,255,0.2);
+  margin: 0 18px;
+}
+.logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+.logo-title {
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--white); letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.logo-sub {
+  font-size: 0.65rem; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    nav a {
-      color: rgba(255,255,255,0.80);
-      text-decoration: none;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 600;
-      font-size: 0.9rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 4px;
-      transition: color 0.2s, background 0.2s;
-    }
-    nav a:hover {
-      color: var(--gold);
-      background: rgba(255,255,255,0.07);
-    }
-    .nav-cta {
-      background: var(--gold) !important;
-      color: var(--navy) !important;
-      padding: 8px 18px !important;
-      border-radius: 4px;
-      font-weight: 700 !important;
-    }
-    .nav-cta:hover { background: var(--gold-light) !important; }
+nav#mainNav {
+  display: flex; align-items: center; gap: 2px;
+  margin-left: auto;
+}
+nav#mainNav a {
+  color: rgba(255,255,255,0.75); text-decoration: none;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 6px 13px; border-radius: 3px;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+nav#mainNav a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+nav#mainNav a.active { color: var(--gold); }
+nav#mainNav .nav-cta {
+  background: var(--gold); color: var(--navy) !important;
+  font-weight: 700; margin-left: 8px;
+  padding: 7px 16px;
+}
+nav#mainNav .nav-cta:hover { background: var(--gold-light); }
 
+/* Hamburger */
+.hamburger {
+  display: none; flex-direction: column;
+  justify-content: center; gap: 5px;
+  background: none; border: none; cursor: pointer;
+  padding: 8px; flex-shrink: 0;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--white); border-radius: 2px;
+  transition: all 0.25s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  .hamburger { display: flex; }
+  nav#mainNav {
+    display: none; position: absolute;
+    top: 68px; left: 0; right: 0;
+    background: var(--navy);
+    border-bottom: 2px solid var(--gold);
+    flex-direction: column; align-items: stretch;
+    padding: 12px 0; gap: 0; margin: 0;
+  }
+  nav#mainNav.open { display: flex; }
+  nav#mainNav a {
+    padding: 13px 28px; border-radius: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.88rem;
+  }
+  nav#mainNav .nav-cta { margin: 8px 20px; border-radius: 4px; text-align: center; }
+}
     /* ── HERO ── */
     .hero {
       position: relative;
@@ -902,20 +908,25 @@
 <!-- HEADER -->
 <header>
   <a href="index.html" class="logo-area">
-    <div class="logo-icon">FLC</div>
+    <div class="logo-code">FLC</div>
+    <div class="logo-divider"></div>
     <div class="logo-text">
-      <span class="logo-title">Felix Lego City Intl.</span>
-      <span class="logo-sub">Airport &nbsp;·&nbsp; IATA: FLC</span>
+      <span class="logo-title">Felix Lego City</span>
+      <span class="logo-sub">International Airport</span>
     </div>
   </a>
-  <nav>
-    <a href="departures.html">Departures &amp; Arrivals</a>
+  <nav id="mainNav">
+    <a href="index.html">Home</a>
+    <a href="departures.html">Flights</a>
     <a href="terminals.html">Terminals</a>
     <a href="airlines.html">Airlines</a>
-    <a href="cbp.html">Customs &amp; Border</a>
+    <a href="cbp.html">Customs</a>
     <a href="about.html">About</a>
     <a href="departures.html" class="nav-cta">Flight Status</a>
   </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
 <!-- HERO -->
