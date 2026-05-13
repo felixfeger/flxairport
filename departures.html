@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Departures & Arrivals — Felix Lego City International Airport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: Helvetica Neue, Helvetica, Arial, sans-serif; }
+    :root {
+      --navy: #0a1628;
+      --deep: #0d1f3c;
+      --sky: #1a6bcc;
+      --gold: #e8a020;
+      --gold-light: #f5c356;
+      --white: #ffffff;
+      --off: #f4f6fa;
+      --gray: #8898aa;
+      --border: rgba(255,255,255,0.10);
+      --text: #1a2540;
+      --green: #16a34a;
+      --red: #dc2626;
+      --amber: #d97706;
+      --purple: #7c3aed;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--navy);
+      color: rgba(255,255,255,0.65);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 7px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar a { color: var(--gold-light); text-decoration: none; }
+    .topbar a:hover { text-decoration: underline; }
+    .topbar-links { display: flex; gap: 24px; }
+
+   /* ── HEADER / NAV ── */
+header {
+  position: sticky; top: 0; z-index: 1000;
+  background: var(--navy);
+  border-bottom: 3px solid var(--gold);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 32px; height: 68px;
+  gap: 24px;
+}
+
+.logo-area {
+  display: flex; align-items: center;
+  gap: 0; text-decoration: none; flex-shrink: 0;
+}
+.logo-code {
+  font-size: 2rem; font-weight: 800;
+  color: var(--gold); letter-spacing: -0.02em;
+  line-height: 1;
+}
+.logo-divider {
+  width: 1px; height: 36px;
+  background: rgba(255,255,255,0.2);
+  margin: 0 18px;
+}
+.logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+.logo-title {
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--white); letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.logo-sub {
+  font-size: 0.65rem; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+nav#mainNav {
+  display: flex; align-items: center; gap: 2px;
+  margin-left: auto;
+}
+nav#mainNav a {
+  color: rgba(255,255,255,0.75); text-decoration: none;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 6px 13px; border-radius: 3px;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+nav#mainNav a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+nav#mainNav a.active { color: var(--gold); }
+nav#mainNav .nav-cta {
+  background: var(--gold); color: var(--navy) !important;
+  font-weight: 700; margin-left: 8px;
+  padding: 7px 16px;
+}
+nav#mainNav .nav-cta:hover { background: var(--gold-light); }
+
+/* Hamburger */
+.hamburger {
+  display: none; flex-direction: column;
+  justify-content: center; gap: 5px;
+  background: none; border: none; cursor: pointer;
+  padding: 8px; flex-shrink: 0;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--white); border-radius: 2px;
+  transition: all 0.25s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  .hamburger { display: flex; }
+  nav#mainNav {
+    display: none; position: absolute;
+    top: 68px; left: 0; right: 0;
+    background: var(--navy);
+    border-bottom: 2px solid var(--gold);
+    flex-direction: column; align-items: stretch;
+    padding: 12px 0; gap: 0; margin: 0;
+  }
+  nav#mainNav.open { display: flex; }
+  nav#mainNav a {
+    padding: 13px 28px; border-radius: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.88rem;
+  }
+  nav#mainNav .nav-cta { margin: 8px 20px; border-radius: 4px; text-align: center; }
+}
+    /* ── PAGE HERO ── */
+    .page-hero {
+      background: var(--navy);
+      border-bottom: 3px solid var(--gold);
+      padding: 32px 60px 28px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .page-hero-left {}
+    .page-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.7rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px;
+    }
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 2.6rem;
+      text-transform: uppercase; color: var(--white);
+      letter-spacing: 0.01em; line-height: 1;
+    }
+    .page-title em {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic; color: var(--gold); font-size: 1.05em;
+    }
+    .page-meta {
+      display: flex; align-items: center; gap: 20px;
+      margin-top: 12px;
+    }
+    .live-badge {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(22,163,74,0.15);
+      border: 1px solid rgba(22,163,74,0.4);
+      color: #4ade80;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.72rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 100px;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      background: #4ade80; border-radius: 50%;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:0.4; transform:scale(0.7); }
+    }
+    .clock-display {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 1.5rem;
+      color: var(--white); letter-spacing: 0.06em;
+    }
+    .clock-label {
+      font-size: 0.68rem; color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .page-hero-right {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .admin-btn {
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600; font-size: 0.82rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 9px 18px; border-radius: 4px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .admin-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .admin-btn.logged-in { border-color: var(--green); color: #4ade80; }
+
+    /* ── TABS ── */
+    .board-tabs {
+      background: var(--deep);
+      padding: 0 60px;
+      display: flex; gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .board-tab {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.88rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      padding: 16px 28px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      margin-bottom: -1px;
+    }
+    .board-tab:hover { color: rgba(255,255,255,0.75); }
+    .board-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background: var(--white);
+      padding: 16px 60px;
+      display: flex; align-items: center; gap: 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.7rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray);
+    }
+    .filter-input {
+      background: var(--off); border: 1px solid rgba(0,0,0,0.12);
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem; padding: 8px 14px; border-radius: 4px;
+      outline: none; transition: border-color 0.2s;
+      min-width: 200px;
+    }
+    .filter-input:focus { border-color: var(--sky); }
+    .filter-select {
+      background: var(--off); border: 1px solid rgba(0,0,0,0.12);
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem; padding: 8px 14px; border-radius: 4px;
+      outline: none; cursor: pointer;
+    }
+    .filter-count {
+      margin-left: auto;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600; font-size: 0.78rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    /* ── BOARD CONTAINER ── */
+    .board-container {
+      padding: 28px 60px 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ── FLIGHT TABLE ── */
+    .flight-table-wrap {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+
+    .flight-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .flight-table thead {
+      background: var(--navy);
+    }
+    .flight-table thead th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.68rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      padding: 13px 18px; text-align: left;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      white-space: nowrap;
+    }
+    .flight-table thead th:last-child { border-right: none; }
+
+    .flight-table tbody tr {
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: background 0.15s;
+    }
+    .flight-table tbody tr:last-child { border-bottom: none; }
+    .flight-table tbody tr:hover { background: rgba(26,107,204,0.04); }
+
+    .flight-table td {
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      vertical-align: middle;
+      border-right: 1px solid rgba(0,0,0,0.04);
+    }
+    .flight-table td:last-child { border-right: none; }
+
+    .col-time {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 1.2rem;
+      color: var(--navy); letter-spacing: 0.04em;
+      white-space: nowrap; min-width: 80px;
+    }
+    .col-time .time-est {
+      display: block; font-size: 0.72rem;
+      font-weight: 600; color: var(--amber);
+      letter-spacing: 0.06em; margin-top: 2px;
+    }
+    .col-time .time-est.ontime { color: var(--green); }
+
+    .col-flight {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1.05rem;
+      color: var(--sky); letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .col-airline {
+      display: flex; align-items: center; gap: 10px;
+      min-width: 160px;
+    }
+    .airline-logo-sm {
+      width: 36px; height: 22px;
+      object-fit: contain; flex-shrink: 0;
+    }
+    .airline-logo-text {
+      width: 36px; height: 22px;
+      background: var(--navy); border-radius: 3px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 0.5rem;
+      color: var(--white); display: flex;
+      align-items: center; justify-content: center;
+      text-align: center; line-height: 1.1; flex-shrink: 0;
+    }
+    .airline-name-sm {
+      font-size: 0.85rem; font-weight: 500; color: var(--text);
+      white-space: nowrap;
+    }
+
+    .col-dest {
+      font-weight: 600; color: var(--navy);
+      font-size: 0.92rem;
+    }
+    .col-dest .dest-code {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1.05rem;
+      color: var(--text); display: block;
+      letter-spacing: 0.06em;
+    }
+    .col-dest .dest-city {
+      font-size: 0.78rem; color: var(--gray);
+      font-weight: 400;
+    }
+
+    .col-terminal {
+      text-align: center;
+    }
+    .terminal-pill {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 0.78rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 4px;
+    }
+    .t1-pill { background: rgba(232,160,32,0.15); color: #b07800; border: 1px solid rgba(232,160,32,0.3); }
+    .t2-pill { background: rgba(26,107,204,0.12); color: var(--sky); border: 1px solid rgba(26,107,204,0.25); }
+
+    .col-gate {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      color: var(--navy); text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.75rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 11px; border-radius: 100px;
+      white-space: nowrap;
+    }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .s-ontime { background: rgba(22,163,74,0.12); color: var(--green); border: 1px solid rgba(22,163,74,0.25); }
+    .s-ontime .status-dot { background: var(--green); }
+    .s-delayed { background: rgba(217,119,6,0.12); color: var(--amber); border: 1px solid rgba(217,119,6,0.3); }
+    .s-delayed .status-dot { background: var(--amber); }
+    .s-boarding { background: rgba(26,107,204,0.12); color: var(--sky); border: 1px solid rgba(26,107,204,0.25); }
+    .s-boarding .status-dot { background: var(--sky); animation: pulse 1.2s infinite; }
+    .s-departed { background: rgba(0,0,0,0.06); color: var(--gray); border: 1px solid rgba(0,0,0,0.1); }
+    .s-departed .status-dot { background: var(--gray); }
+    .s-cancelled { background: rgba(220,38,38,0.1); color: var(--red); border: 1px solid rgba(220,38,38,0.25); }
+    .s-cancelled .status-dot { background: var(--red); }
+    .s-arrived { background: rgba(124,58,237,0.1); color: var(--purple); border: 1px solid rgba(124,58,237,0.25); }
+    .s-arrived .status-dot { background: var(--purple); }
+    .s-expected { background: rgba(22,163,74,0.08); color: #15803d; border: 1px solid rgba(22,163,74,0.2); }
+    .s-expected .status-dot { background: #15803d; }
+
+    /* Admin edit button per row */
+    .edit-btn {
+      background: none; border: 1px solid rgba(0,0,0,0.12);
+      color: var(--gray); font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600; font-size: 0.72rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 4px;
+      cursor: pointer; transition: all 0.2s;
+      display: none;
+    }
+    .edit-btn:hover { border-color: var(--sky); color: var(--sky); }
+    body.admin-mode .edit-btn { display: inline-block; }
+
+    /* No flights */
+    .no-flights {
+      text-align: center;
+      padding: 64px 0;
+      color: var(--gray);
+    }
+    .no-flights-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .no-flights-text { font-size: 0.9rem; }
+
+    /* ── ADMIN PANEL ── */
+    .admin-panel {
+      display: none;
+      background: var(--white);
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      margin-bottom: 28px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(232,160,32,0.15);
+    }
+    body.admin-mode .admin-panel { display: block; }
+
+    .admin-panel-header {
+      background: var(--navy);
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .admin-panel-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .admin-panel-sub {
+      font-size: 0.75rem; color: rgba(255,255,255,0.45);
+      margin-top: 2px;
+    }
+    .add-flight-btn {
+      background: var(--gold); color: var(--navy);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 9px 20px; border: none; border-radius: 4px;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .add-flight-btn:hover { background: var(--gold-light); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 9000;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 12px;
+      width: 580px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+    .modal-header {
+      background: var(--navy);
+      padding: 22px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-radius: 12px 12px 0 0;
+    }
+    .modal-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1.2rem;
+      text-transform: uppercase; color: var(--white);
+      letter-spacing: 0.04em;
+    }
+    .modal-close {
+      background: none; border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 1.4rem; cursor: pointer;
+      line-height: 1; padding: 4px;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--white); }
+    .modal-body { padding: 28px; }
+
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+    .form-field.full { grid-column: span 2; }
+    .form-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.7rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray);
+    }
+    .form-input, .form-select {
+      background: var(--off); border: 1.5px solid rgba(0,0,0,0.12);
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      font-size: 0.92rem; padding: 10px 14px;
+      border-radius: 6px; outline: none; transition: border-color 0.2s;
+      width: 100%;
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--sky); }
+
+    .modal-footer {
+      padding: 20px 28px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      display: flex; gap: 12px; justify-content: flex-end;
+    }
+    .btn-cancel {
+      background: transparent; color: var(--gray);
+      border: 1.5px solid rgba(0,0,0,0.15);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 10px 22px; border-radius: 6px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-cancel:hover { border-color: var(--red); color: var(--red); }
+    .btn-save {
+      background: var(--sky); color: var(--white);
+      border: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 10px 28px; border-radius: 6px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-save:hover { background: #1558a8; }
+    .btn-delete {
+      background: rgba(220,38,38,0.1); color: var(--red);
+      border: 1.5px solid rgba(220,38,38,0.3);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 10px 20px; border-radius: 6px; cursor: pointer;
+      transition: all 0.2s; margin-right: auto;
+    }
+    .btn-delete:hover { background: var(--red); color: var(--white); }
+
+    /* ── LOGIN MODAL ── */
+    .login-modal {
+      background: var(--white);
+      border-radius: 12px;
+      width: 400px;
+      max-width: 95vw;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+    .login-modal .modal-header { border-radius: 12px 12px 0 0; }
+    .login-body { padding: 32px; }
+    .login-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.7rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .login-desc {
+      font-size: 0.85rem; color: var(--gray);
+      line-height: 1.55; margin-bottom: 24px;
+    }
+    .login-error {
+      background: rgba(220,38,38,0.08);
+      border: 1px solid rgba(220,38,38,0.25);
+      color: var(--red); font-size: 0.82rem;
+      padding: 10px 14px; border-radius: 6px;
+      margin-bottom: 14px; display: none;
+    }
+    .login-error.show { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      border-top: 2px solid rgba(255,255,255,0.06);
+      padding: 32px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 0.77rem; color: rgba(255,255,255,0.30); }
+    .footer-iata {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.85rem;
+      color: rgba(255,255,255,0.30); letter-spacing: 0.12em; text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .page-hero, .board-tabs, .filter-bar, .board-container { padding-left: 20px; padding-right: 20px; }
+      .flight-table td, .flight-table th { padding: 10px 12px; }
+      nav { display: none; }
+      .col-gate { display: none; }
+    }
+    @media (max-width: 640px) {
+      .col-airline .airline-name-sm { display: none; }
+      .page-title { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span>Felix Lego City International Airport &nbsp;·&nbsp; Lego City, Republic States</span>
+  <div class="topbar-links">
+    <a href="departures.html">Live Flight Board</a>
+    <a href="cbp.html">RS Customs &amp; Border Protection</a>
+    <a href="#" onclick="openLoginModal()">Staff Portal</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="logo-area">
+    <div class="logo-code">FLX</div>
+    <div class="logo-divider"></div>
+    <div class="logo-text">
+      <span class="logo-title">Felix Lego City</span>
+      <span class="logo-sub">International Airport</span>
+    </div>
+  </a>
+  <nav id="mainNav">
+    <a href="index.html">Home</a>
+    <a href="departures.html">Flights</a>
+    <a href="terminals.html">Terminals</a>
+    <a href="airlines.html">Airlines</a>
+    <a href="cbp.html">Customs</a>
+    <a href="about.html">About</a>
+    <a href="departures.html" class="nav-cta">Flight Status</a>
+  </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-left">
+    <div class="page-eyebrow">✈ Felix Lego City International Airport — FLX</div>
+    <h1 class="page-title">Live Flight <em>Board</em></h1>
+    <div class="page-meta">
+      <div class="live-badge"><div class="live-dot"></div> Live Updates</div>
+      <div>
+        <div class="clock-display" id="clock">--:--:--</div>
+        <div class="clock-label">Local Time · Lego City</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-hero-right">
+    <button class="admin-btn" id="loginToggleBtn" onclick="openLoginModal()">⚙ Staff Login</button>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="board-tabs">
+  <div class="board-tab active" data-tab="departures" onclick="switchTab('departures', this)">✈ Departures</div>
+  <div class="board-tab" data-tab="arrivals" onclick="switchTab('arrivals', this)">↙ Arrivals</div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <input class="filter-input" id="searchInput" type="text" placeholder="Flight, airline, destination..." oninput="renderBoard()" />
+  <select class="filter-select" id="terminalFilter" onchange="renderBoard()">
+    <option value="">All Terminals</option>
+    <option value="T1">Terminal 1</option>
+    <option value="T2">Terminal 2</option>
+  </select>
+  <select class="filter-select" id="statusFilter" onchange="renderBoard()">
+    <option value="">All Statuses</option>
+    <option value="On Time">On Time</option>
+    <option value="Boarding">Boarding</option>
+    <option value="Delayed">Delayed</option>
+    <option value="Departed">Departed</option>
+    <option value="Cancelled">Cancelled</option>
+    <option value="Arrived">Arrived</option>
+    <option value="Expected">Expected</option>
+  </select>
+  <span class="filter-count" id="flightCount"></span>
+</div>
+
+<!-- BOARD -->
+<div class="board-container">
+  <!-- ADMIN PANEL -->
+  <div class="admin-panel">
+    <div class="admin-panel-header">
+      <div>
+        <div class="admin-panel-title">🔒 Operations Control — Staff Mode Active</div>
+        <div class="admin-panel-sub">You are logged in as airport operations staff. Use the controls below to manage flights.</div>
+      </div>
+      <button class="add-flight-btn" onclick="openAddModal()">+ Add Flight</button>
+    </div>
+  </div>
+
+  <!-- DEPARTURES TABLE -->
+  <div id="boardWrap">
+    <div class="flight-table-wrap">
+      <table class="flight-table" id="flightTable">
+        <thead>
+          <tr id="tableHead">
+            <!-- filled by JS -->
+          </tr>
+        </thead>
+        <tbody id="flightBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginOverlay">
+  <div class="login-modal">
+    <div class="modal-header">
+      <div class="modal-title">🔒 Staff Authentication</div>
+      <button class="modal-close" onclick="closeLoginModal()">✕</button>
+    </div>
+    <div class="login-body">
+      <div class="login-eyebrow">FLX Airport Operations Portal</div>
+      <div class="login-desc">Enter your staff password to access flight management. Authorized personnel only.</div>
+      <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
+      <div class="form-field" style="margin-bottom:16px">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="passwordInput" placeholder="Enter staff password..." onkeydown="if(event.key==='Enter') attemptLogin()" />
+      </div>
+      <button class="btn-save" style="width:100%;padding:12px;" onclick="attemptLogin()">Sign In →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT FLIGHT MODAL -->
+<div class="modal-overlay" id="flightModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Add New Flight</div>
+      <button class="modal-close" onclick="closeFlightModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="form-label">Flight Number</label>
+          <input class="form-input" id="f_flightNum" type="text" placeholder="e.g. BA 297">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Airline</label>
+          <select class="form-select" id="f_airline">
+            <option value="British Airways">British Airways</option>
+            <option value="Hawaiian Airlines">Hawaiian Airlines</option>
+            <option value="Emirates">Emirates</option>
+            <option value="United Airlines">United Airlines</option>
+            <option value="DreamPacific Airways">DreamPacific Airways</option>
+            <option value="GlobeStar Airlines">GlobeStar Airlines</option>
+            <option value="JetBlue">JetBlue</option>
+            <option value="Southwest Airlines">Southwest Airlines</option>
+            <option value="American Airlines">American Airlines</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Destination/Origin City</label>
+          <input class="form-input" id="f_city" type="text" placeholder="e.g. London">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Airport Code</label>
+          <input class="form-input" id="f_code" type="text" placeholder="e.g. LHR" maxlength="4">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Scheduled Time</label>
+          <input class="form-input" id="f_time" type="time">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Estimated Time (optional)</label>
+          <input class="form-input" id="f_est" type="time" placeholder="Leave blank if on time">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Terminal</label>
+          <select class="form-select" id="f_terminal">
+            <option value="T1">T1 — International</option>
+            <option value="T2">T2 — Domestic</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Gate</label>
+          <input class="form-input" id="f_gate" type="text" placeholder="e.g. A12">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="f_status">
+            <option value="On Time">On Time</option>
+            <option value="Boarding">Boarding</option>
+            <option value="Delayed">Delayed</option>
+            <option value="Departed">Departed</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Arrived">Arrived</option>
+            <option value="Expected">Expected</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="f_type">
+            <option value="departure">Departure</option>
+            <option value="arrival">Arrival</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-delete" id="deleteBtn" onclick="deleteFlight()" style="display:none">🗑 Delete</button>
+      <button class="btn-cancel" onclick="closeFlightModal()">Cancel</button>
+      <button class="btn-save" onclick="saveFlight()">Save Flight</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 Felix Lego City International Airport · Lego City, Republic States. All rights reserved.</div>
+  <div class="footer-iata">IATA: FLX &nbsp;·&nbsp; ICAO: KFLX</div>
+</footer>
+
+<script>
+// ── PASSWORD ──
+const STAFF_PASSWORD = 'flxairport';
+
+// ── AIRLINE LOGO MAP ──
+const airlineLogos = {
+  'British Airways': 'https://upload.wikimedia.org/wikipedia/en/thumb/4/42/British_Airways_Logo.svg/120px-British_Airways_Logo.svg.png',
+  'Hawaiian Airlines': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hawaiian_Airlines_logo_2017.svg/120px-Hawaiian_Airlines_logo_2017.svg.png',
+  'Emirates': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emirates_logo.svg/120px-Emirates_logo.svg.png',
+  'United Airlines': 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/United_Airlines_Logo.svg/120px-United_Airlines_Logo.svg.png',
+  'JetBlue': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Jetblue-footer-logo.svg/120px-Jetblue-footer-logo.svg.png',
+  'Southwest Airlines': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Southwest_Airlines_logo_2014.svg/120px-Southwest_Airlines_logo_2014.svg.png',
+  'American Airlines': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/American_Airlines_logo_2013.svg/120px-American_Airlines_logo_2013.svg.png',
+};
+
+const airlineTextLogos = {
+  'DreamPacific Airways': { text: 'DREAM\nPACIFIC', bg: 'linear-gradient(135deg,#0047AB,#00A3E0)' },
+  'GlobeStar Airlines': { text: 'GLOBE\nSTAR', bg: 'linear-gradient(135deg,#1a3a5c,#2e7d32)' },
+};
+
+function getAirlineLogo(name) {
+  if (airlineLogos[name]) {
+    return `<img class="airline-logo-sm" src="${airlineLogos[name]}" alt="${name}" onerror="this.style.display='none'">`;
+  }
+  const t = airlineTextLogos[name];
+  if (t) {
+    const lines = t.text.split('\n');
+    return `<div class="airline-logo-text" style="background:${t.bg};color:white;font-size:0.44rem;line-height:1.15;">${lines.join('<br>')}</div>`;
+  }
+  return `<div class="airline-logo-text">${name.slice(0,3).toUpperCase()}</div>`;
+}
+
+// ── STATUS ──
+function statusBadge(status) {
+  const map = {
+    'On Time':  ['s-ontime',   'On Time'],
+    'Boarding': ['s-boarding', 'Boarding'],
+    'Delayed':  ['s-delayed',  'Delayed'],
+    'Departed': ['s-departed', 'Departed'],
+    'Cancelled':['s-cancelled','Cancelled'],
+    'Arrived':  ['s-arrived',  'Arrived'],
+    'Expected': ['s-expected', 'Expected'],
+  };
+  const [cls, label] = map[status] || ['s-ontime', status];
+  return `<span class="status-badge ${cls}"><span class="status-dot"></span>${label}</span>`;
+}
+
+// ── DEFAULT FLIGHT DATA ──
+let flights = [
+  // DEPARTURES
+  { id:1, type:'departure', flightNum:'BA 297',  airline:'British Airways',     city:'London',         code:'LHR', time:'07:30', est:'',      terminal:'T1', gate:'A3',  status:'Departed'  },
+  { id:2, type:'departure', flightNum:'EK 212',  airline:'Emirates',            city:'Dubai',          code:'DXB', time:'08:15', est:'08:30', terminal:'T1', gate:'A7',  status:'Delayed'   },
+  { id:3, type:'departure', flightNum:'HA 431',  airline:'Hawaiian Airlines',   city:'Honolulu',       code:'HNL', time:'09:00', est:'',      terminal:'T1', gate:'B2',  status:'On Time'   },
+  { id:4, type:'departure', flightNum:'UA 882',  airline:'United Airlines',     city:'San Francisco',  code:'SFO', time:'09:45', est:'',      terminal:'T1', gate:'A11', status:'Boarding'  },
+  { id:5, type:'departure', flightNum:'B6 441',  airline:'JetBlue',             city:'New York',       code:'JFK', time:'10:20', est:'',      terminal:'T1', gate:'B5',  status:'On Time'   },
+  { id:6, type:'departure', flightNum:'DP 101',  airline:'DreamPacific Airways',city:'Tokyo',          code:'NRT', time:'11:00', est:'',      terminal:'T1', gate:'A14', status:'On Time'   },
+  { id:7, type:'departure', flightNum:'GS 220',  airline:'GlobeStar Airlines',  city:'Sydney',         code:'SYD', time:'12:30', est:'',      terminal:'T1', gate:'B8',  status:'On Time'   },
+  { id:8, type:'departure', flightNum:'WN 1847', airline:'Southwest Airlines',  city:'Las Vegas',      code:'LAS', time:'08:00', est:'',      terminal:'T2', gate:'C4',  status:'Departed'  },
+  { id:9, type:'departure', flightNum:'AA 736',  airline:'American Airlines',   city:'Dallas',         code:'DFW', time:'10:05', est:'10:25', terminal:'T2', gate:'C9',  status:'Delayed'   },
+  { id:10,type:'departure', flightNum:'WN 2210', airline:'Southwest Airlines',  city:'Phoenix',        code:'PHX', time:'13:15', est:'',      terminal:'T2', gate:'C2',  status:'On Time'   },
+  { id:11,type:'departure', flightNum:'AA 1190', airline:'American Airlines',   city:'Chicago',        code:'ORD', time:'15:40', est:'',      terminal:'T2', gate:'C11', status:'On Time'   },
+  { id:12,type:'departure', flightNum:'BA 298',  airline:'British Airways',     city:'London',         code:'LHR', time:'18:00', est:'',      terminal:'T1', gate:'A3',  status:'On Time'   },
+  { id:13,type:'departure', flightNum:'EK 214',  airline:'Emirates',            city:'Dubai',          code:'DXB', time:'20:30', est:'',      terminal:'T1', gate:'A7',  status:'On Time'   },
+  { id:14,type:'departure', flightNum:'DP 105',  airline:'DreamPacific Airways',city:'Singapore',      code:'SIN', time:'22:45', est:'',      terminal:'T1', gate:'A15', status:'On Time'   },
+  // ARRIVALS
+  { id:101,type:'arrival',  flightNum:'BA 296',  airline:'British Airways',     city:'London',         code:'LHR', time:'06:50', est:'',      terminal:'T1', gate:'A3',  status:'Arrived'   },
+  { id:102,type:'arrival',  flightNum:'EK 211',  airline:'Emirates',            city:'Dubai',          code:'DXB', time:'07:40', est:'08:00', terminal:'T1', gate:'A7',  status:'Delayed'   },
+  { id:103,type:'arrival',  flightNum:'HA 430',  airline:'Hawaiian Airlines',   city:'Honolulu',       code:'HNL', time:'08:30', est:'',      terminal:'T1', gate:'B2',  status:'Arrived'   },
+  { id:104,type:'arrival',  flightNum:'UA 881',  airline:'United Airlines',     city:'San Francisco',  code:'SFO', time:'09:10', est:'',      terminal:'T1', gate:'A11', status:'Arrived'   },
+  { id:105,type:'arrival',  flightNum:'WN 1846', airline:'Southwest Airlines',  city:'Las Vegas',      code:'LAS', time:'07:30', est:'',      terminal:'T2', gate:'C4',  status:'Arrived'   },
+  { id:106,type:'arrival',  flightNum:'AA 735',  airline:'American Airlines',   city:'Dallas',         code:'DFW', time:'09:30', est:'',      terminal:'T2', gate:'C9',  status:'On Time'   },
+  { id:107,type:'arrival',  flightNum:'GS 219',  airline:'GlobeStar Airlines',  city:'Sydney',         code:'SYD', time:'10:50', est:'',      terminal:'T1', gate:'B8',  status:'Expected'  },
+  { id:108,type:'arrival',  flightNum:'B6 440',  airline:'JetBlue',             city:'New York',       code:'JFK', time:'12:00', est:'',      terminal:'T1', gate:'B5',  status:'Expected'  },
+  { id:109,type:'arrival',  flightNum:'DP 100',  airline:'DreamPacific Airways',city:'Tokyo',          code:'NRT', time:'14:20', est:'',      terminal:'T1', gate:'A14', status:'Expected'  },
+  { id:110,type:'arrival',  flightNum:'WN 2209', airline:'Southwest Airlines',  city:'Phoenix',        code:'PHX', time:'12:45', est:'',      terminal:'T2', gate:'C2',  status:'Expected'  },
+];
+
+let currentTab = 'departures';
+let editingId = null;
+let nextId = 200;
+
+// ── CLOCK ──
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── TAB SWITCH ──
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.board-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('terminalFilter').value = '';
+  document.getElementById('statusFilter').value = '';
+  renderBoard();
+}
+
+// ── RENDER BOARD ──
+function renderBoard() {
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  const termFilter = document.getElementById('terminalFilter').value;
+  const statusFilter = document.getElementById('statusFilter').value;
+  const isAdmin = document.body.classList.contains('admin-mode');
+
+  const isDep = currentTab === 'departures';
+  const filtered = flights.filter(f => {
+    if (isDep && f.type !== 'departure') return false;
+    if (!isDep && f.type !== 'arrival') return false;
+    if (termFilter && f.terminal !== termFilter) return false;
+    if (statusFilter && f.status !== statusFilter) return false;
+    if (search) {
+      const haystack = `${f.flightNum} ${f.airline} ${f.city} ${f.code}`.toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+
+  // Sort by time
+  filtered.sort((a,b) => a.time.localeCompare(b.time));
+
+  // Update count
+  document.getElementById('flightCount').textContent = `${filtered.length} flight${filtered.length!==1?'s':''} shown`;
+
+  // Table header
+  const destLabel = isDep ? 'Destination' : 'Origin';
+  document.getElementById('tableHead').innerHTML = `
+    <th>Time</th>
+    <th>Flight</th>
+    <th>Airline</th>
+    <th>${destLabel}</th>
+    <th>Terminal</th>
+    <th>Gate</th>
+    <th>Status</th>
+    ${isAdmin ? '<th>Edit</th>' : ''}
+  `;
+
+  const tbody = document.getElementById('flightBody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr><td colspan="8">
+        <div class="no-flights">
+          <div class="no-flights-icon">✈</div>
+          <div class="no-flights-text">No flights found matching your filters.</div>
+        </div>
+      </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(f => {
+    const hasDiff = f.est && f.est !== f.time;
+    const estLabel = hasDiff
+      ? `<span class="time-est">${formatTime(f.est)}</span>`
+      : `<span class="time-est ontime">On Schedule</span>`;
+
+    const tPill = f.terminal === 'T1'
+      ? `<span class="terminal-pill t1-pill">T1 Intl</span>`
+      : `<span class="terminal-pill t2-pill">T2 Dom</span>`;
+
+    const editCol = isAdmin
+      ? `<td><button class="edit-btn" onclick="openEditModal(${f.id})">✏ Edit</button></td>`
+      : '';
+
+    return `<tr>
+      <td class="col-time">${formatTime(f.time)}${estLabel}</td>
+      <td class="col-flight">${f.flightNum}</td>
+      <td><div class="col-airline">${getAirlineLogo(f.airline)}<span class="airline-name-sm">${f.airline}</span></div></td>
+      <td class="col-dest"><span class="dest-code">${f.code}</span><span class="dest-city">${f.city}</span></td>
+      <td class="col-terminal">${tPill}</td>
+      <td class="col-gate">${f.gate || '—'}</td>
+      <td>${statusBadge(f.status)}</td>
+      ${editCol}
+    </tr>`;
+  }).join('');
+}
+
+function formatTime(t) {
+  if (!t) return '—';
+  const [h,m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hr = h % 12 || 12;
+  return `${hr}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+// ── LOGIN ──
+function openLoginModal() {
+  if (document.body.classList.contains('admin-mode')) {
+    logout(); return;
+  }
+  document.getElementById('loginOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('passwordInput').focus(), 100);
+}
+function closeLoginModal() {
+  document.getElementById('loginOverlay').classList.remove('open');
+  document.getElementById('passwordInput').value = '';
+  document.getElementById('loginError').classList.remove('show');
+}
+function attemptLogin() {
+  const pw = document.getElementById('passwordInput').value;
+  if (pw === STAFF_PASSWORD) {
+    document.body.classList.add('admin-mode');
+    closeLoginModal();
+    document.getElementById('loginToggleBtn').textContent = '🔓 Logout';
+    document.getElementById('loginToggleBtn').classList.add('logged-in');
+    document.getElementById('adminNavBtn').textContent = '🔓 Logout';
+    document.getElementById('adminNavBtn').classList.add('logged-in');
+    document.getElementById('loginToggleBtn').onclick = logout;
+    document.getElementById('adminNavBtn').onclick = logout;
+    renderBoard();
+  } else {
+    document.getElementById('loginError').classList.add('show');
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passwordInput').focus();
+  }
+}
+function logout() {
+  document.body.classList.remove('admin-mode');
+  document.getElementById('loginToggleBtn').textContent = '⚙ Staff Login';
+  document.getElementById('loginToggleBtn').classList.remove('logged-in');
+  document.getElementById('adminNavBtn').textContent = '⚙ Staff Login';
+  document.getElementById('adminNavBtn').classList.remove('logged-in');
+  document.getElementById('loginToggleBtn').onclick = openLoginModal;
+  document.getElementById('adminNavBtn').onclick = openLoginModal;
+  renderBoard();
+}
+
+// ── FLIGHT MODAL ──
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add New Flight';
+  document.getElementById('deleteBtn').style.display = 'none';
+  // defaults
+  document.getElementById('f_flightNum').value = '';
+  document.getElementById('f_airline').value = 'British Airways';
+  document.getElementById('f_city').value = '';
+  document.getElementById('f_code').value = '';
+  document.getElementById('f_time').value = '';
+  document.getElementById('f_est').value = '';
+  document.getElementById('f_terminal').value = 'T1';
+  document.getElementById('f_gate').value = '';
+  document.getElementById('f_status').value = 'On Time';
+  document.getElementById('f_type').value = currentTab === 'departures' ? 'departure' : 'arrival';
+  document.getElementById('flightModal').classList.add('open');
+}
+
+function openEditModal(id) {
+  const f = flights.find(x => x.id === id);
+  if (!f) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = `Edit Flight ${f.flightNum}`;
+  document.getElementById('deleteBtn').style.display = 'block';
+  document.getElementById('f_flightNum').value = f.flightNum;
+  document.getElementById('f_airline').value = f.airline;
+  document.getElementById('f_city').value = f.city;
+  document.getElementById('f_code').value = f.code;
+  document.getElementById('f_time').value = f.time;
+  document.getElementById('f_est').value = f.est || '';
+  document.getElementById('f_terminal').value = f.terminal;
+  document.getElementById('f_gate').value = f.gate;
+  document.getElementById('f_status').value = f.status;
+  document.getElementById('f_type').value = f.type;
+  document.getElementById('flightModal').classList.add('open');
+}
+
+function closeFlightModal() {
+  document.getElementById('flightModal').classList.remove('open');
+  editingId = null;
+}
+
+function saveFlight() {
+  const data = {
+    flightNum: document.getElementById('f_flightNum').value.trim(),
+    airline:   document.getElementById('f_airline').value,
+    city:      document.getElementById('f_city').value.trim(),
+    code:      document.getElementById('f_code').value.trim().toUpperCase(),
+    time:      document.getElementById('f_time').value,
+    est:       document.getElementById('f_est').value,
+    terminal:  document.getElementById('f_terminal').value,
+    gate:      document.getElementById('f_gate').value.trim(),
+    status:    document.getElementById('f_status').value,
+    type:      document.getElementById('f_type').value,
+  };
+  if (!data.flightNum || !data.city || !data.code || !data.time) {
+    alert('Please fill in Flight Number, City, Airport Code, and Time.');
+    return;
+  }
+  if (editingId !== null) {
+    const idx = flights.findIndex(f => f.id === editingId);
+    if (idx !== -1) flights[idx] = { ...flights[idx], ...data };
+  } else {
+    flights.push({ id: nextId++, ...data });
+  }
+  closeFlightModal();
+  renderBoard();
+}
+
+function deleteFlight() {
+  if (!confirm('Delete this flight from the board?')) return;
+  flights = flights.filter(f => f.id !== editingId);
+  closeFlightModal();
+  renderBoard();
+}
+
+// Close modals on overlay click
+document.getElementById('loginOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeLoginModal();
+});
+document.getElementById('flightModal').addEventListener('click', function(e) {
+  if (e.target === this) closeFlightModal();
+});
+
+// Airline auto-set terminal
+document.getElementById('f_airline').addEventListener('change', function() {
+  const t2 = ['Southwest Airlines','American Airlines'];
+  document.getElementById('f_terminal').value = t2.includes(this.value) ? 'T2' : 'T1';
+});
+
+// ── INIT ──
+renderBoard();
+</script>
+</body>
+</html>
