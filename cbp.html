@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customs & Border Protection — Felix Lego City International Airport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:#0a1628;--deep:#0d1f3c;--sky:#1a6bcc;--gold:#e8a020;--goldl:#f5c356;
+      --white:#ffffff;--off:#f4f6fa;--gray:#8898aa;--text:#1a2540;
+      --green:#16a34a;--red:#dc2626;--amber:#d97706;
+      --cbp-blue:#1a3a6b;--cbp-dark:#0d2140;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--off);color:var(--text);overflow-x:hidden}
+
+    /* ── TOPBAR ── */
+    .topbar{background:var(--navy);color:rgba(255,255,255,.6);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;padding:7px 40px;display:flex;justify-content:space-between;align-items:center}
+    .topbar a{color:var(--goldl);text-decoration:none}.topbar a:hover{text-decoration:underline}
+    .topbar-links{display:flex;gap:24px}
+
+    /* ── HEADER ── */
+    header{position:sticky;top:0;z-index:1000;background:var(--navy);border-bottom:3px solid var(--gold);display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:68px}
+    .logo-area{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+    .logo-code{font-size:2.1rem;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+    .logo-div{width:1px;height:34px;background:rgba(255,255,255,.18);margin:0 18px;flex-shrink:0}
+    .logo-text{display:flex;flex-direction:column;line-height:1.25}
+    .logo-name{font-size:.8rem;font-weight:700;color:var(--white);letter-spacing:.05em;text-transform:uppercase}
+    .logo-sub{font-size:.62rem;color:rgba(255,255,255,.45);letter-spacing:.07em;text-transform:uppercase}
+    nav#mainNav{display:flex;align-items:center;gap:2px;margin-left:auto}
+    nav#mainNav a{color:rgba(255,255,255,.72);text-decoration:none;font-size:.76rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:6px 13px;border-radius:3px;transition:color .2s,background .2s;white-space:nowrap}
+    nav#mainNav a:hover{color:var(--white);background:rgba(255,255,255,.08)}
+    nav#mainNav a.active{color:var(--gold)}
+    nav#mainNav .nav-cta{background:var(--gold);color:var(--navy)!important;font-weight:700;margin-left:10px;padding:7px 16px;border-radius:3px}
+    nav#mainNav .nav-cta:hover{background:var(--goldl)}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:8px;margin-left:12px}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:all .25s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    @media(max-width:860px){
+      .hamburger{display:flex}.topbar{display:none}
+      nav#mainNav{display:none;position:absolute;top:68px;left:0;right:0;background:var(--navy);border-bottom:2px solid var(--gold);flex-direction:column;align-items:stretch;padding:10px 0;gap:0;margin:0;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+      nav#mainNav.open{display:flex}
+      nav#mainNav a{padding:14px 28px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.85rem}
+      nav#mainNav .nav-cta{margin:10px 20px 4px;border-radius:4px;text-align:center;padding:12px}
+    }
+
+    /* ── CBP HERO ── */
+    .cbp-hero{background:var(--cbp-dark);border-bottom:4px solid var(--gold);padding:0;overflow:hidden;position:relative}
+    .cbp-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.22)}
+    .cbp-hero-content{position:relative;z-index:2;padding:52px 60px 48px;max-width:860px}
+    .cbp-seal{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+    .cbp-seal-icon{width:60px;height:60px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;border:3px solid rgba(255,255,255,.2)}
+    .cbp-seal-text{}
+    .cbp-seal-agency{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .cbp-seal-name{font-size:1rem;font-weight:800;color:var(--white);letter-spacing:.04em;text-transform:uppercase;line-height:1.15}
+    .cbp-hero-title{font-size:clamp(1.9rem,4vw,3.2rem);font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:-.01em;line-height:1;margin-bottom:14px}
+    .cbp-hero-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--gold);font-size:1.05em}
+    .cbp-hero-desc{font-size:.92rem;color:rgba(255,255,255,.68);line-height:1.7;max-width:600px;margin-bottom:28px}
+    .cbp-hero-meta{display:flex;flex-wrap:wrap;gap:16px}
+    .cbp-meta-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:10px 16px;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:.03em}
+    .cbp-meta-pill span{font-size:1rem}
+
+    /* ── WAIT TIME BANNER ── */
+    .wait-banner{background:var(--amber);padding:14px 60px;display:flex;align-items:center;gap:14px}
+    .wait-icon{font-size:1.3rem;flex-shrink:0}
+    .wait-text{font-size:.82rem;font-weight:700;color:var(--navy);letter-spacing:.02em}
+    .wait-text strong{font-size:1rem}
+    .wait-note{font-size:.75rem;color:rgba(10,22,40,.7);margin-top:2px}
+
+    /* ── LAYOUT ── */
+    .content{max-width:1200px;margin:0 auto;padding:52px 60px 80px}
+    .two-col{display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start}
+    .main-col{}
+    .side-col{}
+
+    /* ── SECTION HEADERS ── */
+    .sec-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sky);margin-bottom:5px}
+    .sec-title{font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:800;text-transform:uppercase;color:var(--navy);letter-spacing:-.01em;line-height:1.05;margin-bottom:22px}
+    .sec-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--sky);font-size:1.06em}
+
+    /* ── ARRIVAL STEPS ── */
+    .steps-section{margin-bottom:48px}
+    .steps-list{display:flex;flex-direction:column;gap:0}
+    .step{display:flex;gap:20px;position:relative;padding-bottom:28px}
+    .step:last-child{padding-bottom:0}
+    .step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+    .step-num{width:44px;height:44px;background:var(--cbp-blue);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;flex-shrink:0;border:3px solid var(--gold);z-index:1}
+    .step-line{width:2px;flex:1;background:rgba(26,58,107,.18);margin-top:6px}
+    .step:last-child .step-line{display:none}
+    .step-body{padding-top:9px;flex:1}
+    .step-title{font-size:1rem;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
+    .step-desc{font-size:.86rem;color:var(--text);line-height:1.65}
+    .step-tip{display:inline-flex;align-items:flex-start;gap:7px;background:rgba(26,107,204,.07);border:1px solid rgba(26,107,204,.18);border-radius:6px;padding:8px 12px;font-size:.78rem;color:var(--sky);line-height:1.55;margin-top:10px;font-weight:500}
+    .step-warn{display:inline-flex;align-items:flex-start;gap:7px;background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.2);border-radius:6px;padding:8px 12px;font-size:.78rem;color:var(--amber);line-height:1.55;margin-top:10px;font-weight:500}
+
+    /* ── LANE INFO ── */
+    .lanes-section{margin-bottom:48px}
+    .lanes-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .lane-card{background:var(--white);border-radius:9px;border:1px solid rgba(0,0,0,.08);overflow:hidden}
+    .lane-card-hd{padding:16px 20px;display:flex;align-items:center;gap:12px}
+    .lane-card-hd.all{background:var(--cbp-dark)}
+    .lane-card-hd.rs {background:linear-gradient(135deg,var(--cbp-blue),#0d2140)}
+    .lane-card-hd.ge {background:linear-gradient(135deg,#1a5c1a,#0a3010)}
+    .lane-icon{font-size:1.5rem;flex-shrink:0}
+    .lane-title{font-size:.9rem;font-weight:800;color:var(--white);text-transform:uppercase;letter-spacing:.04em;line-height:1.15}
+    .lane-subtitle{font-size:.68rem;color:rgba(255,255,255,.55);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+    .lane-count{margin-left:auto;background:var(--gold);color:var(--navy);font-size:.75rem;font-weight:800;padding:4px 10px;border-radius:100px;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+    .lane-body{padding:16px 20px}
+    .lane-desc{font-size:.83rem;color:var(--text);line-height:1.6}
+    .lane-body ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:5px}
+    .lane-body ul li{font-size:.81rem;color:var(--text);display:flex;gap:7px;align-items:flex-start;line-height:1.5}
+    .lane-body ul li::before{content:'·';color:var(--gold);font-weight:800;flex-shrink:0;margin-top:1px}
+
+    /* ── GLOBAL ENTRY ── */
+    .ge-callout{background:linear-gradient(135deg,#0d2a0d,#1a4a1a);border-radius:10px;padding:28px 30px;margin-bottom:48px;display:flex;align-items:flex-start;gap:20px;border-left:5px solid #4ade80}
+    .ge-icon{font-size:2.4rem;flex-shrink:0}
+    .ge-eyebrow{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#4ade80;margin-bottom:5px}
+    .ge-title{font-size:1.1rem;font-weight:800;color:var(--white);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px}
+    .ge-desc{font-size:.84rem;color:rgba(255,255,255,.65);line-height:1.65}
+    .ge-note{display:inline-flex;align-items:center;gap:7px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:6px;padding:8px 13px;font-size:.78rem;color:#4ade80;font-weight:600;margin-top:12px}
+
+    /* ── INSPECTION FACILITIES ── */
+    .facilities-section{margin-bottom:48px}
+    .facilities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .facility-card{background:var(--white);border-radius:9px;border:1px solid rgba(0,0,0,.08);overflow:hidden}
+    .facility-hd{background:var(--cbp-dark);padding:18px 20px;display:flex;align-items:center;gap:10px}
+    .facility-hd-icon{font-size:1.4rem;flex-shrink:0}
+    .facility-hd-title{font-size:.82rem;font-weight:800;color:var(--white);text-transform:uppercase;letter-spacing:.05em}
+    .facility-body{padding:18px 20px}
+    .facility-body p{font-size:.83rem;color:var(--text);line-height:1.65;margin-bottom:10px}
+    .facility-body p:last-child{margin-bottom:0}
+    .facility-tag{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:3px;margin-bottom:8px}
+    .facility-tag.full{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.2)}
+    .facility-tag.onsite{background:rgba(26,107,204,.1);color:var(--sky);border:1px solid rgba(26,107,204,.2)}
+
+    /* ── DO NOT BRING ── */
+    .dnb-section{margin-bottom:48px}
+    .dnb-notice{background:rgba(220,38,38,.05);border:1.5px solid rgba(220,38,38,.2);border-radius:9px;padding:18px 22px;display:flex;align-items:flex-start;gap:12px;margin-bottom:22px;font-size:.83rem;color:var(--text);line-height:1.65}
+    .dnb-notice strong{color:var(--red)}
+    .dnb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .dnb-card{background:var(--white);border-radius:9px;border:1.5px solid rgba(220,38,38,.15);overflow:hidden}
+    .dnb-card-hd{background:rgba(220,38,38,.08);padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(220,38,38,.1)}
+    .dnb-icon{font-size:1.3rem;flex-shrink:0}
+    .dnb-title{font-size:.8rem;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.06em}
+    .dnb-body{padding:14px 18px}
+    .dnb-body ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+    .dnb-body ul li{font-size:.82rem;color:var(--text);display:flex;gap:8px;align-items:flex-start;line-height:1.5}
+    .dnb-body ul li::before{content:'✕';color:var(--red);font-weight:800;font-size:.7rem;flex-shrink:0;margin-top:2px}
+
+    /* ── LOCATION BOX (sidebar) ── */
+    .side-card{background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,.08);overflow:hidden;margin-bottom:20px}
+    .side-card-hd{background:var(--navy);padding:16px 20px}
+    .side-card-title{font-size:.8rem;font-weight:800;color:var(--white);text-transform:uppercase;letter-spacing:.06em}
+    .side-card-sub{font-size:.68rem;color:rgba(255,255,255,.42);margin-top:2px;letter-spacing:.04em;text-transform:uppercase}
+    .side-card-body{padding:18px 20px}
+    .side-row{display:flex;align-items:flex-start;gap:11px;margin-bottom:14px}
+    .side-row:last-child{margin-bottom:0}
+    .side-row-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+    .side-row-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:2px}
+    .side-row-val{font-size:.86rem;font-weight:600;color:var(--text);line-height:1.4}
+    .side-divider{height:1px;background:rgba(0,0,0,.07);margin:14px 0}
+
+    .wait-card{background:var(--amber);border-radius:10px;padding:20px;text-align:center;margin-bottom:20px}
+    .wait-card-label{font-size:.65rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--navy);margin-bottom:4px;opacity:.75}
+    .wait-card-time{font-size:2.4rem;font-weight:800;color:var(--navy);line-height:1}
+    .wait-card-unit{font-size:.78rem;font-weight:700;color:var(--navy);opacity:.7;letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+    .wait-card-note{font-size:.72rem;color:rgba(10,22,40,.65);margin-top:8px;line-height:1.5}
+
+    .contact-card{background:var(--cbp-dark);border-radius:10px;padding:20px;margin-bottom:20px}
+    .contact-title{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .contact-row{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+    .contact-row:last-child{margin-bottom:0}
+    .contact-icon{font-size:1rem;flex-shrink:0}
+    .contact-label{font-size:.65rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1px}
+    .contact-val{font-size:.83rem;font-weight:600;color:var(--white)}
+
+    /* ── FOOTER ── */
+    footer{background:var(--navy);border-top:2px solid rgba(255,255,255,.05);padding:30px 60px;display:flex;align-items:center;justify-content:space-between}
+    .fc{font-size:.74rem;color:rgba(255,255,255,.27)}
+    .fi{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.27);letter-spacing:.12em;text-transform:uppercase}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1000px){
+      .two-col{grid-template-columns:1fr}.side-col{order:-1}
+      .lanes-grid{grid-template-columns:1fr}
+      .facilities-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:700px){
+      .content,.cbp-hero-content,.wait-banner,footer{padding-left:20px;padding-right:20px}
+      .cbp-hero-content{padding-top:36px;padding-bottom:36px}
+      .dnb-grid,.facilities-grid{grid-template-columns:1fr}
+      .cbp-hero-meta{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span>Felix Lego City International Airport &nbsp;·&nbsp; Lego City, Republic States</span>
+  <div class="topbar-links">
+    <a href="departures.html">Live Flight Board</a>
+    <a href="cbp.html">RS Customs &amp; Border Protection</a>
+    <a href="departures.html">Staff Portal</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="logo-area">
+    <div class="logo-code">FLX</div>
+    <div class="logo-div"></div>
+    <div class="logo-text">
+      <span class="logo-name">Felix Lego City</span>
+      <span class="logo-sub">International Airport</span>
+    </div>
+  </a>
+  <nav id="mainNav">
+    <a href="index.html">Home</a>
+    <a href="departures.html">Flights</a>
+    <a href="terminals.html">Terminals</a>
+    <a href="airlines.html">Airlines</a>
+    <a href="cbp.html" class="active">Customs</a>
+    <a href="about.html">About</a>
+    <a href="departures.html" class="nav-cta">Flight Status</a>
+  </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- CBP HERO -->
+<div class="cbp-hero">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/LAX_aerial_cropped.jpg/1280px-LAX_aerial_cropped.jpg"
+    alt="FLX International Terminal"
+    onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80'"
+  />
+  <div class="cbp-hero-content">
+    <div class="cbp-seal">
+      <div class="cbp-seal-icon">🛂</div>
+      <div class="cbp-seal-text">
+        <div class="cbp-seal-agency">Republic States Government</div>
+        <div class="cbp-seal-name">Customs &amp; Border Protection<br>Felix Lego City Field Office</div>
+      </div>
+    </div>
+    <h1 class="cbp-hero-title">RS Customs &amp;<br><em>Border Protection</em></h1>
+    <p class="cbp-hero-desc">Felix Lego City International Airport is home to a full, independent Republic States Customs and Border Protection processing facility — the only on-airport CBP site in Lego City. All international passengers arriving at FLX are processed through this facility before entering the Republic States.</p>
+    <div class="cbp-hero-meta">
+      <div class="cbp-meta-pill"><span>📍</span> Terminal 1 — Level 1, Arrivals Hall</div>
+      <div class="cbp-meta-pill"><span>🕐</span> Open 24 Hours — Follows Flight Schedule</div>
+      <div class="cbp-meta-pill"><span>⏱</span> Est. Wait: 35–45 Minutes</div>
+      <div class="cbp-meta-pill"><span>✅</span> Global Entry Available</div>
+    </div>
+  </div>
+</div>
+
+<!-- WAIT TIME BANNER -->
+<div class="wait-banner">
+  <div class="wait-icon">⏱</div>
+  <div>
+    <div class="wait-text"><strong>Current Estimated Wait: 35 – 45 minutes</strong> for all international arriving passengers</div>
+    <div class="wait-note">Wait times vary based on flight schedule and time of day. Arrive prepared with all required documents. Global Entry members should ask a CBP Officer for redirection.</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+  <div class="two-col">
+
+    <!-- ── MAIN COLUMN ── -->
+    <div class="main-col">
+
+      <!-- ARRIVAL STEPS -->
+      <div class="steps-section">
+        <div class="sec-eyebrow">International Arrivals Process</div>
+        <div class="sec-title">Step-by-Step: <em>Arriving at FLX</em></div>
+
+        <div class="steps-list">
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-num">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Deplane &amp; Follow Signage</div>
+              <div class="step-desc">Upon landing, deplane and follow the green <strong>"International Arrivals / Customs &amp; Border Protection"</strong> signs throughout Terminal 1. All arrivals are directed to Level 1 of the Arrivals Hall via dedicated corridors from every gate. Do not follow signs for Departures or Connections at this stage.</div>
+              <div class="step-tip">💡 Stay with your group. Transfer passengers connecting to a domestic flight must still clear CBP before re-entering the secure area.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-num">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Collect Your Baggage</div>
+              <div class="step-desc">Proceed to Baggage Claim Carousels 1–8 on the Arrivals Level. Check the overhead screens for your flight number and assigned carousel. Collect all checked bags before proceeding to CBP — you must present all luggage during inspection.</div>
+              <div class="step-tip">💡 Keep your baggage claim tickets. They may be checked against your bags by CBP officers.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-num">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Complete Your Customs Declaration Form</div>
+              <div class="step-desc">All arriving passengers must complete a <strong>RS Customs Declaration Form</strong> (Form RS-CBP-6059). Paper forms are available throughout the arrival corridors and at baggage claim. One form per family or travel group is accepted. You must declare all items including gifts, food, currency over $10,000 RS, and commercial merchandise.</div>
+              <div class="step-warn">⚠ Failure to declare required items may result in fines, seizure of goods, or denial of entry. When in doubt — declare it.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-num">4</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Proceed to CBP Processing — Level 1, Arrivals Hall</div>
+              <div class="step-desc">Enter the CBP processing hall and join the appropriate queue based on your travel document. Lane signage is clearly posted at the hall entrance. <strong>Republic States citizens and permanent residents</strong> use the RS Citizens lane. <strong>All other passport holders</strong> use the All Passports lanes.</div>
+              <div class="step-tip">💡 Have your passport, completed declaration form, and any supporting documents (visa, travel authorization, return ticket) ready before approaching the primary inspection booth.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-num">5</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Primary Inspection</div>
+              <div class="step-desc">A CBP Officer will review your travel documents, ask questions about your trip, and review your declaration form. Biometric data (fingerprints and photograph) will be collected from eligible non-RS-citizen travelers. Answer all questions honestly and completely. This process typically takes 1–3 minutes per traveler.</div>
+              <div class="step-warn">⚠ Electronic devices may be inspected or detained by CBP officers at their discretion without a warrant.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-num">6</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Secondary Inspection (If Referred)</div>
+              <div class="step-desc">Some travelers may be referred to secondary inspection by the primary CBP Officer. This is routine and does not necessarily indicate wrongdoing. In secondary inspection, officers may conduct a more thorough review of documents, baggage, and declarations. Agricultural items, currency, and commercial goods receive special attention here.</div>
+              <div class="step-tip">💡 Secondary inspection is conducted in a secure area off the main hall. Follow officer instructions and remain calm — the process is typically completed within 20–40 minutes.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-num">7</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Agriculture &amp; Customs Screening</div>
+              <div class="step-desc">After primary inspection, all bags pass through the <strong>RS Agricultural Screening Area</strong> before you exit. Declared agricultural items will be inspected by Agriculture specialists. Prohibited items will be confiscated. You may be asked to open bags for physical inspection — cooperate fully with Agriculture officers.</div>
+              <div class="step-warn">⚠ Agricultural violations — even unintentional ones — carry significant fines. All food, plant, soil, and animal products must be declared.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-num">8</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <div class="step-title">Exit to the Arrivals Hall</div>
+              <div class="step-desc">Once cleared by CBP and Agriculture, proceed through the exit doors into the <strong>public Arrivals Hall</strong> on Level 1. Ground transportation, taxis, rideshare, and the FLX Metro are all accessible from Level 1. Welcome to Lego City and the Republic States.</div>
+              <div class="step-tip">💡 Connecting passengers: re-check any bags at the Domestic Baggage Re-Check counter (Level 1, near the T2 connector) and proceed to Terminal 2 via the airport connector.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LANES -->
+      <div class="lanes-section">
+        <div class="sec-eyebrow">Processing Lanes — Level 1, Arrivals Hall</div>
+        <div class="sec-title">CBP Inspection <em>Lanes</em></div>
+        <div class="lanes-grid">
+
+          <div class="lane-card">
+            <div class="lane-card-hd all">
+              <div class="lane-icon">🌍</div>
+              <div>
+                <div class="lane-title">All Passports</div>
+                <div class="lane-subtitle">Foreign nationals &amp; visitors</div>
+              </div>
+              <div class="lane-count">3 Lanes</div>
+            </div>
+            <div class="lane-body">
+              <div class="lane-desc">For all travelers holding a non-RS passport, including visitors, tourists, temporary residents, visa holders, and transit passengers.</div>
+              <ul>
+                <li>Valid passport required</li>
+                <li>Completed RS-CBP-6059 declaration form</li>
+                <li>Valid visa or travel authorization</li>
+                <li>Biometric collection required for most travelers</li>
+                <li>Estimated processing: 3–5 min per person</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="lane-card">
+            <div class="lane-card-hd rs">
+              <div class="lane-icon">🏛</div>
+              <div>
+                <div class="lane-title">RS Citizens &amp; Residents</div>
+                <div class="lane-subtitle">Republic States passport holders</div>
+              </div>
+              <div class="lane-count">1 Lane</div>
+            </div>
+            <div class="lane-body">
+              <div class="lane-desc">For Republic States citizens and lawful permanent residents returning from international travel.</div>
+              <ul>
+                <li>Valid RS passport or permanent resident card</li>
+                <li>Completed declaration form still required</li>
+                <li>Faster processing — typically 1–2 min per person</li>
+                <li>No biometric collection required</li>
+                <li>Citizens may use Global Entry kiosks — ask a CBP Officer</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- GLOBAL ENTRY -->
+      <div class="ge-callout">
+        <div class="ge-icon">✅</div>
+        <div>
+          <div class="ge-eyebrow">Trusted Traveler Program</div>
+          <div class="ge-title">Global Entry Available at FLX</div>
+          <div class="ge-desc">FLX CBP offers Global Entry for pre-approved trusted travelers, providing expedited clearance upon arrival. Global Entry members bypass the standard primary inspection queue and use dedicated automated kiosks. However, <strong>Global Entry kiosks are not self-service at FLX — please approach any CBP Officer upon arrival and inform them you are a Global Entry member. They will redirect you to the appropriate kiosk or processing area.</strong></div>
+          <div class="ge-note">🟢 Global Entry is available during all staffed hours. Members must still complete a customs declaration if carrying declarable items.</div>
+        </div>
+      </div>
+
+      <!-- INSPECTION FACILITIES -->
+      <div class="facilities-section">
+        <div class="sec-eyebrow">On-Site Facilities</div>
+        <div class="sec-title">Full Inspection <em>Complex</em></div>
+        <div class="facilities-grid">
+
+          <div class="facility-card">
+            <div class="facility-hd">
+              <div class="facility-hd-icon">🔍</div>
+              <div class="facility-hd-title">Primary Inspection Hall</div>
+            </div>
+            <div class="facility-body">
+              <div class="facility-tag full">Full Facility</div>
+              <p>A dedicated primary inspection hall with 4 staffed booths — 3 All Passports lanes and 1 RS Citizens lane. All international arriving passengers are processed here before entering the Republic States.</p>
+              <p>Equipped with biometric fingerprint and facial recognition systems, document scanners, and secure officer workstations. All booths are fully accessible.</p>
+            </div>
+          </div>
+
+          <div class="facility-card">
+            <div class="facility-hd">
+              <div class="facility-hd-icon">🗂</div>
+              <div class="facility-hd-title">Secondary Inspection Suite</div>
+            </div>
+            <div class="facility-body">
+              <div class="facility-tag onsite">On-Site</div>
+              <p>A secure secondary inspection area off the main processing hall, used for more detailed review of travelers, documents, and baggage referred by primary inspection officers.</p>
+              <p>Includes private interview rooms, full baggage X-ray screening, and secure holding areas. Legal counsel information is posted in the secondary suite.</p>
+            </div>
+          </div>
+
+          <div class="facility-card">
+            <div class="facility-hd">
+              <div class="facility-hd-icon">🌿</div>
+              <div class="facility-hd-title">Agriculture Inspection</div>
+            </div>
+            <div class="facility-body">
+              <div class="facility-tag full">Full Facility</div>
+              <p>A full RS Department of Agriculture inspection area staffed by Agriculture Specialists. All international baggage passes through this area after primary CBP inspection.</p>
+              <p>Equipped with X-ray screening, detector dog teams, and physical inspection tables. Prohibited agricultural items are confiscated and may be incinerated on-site.</p>
+            </div>
+          </div>
+
+          <div class="facility-card">
+            <div class="facility-hd">
+              <div class="facility-hd-icon">💼</div>
+              <div class="facility-hd-title">Customs Examination</div>
+            </div>
+            <div class="facility-body">
+              <div class="facility-tag full">Full Facility</div>
+              <p>Dedicated customs examination area for detailed inspection of declared goods, commercial merchandise, currency, and high-value items. Duty assessment and collection is handled here.</p>
+              <p>Currency declarations over $10,000 RS must be reported and may be verified. Commercial goods importers should have all invoices and documentation ready.</p>
+            </div>
+          </div>
+
+          <div class="facility-card">
+            <div class="facility-hd">
+              <div class="facility-hd-icon">📦</div>
+              <div class="facility-hd-title">Seized &amp; Detained Property</div>
+            </div>
+            <div class="facility-body">
+              <div class="facility-tag onsite">On-Site</div>
+              <p>Secure storage facility for items detained or seized by CBP or Agriculture officers. Travelers who have items detained will receive a written receipt detailing the item and grounds for detention.</p>
+              <p>Appeals and inquiries regarding seized property can be initiated at the CBP Administrative Office (Level 1, east corridor).</p>
+            </div>
+          </div>
+
+          <div class="facility-card">
+            <div class="facility-hd">
+              <div class="facility-hd-icon">🏥</div>
+              <div class="facility-hd-title">Medical &amp; Public Health</div>
+            </div>
+            <div class="facility-body">
+              <div class="facility-tag onsite">On-Site</div>
+              <p>RS Public Health Service Officers are stationed at FLX CBP to respond to travelers exhibiting signs of illness or arriving from areas with active public health alerts.</p>
+              <p>Medical assessment rooms are adjacent to the secondary inspection suite. Travelers with medical concerns should notify a CBP Officer immediately upon arrival.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- DO NOT BRING -->
+      <div class="dnb-section">
+        <div class="sec-eyebrow">Restricted &amp; Prohibited Items</div>
+        <div class="sec-title">What <em>Not to Bring</em> into the Republic States</div>
+
+        <div class="dnb-notice">
+          <span style="font-size:1.1rem;flex-shrink:0">⚠️</span>
+          <div><strong>This is not an exhaustive list.</strong> RS CBP regulations are detailed and subject to change. When in doubt, declare the item on your customs form — officers will advise you. Failure to declare prohibited or restricted items may result in fines up to $10,000 RS, criminal prosecution, or denial of entry.</div>
+        </div>
+
+        <div class="dnb-grid">
+
+          <div class="dnb-card">
+            <div class="dnb-card-hd">
+              <div class="dnb-icon">🌿</div>
+              <div class="dnb-title">Agricultural &amp; Food Items</div>
+            </div>
+            <div class="dnb-body">
+              <ul>
+                <li>Fresh fruits and vegetables (unless from approved sources)</li>
+                <li>Soil, dirt, or mud on footwear or equipment</li>
+                <li>Live plants, cuttings, seeds, or bulbs without a phytosanitary certificate</li>
+                <li>Unprocessed animal products: meat, poultry, eggs, dairy (from most countries)</li>
+                <li>Live insects, snails, or other invertebrates</li>
+                <li>Homemade or commercially prepared foods from high-risk countries</li>
+                <li>Cut flowers and foliage without inspection certificate</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dnb-card">
+            <div class="dnb-card-hd">
+              <div class="dnb-icon">🔫</div>
+              <div class="dnb-title">Weapons &amp; Dangerous Items</div>
+            </div>
+            <div class="dnb-body">
+              <ul>
+                <li>Firearms without prior RS import authorization and declaration</li>
+                <li>Ammunition without proper import license</li>
+                <li>Switchblades, butterfly knives, and concealed blades</li>
+                <li>Explosives, fireworks, or flammable materials</li>
+                <li>Stun guns and tasers without RS permit</li>
+                <li>Replica or imitation firearms (subject to inspection)</li>
+                <li>Chemical agents or toxic substances</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dnb-card">
+            <div class="dnb-card-hd">
+              <div class="dnb-icon">💊</div>
+              <div class="dnb-title">Drugs &amp; Controlled Substances</div>
+            </div>
+            <div class="dnb-body">
+              <ul>
+                <li>Narcotics and controlled substances without RS prescription</li>
+                <li>Prescription medications exceeding 90-day personal supply</li>
+                <li>Medications not in original labeled containers</li>
+                <li>Supplements containing banned substances</li>
+                <li>Any substance on the RS Controlled Substances Schedule I–V</li>
+                <li>Drug paraphernalia of any kind</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dnb-card">
+            <div class="dnb-card-hd">
+              <div class="dnb-icon">🐾</div>
+              <div class="dnb-title">Animals &amp; Wildlife</div>
+            </div>
+            <div class="dnb-body">
+              <ul>
+                <li>Live animals without RS veterinary import certificate and health certificate</li>
+                <li>Endangered species or products thereof (CITES-listed)</li>
+                <li>Ivory, rhino horn, coral, or tortoiseshell products</li>
+                <li>Feathers, skins, or bones of protected bird and animal species</li>
+                <li>Exotic pets without prior RS Fish &amp; Wildlife Service approval</li>
+                <li>Animal by-products from high-risk disease regions</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dnb-card">
+            <div class="dnb-card-hd">
+              <div class="dnb-icon">💵</div>
+              <div class="dnb-title">Currency &amp; Financial Instruments</div>
+            </div>
+            <div class="dnb-body">
+              <ul>
+                <li>Cash or monetary instruments over $10,000 RS without declaration (RS Form FinCen 105)</li>
+                <li>Counterfeit currency of any denomination</li>
+                <li>Undeclared traveler's checks or money orders over $10,000 RS</li>
+                <li>Proceeds of criminal activity in any form</li>
+                <li>Counterfeit coins, stamps, or government-issued instruments</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dnb-card">
+            <div class="dnb-card-hd">
+              <div class="dnb-icon">📀</div>
+              <div class="dnb-title">Intellectual Property &amp; Other</div>
+            </div>
+            <div class="dnb-body">
+              <ul>
+                <li>Counterfeit goods, pirated media, or fake branded merchandise</li>
+                <li>Obscene or pornographic materials (subject to RS law)</li>
+                <li>Seditious or treasonous materials against the Republic States</li>
+                <li>Items from RS-embargoed countries without OFAC license</li>
+                <li>Lottery tickets or gambling devices from prohibited jurisdictions</li>
+                <li>Hazardous waste or radioactive materials</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /main-col -->
+
+    <!-- ── SIDEBAR ── -->
+    <div class="side-col">
+
+      <!-- Wait time card -->
+      <div class="wait-card">
+        <div class="wait-card-label">Estimated Wait Time</div>
+        <div class="wait-card-time">35–45</div>
+        <div class="wait-card-unit">Minutes · All Passports Lanes</div>
+        <div class="wait-card-note">RS Citizens lane typically 10–15 min. Global Entry members ask CBP Officer for redirection.</div>
+      </div>
+
+      <!-- Location card -->
+      <div class="side-card">
+        <div class="side-card-hd">
+          <div class="side-card-title">Location &amp; Access</div>
+          <div class="side-card-sub">Terminal 1 — FLX</div>
+        </div>
+        <div class="side-card-body">
+          <div class="side-row">
+            <div class="side-row-icon">📍</div>
+            <div>
+              <div class="side-row-label">Location</div>
+              <div class="side-row-val">Terminal 1, Level 1<br>Arrivals Hall — International</div>
+            </div>
+          </div>
+          <div class="side-divider"></div>
+          <div class="side-row">
+            <div class="side-row-icon">🚶</div>
+            <div>
+              <div class="side-row-label">From Gate to CBP</div>
+              <div class="side-row-val">Follow green "International Arrivals" signs. Approx. 8–12 min walk from most gates.</div>
+            </div>
+          </div>
+          <div class="side-divider"></div>
+          <div class="side-row">
+            <div class="side-row-icon">🕐</div>
+            <div>
+              <div class="side-row-label">Hours</div>
+              <div class="side-row-val">24 Hours · 7 Days a Week<br><span style="font-size:.78rem;color:var(--gray)">Follows flight schedule. Staffing may be limited during off-peak hours.</span></div>
+            </div>
+          </div>
+          <div class="side-divider"></div>
+          <div class="side-row">
+            <div class="side-row-icon">🔢</div>
+            <div>
+              <div class="side-row-label">Total Lanes</div>
+              <div class="side-row-val">4 Lanes Total<br>3 All Passports · 1 RS Citizens</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact card -->
+      <div class="contact-card">
+        <div class="contact-title">CBP Contact Information</div>
+        <div class="contact-row">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">CBP Officer Desk</div>
+            <div class="contact-val">+1 (555) FLX-0CBP</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">🌐</div>
+          <div>
+            <div class="contact-label">RS CBP Website</div>
+            <div class="contact-val">cbp.gov.rs</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-label">FLX Field Office Email</div>
+            <div class="contact-val">flx.cbp@gov.rs</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📦</div>
+          <div>
+            <div class="contact-label">Seized Property Inquiries</div>
+            <div class="contact-val">seizures.flx@cbp.gov.rs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Docs needed card -->
+      <div class="side-card">
+        <div class="side-card-hd">
+          <div class="side-card-title">Documents to Have Ready</div>
+          <div class="side-card-sub">Before approaching the booth</div>
+        </div>
+        <div class="side-card-body">
+          <div class="side-row">
+            <div class="side-row-icon">📘</div>
+            <div>
+              <div class="side-row-label">All Travelers</div>
+              <div class="side-row-val" style="font-size:.82rem;line-height:1.6">Valid passport · RS-CBP-6059 Declaration Form · Return or onward ticket · Proof of accommodation</div>
+            </div>
+          </div>
+          <div class="side-divider"></div>
+          <div class="side-row">
+            <div class="side-row-icon">📋</div>
+            <div>
+              <div class="side-row-label">Visitors &amp; Foreign Nationals</div>
+              <div class="side-row-val" style="font-size:.82rem;line-height:1.6">Visa or RS travel authorization · Proof of sufficient funds · Invitation letter (if applicable)</div>
+            </div>
+          </div>
+          <div class="side-divider"></div>
+          <div class="side-row">
+            <div class="side-row-icon">✅</div>
+            <div>
+              <div class="side-row-label">Global Entry Members</div>
+              <div class="side-row-val" style="font-size:.82rem;line-height:1.6">Inform a CBP Officer on arrival — they will redirect you. Have your passport ready for the kiosk.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /side-col -->
+  </div>
+</div><!-- /content -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="fc">© 2025 Felix Lego City International Airport · Lego City, Republic States. All rights reserved.</div>
+  <div class="fi">IATA: FLX &nbsp;·&nbsp; ICAO: KFLX</div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mainNav').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('open');
+  }
+  document.querySelectorAll('#mainNav a').forEach(a => a.addEventListener('click', () => {
+    document.getElementById('mainNav').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  }));
+
+  // Staggered fade-in
+  const style = document.createElement('style');
+  style.textContent = '.fadein{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease}.fadein.vis{opacity:1;transform:none}';
+  document.head.appendChild(style);
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const siblings = Array.from(e.target.parentNode.children);
+        e.target.style.transitionDelay = (siblings.indexOf(e.target) * 60) + 'ms';
+        e.target.classList.add('vis');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.step,.facility-card,.dnb-card,.lane-card').forEach(el => {
+    el.classList.add('fadein'); obs.observe(el);
+  });
+</script>
+
+</body>
+</html>
