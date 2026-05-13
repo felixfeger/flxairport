@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Airlines — Felix Lego City International Airport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: Helvetica Neue, Helvetica, Arial, sans-serif; }
+    :root {
+      --navy: #0a1628;
+      --deep: #0d1f3c;
+      --sky: #1a6bcc;
+      --gold: #e8a020;
+      --gold-light: #f5c356;
+      --white: #ffffff;
+      --off: #f4f6fa;
+      --gray: #8898aa;
+      --text: #1a2540;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Barlow', sans-serif; background: var(--off); color: var(--text); overflow-x: hidden; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--navy); color: rgba(255,255,255,0.65);
+      font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 7px 40px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .topbar a { color: var(--gold-light); text-decoration: none; }
+    .topbar a:hover { text-decoration: underline; }
+    .topbar-links { display: flex; gap: 24px; }
+
+   /* ── HEADER / NAV ── */
+header {
+  position: sticky; top: 0; z-index: 1000;
+  background: var(--navy);
+  border-bottom: 3px solid var(--gold);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 32px; height: 68px;
+  gap: 24px;
+}
+
+.logo-area {
+  display: flex; align-items: center;
+  gap: 0; text-decoration: none; flex-shrink: 0;
+}
+.logo-code {
+  font-size: 2rem; font-weight: 800;
+  color: var(--gold); letter-spacing: -0.02em;
+  line-height: 1;
+}
+.logo-divider {
+  width: 1px; height: 36px;
+  background: rgba(255,255,255,0.2);
+  margin: 0 18px;
+}
+.logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+.logo-title {
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--white); letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.logo-sub {
+  font-size: 0.65rem; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+nav#mainNav {
+  display: flex; align-items: center; gap: 2px;
+  margin-left: auto;
+}
+nav#mainNav a {
+  color: rgba(255,255,255,0.75); text-decoration: none;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 6px 13px; border-radius: 3px;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+nav#mainNav a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+nav#mainNav a.active { color: var(--gold); }
+nav#mainNav .nav-cta {
+  background: var(--gold); color: var(--navy) !important;
+  font-weight: 700; margin-left: 8px;
+  padding: 7px 16px;
+}
+nav#mainNav .nav-cta:hover { background: var(--gold-light); }
+
+/* Hamburger */
+.hamburger {
+  display: none; flex-direction: column;
+  justify-content: center; gap: 5px;
+  background: none; border: none; cursor: pointer;
+  padding: 8px; flex-shrink: 0;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--white); border-radius: 2px;
+  transition: all 0.25s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  .hamburger { display: flex; }
+  nav#mainNav {
+    display: none; position: absolute;
+    top: 68px; left: 0; right: 0;
+    background: var(--navy);
+    border-bottom: 2px solid var(--gold);
+    flex-direction: column; align-items: stretch;
+    padding: 12px 0; gap: 0; margin: 0;
+  }
+  nav#mainNav.open { display: flex; }
+  nav#mainNav a {
+    padding: 13px 28px; border-radius: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.88rem;
+  }
+  nav#mainNav .nav-cta { margin: 8px 20px; border-radius: 4px; text-align: center; }
+}
+    /* ── PAGE HERO ── */
+    .page-hero {
+      background: var(--navy); border-bottom: 3px solid var(--gold);
+      padding: 44px 60px 40px; position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '✈';
+      position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+      font-size: 9rem; opacity: 0.04; line-height: 1;
+    }
+    .page-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .page-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 3.2rem); text-transform: uppercase; color: var(--white); letter-spacing: 0.01em; line-height: 1; }
+    .page-title em { font-family: 'DM Serif Display', serif; font-style: italic; color: var(--gold); font-size: 1.05em; }
+    .page-desc { font-size: 0.92rem; color: rgba(255,255,255,0.55); line-height: 1.65; max-width: 560px; margin-top: 14px; }
+
+    /* ── FILTER TABS ── */
+    .filter-strip {
+      background: var(--deep); border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 0 60px; display: flex; align-items: center; gap: 0;
+    }
+    .filter-tab {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); padding: 15px 26px;
+      border-bottom: 3px solid transparent; cursor: pointer;
+      transition: color 0.2s, border-color 0.2s; margin-bottom: -1px;
+    }
+    .filter-tab:hover { color: rgba(255,255,255,0.75); }
+    .filter-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── MAIN CONTENT ── */
+    .content { max-width: 1280px; margin: 0 auto; padding: 48px 60px 80px; }
+
+    /* ── TERMINAL SECTION HEADER ── */
+    .terminal-section { margin-bottom: 56px; }
+    .terminal-section-header {
+      display: flex; align-items: flex-end; gap: 20px;
+      margin-bottom: 28px; padding-bottom: 18px;
+      border-bottom: 2px solid rgba(0,0,0,0.08);
+    }
+    .terminal-section-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 3px; flex-shrink: 0;
+    }
+    .t1-badge { background: rgba(232,160,32,0.15); color: #b07800; border: 1px solid rgba(232,160,32,0.35); }
+    .t2-badge { background: rgba(26,107,204,0.12); color: var(--sky); border: 1px solid rgba(26,107,204,0.3); }
+    .terminal-section-title {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 1.7rem; text-transform: uppercase; color: var(--navy);
+      letter-spacing: 0.02em; line-height: 1;
+    }
+    .terminal-section-meta {
+      margin-left: auto; font-size: 0.78rem; color: var(--gray);
+      text-align: right; line-height: 1.5; flex-shrink: 0;
+    }
+    .terminal-section-meta strong { color: var(--text); font-weight: 600; }
+
+    /* ── AIRLINE CARDS ── */
+    .airlines-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+
+    .airline-card {
+      background: var(--white); border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.08);
+      overflow: hidden; display: flex; flex-direction: column;
+      transition: box-shadow 0.25s, transform 0.2s;
+    }
+    .airline-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.11); transform: translateY(-3px); }
+
+    .airline-card-header {
+      padding: 28px 28px 20px;
+      display: flex; align-items: center; gap: 20px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .airline-logo-box {
+      width: 100px; height: 56px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--off); border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .airline-logo-box img { max-width: 90px; max-height: 44px; object-fit: contain; }
+    .airline-logo-box.text-logo {
+      flex-direction: column; gap: 2px;
+    }
+    .text-logo-inner {
+      border-radius: 6px; width: 90px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 0.75rem; color: white;
+      text-align: center; line-height: 1.2; letter-spacing: 0.04em;
+    }
+
+    .airline-card-name-block {}
+    .airline-card-name {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 1.25rem; text-transform: uppercase; color: var(--navy);
+      letter-spacing: 0.02em; line-height: 1.1; margin-bottom: 6px;
+    }
+    .airline-card-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+    .tag {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 100px;
+    }
+    .tag-intl { background: rgba(232,160,32,0.12); color: #b07800; border: 1px solid rgba(232,160,32,0.3); }
+    .tag-dom  { background: rgba(26,107,204,0.1); color: var(--sky); border: 1px solid rgba(26,107,204,0.25); }
+    .tag-iata { background: rgba(0,0,0,0.05); color: var(--gray); border: 1px solid rgba(0,0,0,0.1); }
+    .tag-alliance { background: rgba(124,58,237,0.08); color: #7c3aed; border: 1px solid rgba(124,58,237,0.2); }
+
+    .airline-card-body { padding: 20px 28px 24px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+    .airline-desc { font-size: 0.85rem; color: var(--gray); line-height: 1.65; }
+
+    .airline-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .info-item {}
+    .info-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray); margin-bottom: 3px; }
+    .info-value { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+
+    .airline-card-footer {
+      padding: 14px 28px;
+      background: var(--off);
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .checkin-info { font-size: 0.78rem; color: var(--gray); }
+    .checkin-info strong { color: var(--text); font-weight: 600; }
+
+    .flights-link {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--sky); text-decoration: none;
+      display: flex; align-items: center; gap: 5px;
+      transition: color 0.2s;
+    }
+    .flights-link:hover { color: var(--navy); }
+
+    /* ── NOTICE BAR ── */
+    .notice-bar {
+      background: rgba(232,160,32,0.08); border: 1px solid rgba(232,160,32,0.25);
+      border-radius: 8px; padding: 16px 22px;
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 36px;
+    }
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .notice-text { font-size: 0.84rem; color: var(--text); line-height: 1.6; }
+    .notice-text strong { color: var(--navy); }
+
+    /* ── HIDDEN ── */
+    .airline-card.hidden { display: none; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); border-top: 2px solid rgba(255,255,255,0.06);
+      padding: 32px 60px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 0.77rem; color: rgba(255,255,255,0.30); }
+    .footer-iata { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; color: rgba(255,255,255,0.30); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    @media (max-width: 900px) {
+      .topbar, header, .filter-strip, .content, footer { padding-left: 20px; padding-right: 20px; }
+      nav { display: none; }
+      .airlines-grid { grid-template-columns: 1fr; }
+      .page-hero { padding: 32px 20px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span>Felix Lego City International Airport &nbsp;·&nbsp; Lego City, Republic States</span>
+  <div class="topbar-links">
+    <a href="departures.html">Live Flight Board</a>
+    <a href="cbp.html">RS Customs &amp; Border Protection</a>
+    <a href="departures.html">Staff Portal</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="logo-area">
+    <div class="logo-code">FLX</div>
+    <div class="logo-divider"></div>
+    <div class="logo-text">
+      <span class="logo-title">Felix Lego City</span>
+      <span class="logo-sub">International Airport</span>
+    </div>
+  </a>
+  <nav id="mainNav">
+    <a href="index.html">Home</a>
+    <a href="departures.html">Flights</a>
+    <a href="terminals.html">Terminals</a>
+    <a href="airlines.html">Airlines</a>
+    <a href="cbp.html">Customs</a>
+    <a href="about.html">About</a>
+    <a href="departures.html" class="nav-cta">Flight Status</a>
+  </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-eyebrow">✈ Airline Directory — Felix Lego City International Airport</div>
+  <h1 class="page-title">Airlines &amp; <em>Carriers</em></h1>
+  <p class="page-desc">Nine world-class airlines serve FLX across two terminals — connecting Lego City to destinations across the Republic States and the globe. Find terminal assignments, check-in counters, and airline contacts below.</p>
+</div>
+
+<!-- FILTER TABS -->
+<div class="filter-strip">
+  <div class="filter-tab active" onclick="filterAirlines('all', this)">All Airlines (9)</div>
+  <div class="filter-tab" onclick="filterAirlines('T1', this)">Terminal 1 — International (7)</div>
+  <div class="filter-tab" onclick="filterAirlines('T2', this)">Terminal 2 — Domestic (2)</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="notice-bar">
+    <div class="notice-icon">ℹ️</div>
+    <div class="notice-text">
+      <strong>Terminal 1 is newly refurbished as of May 2026.</strong> All international check-in counters, gates, and RS Customs &amp; Border Protection facilities are now operating from the new terminal. Terminal 2 was last remodeled in September 2025. Please check the <a href="departures.html" style="color:var(--sky)">live flight board</a> for current gate assignments.
+    </div>
+  </div>
+
+  <!-- ── TERMINAL 1 ── -->
+  <div class="terminal-section" id="section-T1">
+    <div class="terminal-section-header">
+      <span class="terminal-section-badge t1-badge">● Terminal 1</span>
+      <div class="terminal-section-title">International Terminal</div>
+      <div class="terminal-section-meta">
+        <strong>7 Airlines</strong><br>
+        Refurbished May 2025 · RS CBP Facillity On-Site
+      </div>
+    </div>
+
+    <div class="airlines-grid">
+
+      <!-- BRITISH AIRWAYS -->
+      <div class="airline-card" data-terminal="T1">
+        <div class="airline-card-header">
+          <div class="airline-logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/42/British_Airways_Logo.svg/320px-British_Airways_Logo.svg.png" alt="British Airways" onerror="this.parentNode.innerHTML='<div class=\'text-logo-inner\' style=\'background:#075AAA;\'>BRITISH<br>AIRWAYS</div>'">
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">British Airways</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: BA</span>
+              <span class="tag tag-intl">International</span>
+              <span class="tag tag-alliance">Oneworld</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">The flag carrier of the United Kingdom and one of the world's leading international airlines, British Airways connects FLX to London Heathrow with daily long-haul service, offering Business, Premium Economy, and Economy cabins.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 1 — Intl.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">A5 – A11</div></div>
+            <div class="info-item"><div class="info-label">Hub</div><div class="info-value">London Heathrow (LHR)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1–4</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>3 hrs</strong> before departure</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+      <!-- HAWAIIAN AIRLINES -->
+      <div class="airline-card" data-terminal="T1">
+        <div class="airline-card-header">
+          <div class="airline-logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hawaiian_Airlines_logo_2017.svg/320px-Hawaiian_Airlines_logo_2017.svg.png" alt="Hawaiian Airlines" onerror="this.parentNode.innerHTML='<div class=\'text-logo-inner\' style=\'background:#4B1C82;\'>HAWAIIAN<br>AIRLINES</div>'">
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">Hawaiian Airlines</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: HA</span>
+              <span class="tag tag-intl">International</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">Hawaii's largest carrier brings the spirit of aloha to FLX with transpacific service to Honolulu, Maui, and beyond. Known for warm hospitality, Hawaiian cuisine, and exceptional island connections.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 1 — Intl.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">A1 – A11</div></div>
+            <div class="info-item"><div class="info-label">Hub</div><div class="info-value">Honolulu (HNL)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1–4</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>3 hrs</strong> before departure</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+      <!-- EMIRATES -->
+      <div class="airline-card" data-terminal="T1">
+        <div class="airline-card-header">
+          <div class="airline-logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emirates_logo.svg/320px-Emirates_logo.svg.png" alt="Emirates" onerror="this.parentNode.innerHTML='<div class=\'text-logo-inner\' style=\'background:#D71921;\'>EMIRATES</div>'">
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">Emirates</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: EK</span>
+              <span class="tag tag-intl">International</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">The world's largest international airline by scheduled revenue passenger-kilometres, Emirates connects FLX to Dubai International with onward connections to over 140 destinations across six continents via its Middle East hub.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 1 — Intl.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">A6 – A11</div></div>
+            <div class="info-item"><div class="info-label">Hub</div><div class="info-value">Dubai Intl. (DXB)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1–4</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>3 hrs</strong> before departure</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+      <!-- UNITED AIRLINES -->
+      <div class="airline-card" data-terminal="T1">
+        <div class="airline-card-header">
+          <div class="airline-logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/United_Airlines_Logo.svg/320px-United_Airlines_Logo.svg.png" alt="United Airlines" onerror="this.parentNode.innerHTML='<div class=\'text-logo-inner\' style=\'background:#003580;\'>UNITED<br>AIRLINES</div>'">
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">United Airlines</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: UA</span>
+              <span class="tag tag-intl">International</span>
+              <span class="tag tag-alliance">Star Alliance</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">One of America's largest carriers and a Star Alliance founding member, United offers FLX travelers extensive connectivity to its global hub network, with transoceanic routes and premium cabin service across the Pacific and Atlantic.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 1 — Intl.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">A1 – A11</div></div>
+            <div class="info-item"><div class="info-label">Hub</div><div class="info-value">San Francisco (SFO)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1–4</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>3 hrs</strong> before departure</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+      <!-- DREAMPACIFIC AIRWAYS -->
+      <div class="airline-card" data-terminal="T1">
+        <div class="airline-card-header">
+          <div class="airline-logo-box text-logo">
+            <div class="text-logo-inner" style="background: linear-gradient(135deg, #0047AB, #00A3E0);">DREAM<br>PACIFIC</div>
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">DreamPacific Airways</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: DP</span>
+              <span class="tag tag-intl">International</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">A rising star in transpacific aviation, DreamPacific Airways launched FLX service in late 2024 with routes to Tokyo, Los Angeles, and Seoul. Known for thoughtfully designed cabins, Pacific Rim cuisine, and seamless Asia connections.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 1 — Intl.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">A1 – A11</div></div>
+            <div class="info-item"><div class="info-label">Primary Hub</div><div class="info-value">Felix Lego City International Airport(FLX)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1-4</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>3 hrs</strong> before departure</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+      <!-- GLOBESTAR AIRLINES -->
+      <div class="airline-card" data-terminal="T1">
+        <div class="airline-card-header">
+          <div class="airline-logo-box text-logo">
+            <div class="text-logo-inner" style="background: linear-gradient(135deg, #1a3a5c, #2e7d32);">GLOBE<br>STAR</div>
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">GlobeStar Airlines</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: GS</span>
+              <span class="tag tag-intl">International</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">GlobeStar Airlines brings FLX travelers world-spanning routes to Australia, New Zealand, and Southern Africa. Renowned for their award-winning long-haul service, GlobeStar has expanded FLC service for Summer 2025 with three new destinations.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 1 — Intl.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">A1 – A5</div></div>
+            <div class="info-item"><div class="info-label">Primary Hub</div><div class="info-value">Heartlake Beach Airport (HLC)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1–4</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>3 hrs</strong> before departure</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+      <!-- JETBLUE -->
+      <div class="airline-card" data-terminal="T1">
+        <div class="airline-card-header">
+          <div class="airline-logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Jetblue-footer-logo.svg/320px-Jetblue-footer-logo.svg.png" alt="JetBlue" onerror="this.parentNode.innerHTML='<div class=\'text-logo-inner\' style=\'background:#003876;\'>JETBLUE</div>'">
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">JetBlue</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: B6</span>
+              <span class="tag tag-intl">International</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">America's sixth-largest carrier, JetBlue brings its signature free Wi-Fi, live TV at every seat, and generous legroom to FLC. Operating from Terminal 1, JetBlue connects Lego City to its East Coast hubs with transatlantic capability via its Mint business class.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 1 — Intl.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">A1 – A5</div></div>
+            <div class="info-item"><div class="info-label">Hub</div><div class="info-value">New York JFK (JFK)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1–4</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>2 hrs</strong> before departure</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+    </div><!-- /T1 grid -->
+  </div><!-- /T1 section -->
+
+  <!-- ── TERMINAL 2 ── -->
+  <div class="terminal-section" id="section-T2">
+    <div class="terminal-section-header">
+      <span class="terminal-section-badge t2-badge">● Terminal 2</span>
+      <div class="terminal-section-title">Domestic Terminal</div>
+      <div class="terminal-section-meta">
+        <strong>2 Airlines</strong><br>
+        Remodeled September 2025 · Domestic Only
+      </div>
+    </div>
+
+    <div class="airlines-grid">
+
+      <!-- SOUTHWEST -->
+      <div class="airline-card" data-terminal="T2">
+        <div class="airline-card-header">
+          <div class="airline-logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Southwest_Airlines_logo_2014.svg/320px-Southwest_Airlines_logo_2014.svg.png" alt="Southwest Airlines" onerror="this.parentNode.innerHTML='<div class=\'text-logo-inner\' style=\'background:#304CB2;\'>SOUTHWEST</div>'">
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">Southwest Airlines</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: WN</span>
+              <span class="tag tag-dom">Domestic</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">America's largest domestic carrier and pioneer of low-cost travel, Southwest operates an open seating model with no change fees, two free checked bags, and a vast domestic network. From FLC's Terminal 2, Southwest offers frequent service to major cities across the Republic States.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 2 — Dom.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">B1 – B5</div></div>
+            <div class="info-item"><div class="info-label">Hub</div><div class="info-value">Denver(DEN)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1–2</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>24 hrs</strong> before departure · Open seating</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+      <!-- AMERICAN AIRLINES -->
+      <div class="airline-card" data-terminal="T2">
+        <div class="airline-card-header">
+          <div class="airline-logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/American_Airlines_logo_2013.svg/320px-American_Airlines_logo_2013.svg.png" alt="American Airlines" onerror="this.parentNode.innerHTML='<div class=\'text-logo-inner\' style=\'background:#0078D2;\'>AMERICAN<br>AIRLINES</div>'">
+          </div>
+          <div class="airline-card-name-block">
+            <div class="airline-card-name">American Airlines</div>
+            <div class="airline-card-tags">
+              <span class="tag tag-iata">IATA: AA</span>
+              <span class="tag tag-dom">Domestic</span>
+              <span class="tag tag-alliance">Oneworld</span>
+            </div>
+          </div>
+        </div>
+        <div class="airline-card-body">
+          <div class="airline-desc">The world's largest airline by fleet size, American Airlines brings its extensive domestic hub network to FLX from Terminal 2. With connections through Dallas/Fort Worth and Chicago O'Hare, American links Lego City to hundreds of destinations across the Republic States.</div>
+          <div class="airline-info-grid">
+            <div class="info-item"><div class="info-label">Terminal</div><div class="info-value">Terminal 2 — Dom.</div></div>
+            <div class="info-item"><div class="info-label">Gates</div><div class="info-value">B1 – B6</div></div>
+            <div class="info-item"><div class="info-label">Hub</div><div class="info-value">Dallas/Fort Worth (DFW)</div></div>
+            <div class="info-item"><div class="info-label">Check-In Counters</div><div class="info-value">Counters 1–2</div></div>
+          </div>
+        </div>
+        <div class="airline-card-footer">
+          <div class="checkin-info">Check-in opens <strong>24 hrs</strong> before departure</div>
+          <a href="departures.html" class="flights-link">View Flights →</a>
+        </div>
+      </div>
+
+    </div><!-- /T2 grid -->
+  </div><!-- /T2 section -->
+
+</div><!-- /content -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 Felix Lego City International Airport · Lego City, Republic States. All rights reserved.</div>
+  <div class="footer-iata">IATA: FLX &nbsp;·&nbsp; ICAO: KFLX</div>
+</footer>
+
+<script>
+  function filterAirlines(terminal, el) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+
+    const cards = document.querySelectorAll('.airline-card');
+    const s1 = document.getElementById('section-T1');
+    const s2 = document.getElementById('section-T2');
+
+    if (terminal === 'all') {
+      cards.forEach(c => c.classList.remove('hidden'));
+      s1.style.display = ''; s2.style.display = '';
+    } else {
+      cards.forEach(c => {
+        c.classList.toggle('hidden', c.dataset.terminal !== terminal);
+      });
+      s1.style.display = terminal === 'T1' ? '' : 'none';
+      s2.style.display = terminal === 'T2' ? '' : 'none';
+    }
+  }
+
+  // Staggered entrance animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const siblings = Array.from(entry.target.parentNode.children);
+        const idx = siblings.indexOf(entry.target);
+        entry.target.style.transitionDelay = (idx * 60) + 'ms';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .airline-card { opacity: 0; transform: translateY(16px); transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.25s, top 0.2s; }
+    .airline-card.visible { opacity: 1; transform: translateY(0); }
+  `;
+  document.head.appendChild(style);
+
+  document.querySelectorAll('.airline-card').forEach(el => observer.observe(el));
+</script>
+<script>
+  function toggleMenu() {
+    document.getElementById('mainNav').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
+
