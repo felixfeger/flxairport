@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Staff Portal — Felix Lego City International Airport</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy:#0a1628;--deep:#0d1f3c;--sky:#1a6bcc;--gold:#e8a020;--goldl:#f5c356;
+      --white:#fff;--off:#f4f6fa;--gray:#8898aa;--text:#1a2540;
+      --green:#16a34a;--red:#dc2626;--amber:#d97706;--purp:#7c3aed;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--off);color:var(--text);min-height:100vh}
+
+    /* ━━━ LOGIN SCREEN ━━━ */
+    #loginScreen{
+      position:fixed;inset:0;z-index:9999;
+      background:var(--navy);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .login-wrap{width:440px;max-width:95vw}
+    .login-brand{text-align:center;margin-bottom:32px}
+    .login-brand-code{font-size:3rem;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+    .login-brand-name{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
+    .login-card{background:var(--white);border-radius:14px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+    .login-card-hd{background:var(--deep);border-bottom:3px solid var(--gold);padding:26px 30px}
+    .login-card-title{font-size:1.2rem;font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:.04em}
+    .login-card-sub{font-size:.7rem;color:rgba(255,255,255,.38);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+    .login-card-body{padding:28px 30px}
+    .login-notice{background:rgba(232,160,32,.09);border:1px solid rgba(232,160,32,.25);border-radius:7px;padding:11px 14px;font-size:.78rem;color:var(--text);line-height:1.6;margin-bottom:22px;display:flex;gap:9px}
+    .fl{font-size:.63rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:5px}
+    .fi{width:100%;background:var(--off);border:1.5px solid rgba(0,0,0,.12);color:var(--text);font-family:inherit;font-size:.92rem;padding:10px 14px;border-radius:6px;outline:none;transition:border-color .2s;margin-bottom:14px}
+    .fi:focus{border-color:var(--sky)}
+    .login-err{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.22);color:var(--red);font-size:.8rem;padding:9px 13px;border-radius:6px;margin-bottom:12px;display:none}
+    .login-err.show{display:block}
+    .btn-login{width:100%;background:var(--gold);color:var(--navy);border:none;font-family:inherit;font-weight:800;font-size:.88rem;letter-spacing:.08em;text-transform:uppercase;padding:13px;border-radius:6px;cursor:pointer;transition:background .2s}
+    .btn-login:hover{background:var(--goldl)}
+    .login-back{display:block;text-align:center;margin-top:16px;font-size:.76rem;color:rgba(255,255,255,.38);text-decoration:none;transition:color .2s}
+    .login-back:hover{color:var(--goldl)}
+
+    /* ━━━ APP SHELL ━━━ */
+    #appShell{display:none;min-height:100vh;flex-direction:column}
+
+    /* ── top bar ── */
+    .app-bar{
+      height:60px;background:var(--navy);border-bottom:3px solid var(--gold);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 28px;position:sticky;top:0;z-index:600;flex-shrink:0;
+    }
+    .app-bar-logo{display:flex;align-items:center;gap:0;text-decoration:none}
+    .ab-code{font-size:1.9rem;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+    .ab-div{width:1px;height:30px;background:rgba(255,255,255,.18);margin:0 14px;flex-shrink:0}
+    .ab-name{font-size:.75rem;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:.05em;line-height:1.25}
+    .ab-sub{font-size:.58rem;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.07em}
+    .app-bar-right{display:flex;align-items:center;gap:12px}
+    .ab-time{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.05em;font-variant-numeric:tabular-nums}
+    .ab-user{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 12px 5px 6px}
+    .ab-avatar{width:24px;height:24px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:var(--navy)}
+    .ab-uname{font-size:.72rem;font-weight:600;color:rgba(255,255,255,.75)}
+    .ab-pub{font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.38);text-decoration:none;transition:color .2s}
+    .ab-pub:hover{color:var(--goldl)}
+    .btn-logout{background:none;border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.48);font-family:inherit;font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 12px;border-radius:4px;cursor:pointer;transition:all .2s}
+    .btn-logout:hover{border-color:var(--red);color:var(--red)}
+
+    /* ── layout ── */
+    .app-body{display:flex;flex:1;min-height:calc(100vh - 60px)}
+
+    /* ── sidebar ── */
+    .sidebar{
+      width:210px;background:var(--deep);border-right:1px solid rgba(255,255,255,.06);
+      display:flex;flex-direction:column;flex-shrink:0;
+      position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;
+    }
+    .sb-sec{font-size:.58rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22);padding:20px 18px 7px}
+    .sb-link{
+      display:flex;align-items:center;gap:10px;padding:10px 18px;
+      font-size:.77rem;font-weight:600;color:rgba(255,255,255,.48);
+      text-decoration:none;border:none;background:none;font-family:inherit;
+      width:100%;text-align:left;cursor:pointer;
+      border-left:3px solid transparent;transition:all .18s;
+    }
+    .sb-link:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.04)}
+    .sb-link.active{color:var(--gold);border-left-color:var(--gold);background:rgba(232,160,32,.06)}
+    .sb-icon{font-size:.95rem;width:17px;text-align:center;flex-shrink:0}
+    .sb-divider{height:1px;background:rgba(255,255,255,.06);margin:8px 0}
+    .sb-bottom{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(255,255,255,.06)}
+    .sb-ver{font-size:.6rem;color:rgba(255,255,255,.18);letter-spacing:.08em;text-transform:uppercase}
+
+    /* ── main ── */
+    .main{flex:1;padding:30px 34px;overflow-y:auto;min-width:0}
+
+    /* ━━━ SHARED COMPONENTS ━━━ */
+    .panel{display:none}.panel.active{display:block}
+    .page-ey{font-size:.63rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sky);margin-bottom:4px}
+    .page-title{font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:800;text-transform:uppercase;color:var(--navy);letter-spacing:-.01em;line-height:1;margin-bottom:6px}
+    .page-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--sky);font-size:1.06em}
+    .page-desc{font-size:.82rem;color:var(--gray);line-height:1.6;margin-bottom:26px}
+
+    /* stat cards */
+    .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+    .stat-card{background:var(--white);border-radius:9px;border:1px solid rgba(0,0,0,.07);padding:18px 20px;display:flex;align-items:flex-start;gap:12px}
+    .stat-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0}
+    .si-gold{background:rgba(232,160,32,.12)}.si-sky{background:rgba(26,107,204,.1)}.si-green{background:rgba(22,163,74,.1)}
+    .si-red{background:rgba(220,38,38,.09)}.si-amber{background:rgba(217,119,6,.1)}.si-purp{background:rgba(124,58,237,.1)}
+    .stat-num{font-size:1.85rem;font-weight:800;color:var(--navy);line-height:1}
+    .stat-lbl{font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:3px}
+
+    /* card container */
+    .card{background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,.07);overflow:hidden;margin-bottom:22px}
+    .card-hd{padding:15px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,.06)}
+    .card-hd-title{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--navy)}
+    .card-hd-sub{font-size:.68rem;color:var(--gray);margin-top:2px}
+
+    /* quick actions */
+    .qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:26px}
+    .qa{background:var(--white);border:1px solid rgba(0,0,0,.07);border-radius:9px;padding:18px 20px;cursor:pointer;transition:box-shadow .2s,transform .2s;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--text);border-left:4px solid transparent}
+    .qa:hover{box-shadow:0 8px 24px rgba(0,0,0,.09);transform:translateY(-2px)}
+    .qa.gold{border-left-color:var(--gold)}.qa.sky{border-left-color:var(--sky)}.qa.green{border-left-color:var(--green)}
+    .qa-icon{font-size:1.5rem}
+    .qa-title{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--navy)}
+    .qa-desc{font-size:.74rem;color:var(--gray);line-height:1.5}
+
+    /* notice */
+    .notice{border-radius:7px;padding:11px 15px;font-size:.8rem;line-height:1.6;display:flex;gap:9px;align-items:flex-start;margin-bottom:16px}
+    .n-info{background:rgba(26,107,204,.07);border:1px solid rgba(26,107,204,.18);color:var(--sky)}
+    .n-warn{background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.2);color:var(--amber)}
+    .n-success{background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.18);color:var(--green)}
+    .n-error{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.18);color:var(--red)}
+
+    /* buttons */
+    .btn{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 15px;border-radius:5px;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+    .btn-primary{background:var(--sky);color:var(--white)}.btn-primary:hover{background:#1558a8}
+    .btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover{background:var(--goldl)}
+    .btn-ghost{background:transparent;color:var(--gray);border:1px solid rgba(0,0,0,.14)}.btn-ghost:hover{border-color:var(--sky);color:var(--sky)}
+    .btn-danger{background:rgba(220,38,38,.09);color:var(--red);border:1px solid rgba(220,38,38,.25)}.btn-danger:hover{background:var(--red);color:var(--white)}
+    .btn-sm{padding:5px 11px;font-size:.67rem}
+
+    /* filter row */
+    .filter-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:16px}
+    .fi-sm{background:var(--white);border:1px solid rgba(0,0,0,.12);color:var(--text);font-family:inherit;font-size:.81rem;padding:7px 11px;border-radius:5px;outline:none;transition:border-color .2s}
+    .fi-sm:focus{border-color:var(--sky)}
+    .fi-sm.wide{min-width:200px}
+    .f-count{margin-left:auto;font-size:.7rem;font-weight:700;color:var(--sky);background:rgba(26,107,204,.1);padding:4px 10px;border-radius:100px;letter-spacing:.04em;text-transform:uppercase}
+
+    /* table */
+    .tbl{width:100%;border-collapse:collapse}
+    .tbl thead{background:var(--navy)}
+    .tbl thead th{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);padding:10px 14px;text-align:left;white-space:nowrap}
+    .tbl tbody tr{border-bottom:1px solid rgba(0,0,0,.05);transition:background .12s}
+    .tbl tbody tr:last-child{border-bottom:none}
+    .tbl tbody tr:hover{background:rgba(26,107,204,.03)}
+    .tbl td{padding:11px 14px;font-size:.83rem;vertical-align:middle}
+    .col-fn{font-weight:800;color:var(--sky);font-size:.92rem;white-space:nowrap;letter-spacing:.03em}
+    .col-al{display:flex;align-items:center;gap:7px}
+    .al-img{width:26px;height:26px;object-fit:contain;border-radius:3px;flex-shrink:0}
+    .al-txt{width:26px;height:26px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.38rem;font-weight:800;color:#fff;text-align:center;line-height:1.2;flex-shrink:0}
+    .al-n{font-size:.78rem;font-weight:500;white-space:nowrap}
+    .tp{display:inline-block;font-size:.67rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:3px}
+    .t1p{background:rgba(232,160,32,.13);color:#9a6700;border:1px solid rgba(232,160,32,.28)}
+    .t2p{background:rgba(26,107,204,.1);color:var(--sky);border:1px solid rgba(26,107,204,.22)}
+    .sb{display:inline-flex;align-items:center;gap:4px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap}
+    .sd{width:5px;height:5px;border-radius:50%}
+    .s-ot{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.2)}.s-ot .sd{background:var(--green)}
+    .s-bd{background:rgba(26,107,204,.1);color:var(--sky);border:1px solid rgba(26,107,204,.2)}.s-bd .sd{background:var(--sky);animation:p 1.2s infinite}
+    .s-dl{background:rgba(217,119,6,.1);color:var(--amber);border:1px solid rgba(217,119,6,.22)}.s-dl .sd{background:var(--amber)}
+    .s-dp{background:rgba(0,0,0,.05);color:var(--gray);border:1px solid rgba(0,0,0,.09)}.s-dp .sd{background:var(--gray)}
+    .s-cx{background:rgba(220,38,38,.09);color:var(--red);border:1px solid rgba(220,38,38,.2)}.s-cx .sd{background:var(--red)}
+    .s-ar{background:rgba(124,58,237,.09);color:var(--purp);border:1px solid rgba(124,58,237,.18)}.s-ar .sd{background:var(--purp)}
+    .s-ex{background:rgba(22,163,74,.07);color:#15803d;border:1px solid rgba(22,163,74,.16)}.s-ex .sd{background:#15803d}
+    @keyframes p{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+
+    /* loading */
+    .spinner{width:28px;height:28px;border:3px solid rgba(26,107,204,.18);border-top-color:var(--sky);border-radius:50%;animation:spin .75s linear infinite;margin:28px auto;display:block}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .load-msg{text-align:center;color:var(--gray);font-size:.83rem;padding:16px}
+
+    /* ━━━ MODAL ━━━ */
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:8000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .overlay.open{display:flex}
+    .modal{background:var(--white);border-radius:12px;width:580px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+    .modal-hd{background:var(--navy);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-radius:12px 12px 0 0}
+    .modal-ttl{font-size:.98rem;font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:.04em}
+    .modal-x{background:none;border:none;color:rgba(255,255,255,.4);font-size:1.3rem;cursor:pointer;padding:4px;line-height:1;transition:color .2s}.modal-x:hover{color:var(--white)}
+    .modal-body{padding:24px}
+    .modal-ft{padding:15px 24px;border-top:1px solid rgba(0,0,0,.08);display:flex;gap:9px;justify-content:flex-end;align-items:center}
+    .fg{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .ff{display:flex;flex-direction:column;gap:5px}
+    .ff.full{grid-column:span 2}
+    .form-lbl{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)}
+    .form-inp,.form-sel{background:var(--off);border:1.5px solid rgba(0,0,0,.12);color:var(--text);font-family:inherit;font-size:.9rem;padding:9px 12px;border-radius:6px;outline:none;transition:border-color .2s;width:100%}
+    .form-inp:focus,.form-sel:focus{border-color:var(--sky)}
+
+    /* ━━━ APP FOOTER ━━━ */
+    .app-footer{background:var(--white);border-top:1px solid rgba(0,0,0,.07);padding:13px 34px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+    .af-copy{font-size:.68rem;color:rgba(0,0,0,.27)}
+    .af-code{font-size:.7rem;font-weight:700;color:rgba(0,0,0,.27);letter-spacing:.12em;text-transform:uppercase}
+
+    /* ━━━ RESPONSIVE ━━━ */
+    @media(max-width:1000px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:860px){.sidebar{display:none}.qa-grid{grid-template-columns:1fr 1fr}.main{padding:20px}}
+    @media(max-width:560px){.stat-grid{grid-template-columns:1fr}.qa-grid{grid-template-columns:1fr}.fg{grid-template-columns:1fr}.ff.full{grid-column:span 1}}
+  </style>
+</head>
+<body>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━
+     LOGIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="login-brand">
+      <div class="login-brand-code">FLX</div>
+      <div class="login-brand-name">Felix Lego City International Airport</div>
+    </div>
+    <div class="login-card">
+      <div class="login-card-hd">
+        <div class="login-card-title">Operations Staff Portal</div>
+        <div class="login-card-sub">IATA: FLX &nbsp;·&nbsp; ICAO: KFLX &nbsp;·&nbsp; Authorized Access Only</div>
+      </div>
+      <div class="login-card-body">
+        <div class="login-notice">
+          <span>🔒</span>
+          This portal is for authorized FLX airport operations staff only. Unauthorized access attempts are logged and may be prosecuted under Republic States law.
+        </div>
+        <div class="login-err" id="loginErr">Incorrect password. Please try again.</div>
+        <label class="fl">Staff Password</label>
+        <input class="fi" type="password" id="pwInput" placeholder="Enter your staff password…" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="btn-login" onclick="doLogin()">Sign In →</button>
+        <a href="index.html" class="login-back">← Return to Public Site</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━
+     APP SHELL
+━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="appShell">
+
+  <!-- Top Bar -->
+  <div class="app-bar">
+    <a class="app-bar-logo" href="#">
+      <div class="ab-code">FLX</div>
+      <div class="ab-div"></div>
+      <div>
+        <div class="ab-name">Felix Lego City International</div>
+        <div class="ab-sub">Operations Portal</div>
+      </div>
+    </a>
+    <div class="app-bar-right">
+      <span class="ab-time" id="abClock"></span>
+      <div class="ab-user">
+        <div class="ab-avatar">OPS</div>
+        <span class="ab-uname">Operations Staff</span>
+      </div>
+      <a href="index.html" class="ab-pub">← Public Site</a>
+      <button class="btn-logout" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="app-body">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sb-sec">Main</div>
+      <button class="sb-link active" data-panel="dashboard" onclick="nav('dashboard',this)">
+        <span class="sb-icon">📊</span>Dashboard
+      </button>
+      <button class="sb-link" data-panel="flights" onclick="nav('flights',this)">
+        <span class="sb-icon">✈️</span>Flight Board
+      </button>
+      <div class="sb-divider"></div>
+      <div class="sb-sec">Quick Links</div>
+      <a href="departures.html" target="_blank" class="sb-link"><span class="sb-icon">🖥</span>Live Board</a>
+      <a href="terminals.html"  target="_blank" class="sb-link"><span class="sb-icon">🏛</span>Terminals</a>
+      <a href="airlines.html"   target="_blank" class="sb-link"><span class="sb-icon">🌐</span>Airlines</a>
+      <a href="cbp.html"        target="_blank" class="sb-link"><span class="sb-icon">🛂</span>CBP Page</a>
+      <div class="sb-divider"></div>
+      <div class="sb-bottom">
+        <div class="sb-ver">FLX OPS v1.0 · KFLX</div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+      <!-- ── DASHBOARD ── -->
+      <div id="panel-dashboard" class="panel active">
+        <div class="page-ey">Operations Overview</div>
+        <div class="page-title">Good <em id="greeting"></em>, Operations</div>
+        <p class="page-desc">Felix Lego City International Airport &nbsp;·&nbsp; <span id="dashDate" style="font-weight:600;color:var(--navy)"></span></p>
+
+        <!-- Stats -->
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-icon si-gold">✈️</div><div><div class="stat-num" id="stTotal">—</div><div class="stat-lbl">Total Flights</div></div></div>
+          <div class="stat-card"><div class="stat-icon si-sky">🛫</div><div><div class="stat-num" id="stDep">—</div><div class="stat-lbl">Departures</div></div></div>
+          <div class="stat-card"><div class="stat-icon si-green">🛬</div><div><div class="stat-num" id="stArr">—</div><div class="stat-lbl">Arrivals</div></div></div>
+          <div class="stat-card"><div class="stat-icon si-amber">⏱</div><div><div class="stat-num" id="stDel">—</div><div class="stat-lbl">Delayed</div></div></div>
+          <div class="stat-card"><div class="stat-icon si-sky">🚀</div><div><div class="stat-num" id="stBrd">—</div><div class="stat-lbl">Boarding Now</div></div></div>
+          <div class="stat-card"><div class="stat-icon si-red">❌</div><div><div class="stat-num" id="stCx">—</div><div class="stat-lbl">Cancelled</div></div></div>
+          <div class="stat-card"><div class="stat-icon si-gold">🏛</div><div><div class="stat-num" id="stT1">—</div><div class="stat-lbl">T1 Flights</div></div></div>
+          <div class="stat-card"><div class="stat-icon si-purp">🏛</div><div><div class="stat-num" id="stT2">—</div><div class="stat-lbl">T2 Flights</div></div></div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="page-ey" style="margin-bottom:10px">Quick Actions</div>
+        <div class="qa-grid">
+          <div class="qa gold" onclick="openAdd();nav('flights',document.querySelector('[data-panel=flights]'))">
+            <div class="qa-icon">➕</div>
+            <div class="qa-title">Add Flight</div>
+            <div class="qa-desc">Add a new departure or arrival to the live board</div>
+          </div>
+          <a href="departures.html" target="_blank" class="qa sky">
+            <div class="qa-icon">🖥</div>
+            <div class="qa-title">Live Board</div>
+            <div class="qa-desc">Open the public departures &amp; arrivals board</div>
+          </a>
+          <div class="qa green" onclick="loadFlights()">
+            <div class="qa-icon">🔄</div>
+            <div class="qa-title">Refresh Data</div>
+            <div class="qa-desc">Pull latest flight data from Cloudflare D1</div>
+          </div>
+        </div>
+
+        <!-- Recent flights -->
+        <div class="card">
+          <div class="card-hd">
+            <div>
+              <div class="card-hd-title">Recent Flights</div>
+              <div class="card-hd-sub">Next 8 flights by scheduled time</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="nav('flights',document.querySelector('[data-panel=flights]'))">View All →</button>
+          </div>
+          <div id="recentWrap"><div class="load-msg"><div class="spinner"></div>Loading…</div></div>
+        </div>
+      </div>
+
+      <!-- ── FLIGHTS ── -->
+      <div id="panel-flights" class="panel">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:6px">
+          <div>
+            <div class="page-ey">Flight Management</div>
+            <div class="page-title">All <em>Flights</em></div>
+            <p class="page-desc">Add, edit, or remove flights. All changes update the live public board instantly via Cloudflare D1.</p>
+          </div>
+          <button class="btn btn-gold" onclick="openAdd()">+ Add Flight</button>
+        </div>
+
+        <div class="notice n-info">
+          <span>ℹ️</span>
+          Changes here are live immediately. The public board at <strong>departures.html</strong> auto-refreshes every 60 seconds.
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-row">
+          <input class="fi-sm wide" id="fSearch" type="text" placeholder="Search flight, airline, city, code…" oninput="renderTable()">
+          <select class="fi-sm" id="fType"   onchange="renderTable()"><option value="">Dep + Arr</option><option value="departure">Departures</option><option value="arrival">Arrivals</option></select>
+          <select class="fi-sm" id="fTerm"   onchange="renderTable()"><option value="">All Terminals</option><option value="T1">Terminal 1</option><option value="T2">Terminal 2</option></select>
+          <select class="fi-sm" id="fStatus" onchange="renderTable()">
+            <option value="">All Statuses</option>
+            <option>On Time</option><option>Boarding</option><option>Delayed</option>
+            <option>Departed</option><option>Cancelled</option><option>Arrived</option><option>Expected</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="loadFlights()">🔄 Refresh</button>
+          <span class="f-count" id="fCount">— flights</span>
+        </div>
+
+        <div class="card">
+          <div id="flightsWrap"><div class="load-msg"><div class="spinner"></div>Loading flight data from Cloudflare D1…</div></div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /app-body -->
+
+  <div class="app-footer">
+    <div class="af-copy">© 2025 Felix Lego City International Airport · Authorized Staff Use Only</div>
+    <div class="af-code">IATA: FLX · ICAO: KFLX</div>
+  </div>
+</div><!-- /appShell -->
+
+<!-- ━━━ FLIGHT MODAL ━━━ -->
+<div class="overlay" id="fModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-ttl" id="modalTtl">Add New Flight</div>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="modalNotice"></div>
+      <div class="fg">
+        <div class="ff"><label class="form-lbl">Flight Number</label><input class="form-inp" id="fn" type="text" placeholder="e.g. BA 297"></div>
+        <div class="ff"><label class="form-lbl">Airline</label>
+          <select class="form-sel" id="fal" onchange="autoTerm()">
+            <option>British Airways</option><option>Hawaiian Airlines</option><option>Emirates</option>
+            <option>United Airlines</option><option>DreamPacific Airways</option><option>GlobeStar Airlines</option>
+            <option>JetBlue</option><option>Southwest Airlines</option><option>American Airlines</option>
+          </select>
+        </div>
+        <div class="ff"><label class="form-lbl">City</label><input class="form-inp" id="fc" type="text" placeholder="e.g. London"></div>
+        <div class="ff"><label class="form-lbl">Airport Code</label><input class="form-inp" id="fcd" type="text" placeholder="e.g. LHR" maxlength="4"></div>
+        <div class="ff"><label class="form-lbl">Scheduled Time</label><input class="form-inp" id="ft" type="time"></div>
+        <div class="ff"><label class="form-lbl">Estimated Time (if delayed)</label><input class="form-inp" id="fe" type="time"></div>
+        <div class="ff"><label class="form-lbl">Terminal</label>
+          <select class="form-sel" id="ftr"><option value="T1">T1 — International</option><option value="T2">T2 — Domestic</option></select>
+        </div>
+        <div class="ff"><label class="form-lbl">Gate</label><input class="form-inp" id="fg" type="text" placeholder="e.g. A12"></div>
+        <div class="ff"><label class="form-lbl">Status</label>
+          <select class="form-sel" id="fs">
+            <option>On Time</option><option>Boarding</option><option>Delayed</option>
+            <option>Departed</option><option>Cancelled</option><option>Arrived</option><option>Expected</option>
+          </select>
+        </div>
+        <div class="ff"><label class="form-lbl">Type</label>
+          <select class="form-sel" id="ftp"><option value="departure">Departure</option><option value="arrival">Arrival</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-danger btn-sm" id="delBtn" onclick="doDelete()" style="display:none;margin-right:auto">🗑 Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="doSave()">Save Flight</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API  = 'https://flc-flights.felixfeger46.workers.dev/api/flights';
+const PASS = 'flc2025ops';
+
+const LOGOS = {
+  'British Airways':    {src:'https://www.gstatic.com/flights/airline_logos/70px/BA.png'},
+  'Hawaiian Airlines':  {src:'https://www.gstatic.com/flights/airline_logos/70px/HA.png'},
+  'Emirates':           {src:'https://www.gstatic.com/flights/airline_logos/70px/EK.png'},
+  'United Airlines':    {src:'https://www.gstatic.com/flights/airline_logos/70px/UA.png'},
+  'JetBlue':            {src:'https://www.gstatic.com/flights/airline_logos/70px/B6.png'},
+  'Southwest Airlines': {src:'https://www.gstatic.com/flights/airline_logos/70px/WN.png'},
+  'American Airlines':  {src:'https://www.gstatic.com/flights/airline_logos/70px/AA.png'},
+  'DreamPacific Airways':{txt:'DP',bg:'linear-gradient(135deg,#0047AB,#00A3E0)'},
+  'GlobeStar Airlines': {txt:'GS',bg:'linear-gradient(135deg,#1a3a5c,#2e7d32)'},
+};
+function logo(n){const l=LOGOS[n];if(!l)return`<div class="al-txt" style="background:#334">${n.slice(0,2)}</div>`;if(l.src)return`<img class="al-img" src="${l.src}" alt="${n}" onerror="this.style.display='none'">`;return`<div class="al-txt" style="background:${l.bg}">${l.txt}</div>`;}
+function badge(s){const m={'On Time':['s-ot','On Time'],'Boarding':['s-bd','Boarding'],'Delayed':['s-dl','Delayed'],'Departed':['s-dp','Departed'],'Cancelled':['s-cx','Cancelled'],'Arrived':['s-ar','Arrived'],'Expected':['s-ex','Expected']};const[c,lb]=m[s]||['s-ot',s];return`<span class="sb ${c}"><span class="sd"></span>${lb}</span>`;}
+function fmt(t){if(!t)return'—';const[h,m]=t.split(':').map(Number);return`${h%12||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`;}
+
+let flights=[],editingId=null;
+
+/* ─ Login ─ */
+function doLogin(){
+  if(document.getElementById('pwInput').value===PASS){
+    document.getElementById('loginScreen').style.display='none';
+    const s=document.getElementById('appShell');s.style.display='flex';s.style.flexDirection='column';
+    startUI();loadFlights();
+  }else{
+    document.getElementById('loginErr').classList.add('show');
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
+}
+function doLogout(){if(!confirm('Sign out?'))return;location.reload();}
+
+/* ─ Clock & greeting ─ */
+function startUI(){
+  const h=new Date().getHours();
+  document.getElementById('greeting').textContent=h<12?'Morning':h<17?'Afternoon':'Evening';
+  const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  document.getElementById('dashDate').textContent=new Date().toLocaleDateString('en-US',opts);
+  (function tick(){
+    const n=new Date();
+    document.getElementById('abClock').textContent=[n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');
+    setTimeout(tick,1000);
+  })();
+}
+
+/* ─ Navigation ─ */
+function nav(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sb-link[data-panel]').forEach(l=>l.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(btn&&btn.dataset.panel)btn.classList.add('active');
+}
+
+/* ─ Load flights ─ */
+async function loadFlights(){
+  setWrap('recentWrap','<div class="load-msg"><div class="spinner"></div>Loading…</div>');
+  setWrap('flightsWrap','<div class="load-msg"><div class="spinner"></div>Loading flight data from Cloudflare D1…</div>');
+  try{
+    const r=await fetch(API);
+    if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    flights=await r.json();
+    renderDash();renderTable();
+  }catch(e){
+    const err=`<div class="notice n-error" style="margin:16px"><span>⚠️</span>Could not load: ${e.message}. Check your Worker is deployed.</div>`;
+    setWrap('recentWrap',err);setWrap('flightsWrap',err);
+  }
+}
+function setWrap(id,html){document.getElementById(id).innerHTML=html;}
+
+/* ─ Dashboard ─ */
+function renderDash(){
+  const set=(id,v)=>document.getElementById(id).textContent=v;
+  set('stTotal',flights.length);
+  set('stDep',flights.filter(f=>f.type==='departure').length);
+  set('stArr',flights.filter(f=>f.type==='arrival').length);
+  set('stDel',flights.filter(f=>f.status==='Delayed').length);
+  set('stBrd',flights.filter(f=>f.status==='Boarding').length);
+  set('stCx', flights.filter(f=>f.status==='Cancelled').length);
+  set('stT1', flights.filter(f=>f.terminal==='T1').length);
+  set('stT2', flights.filter(f=>f.terminal==='T2').length);
+  const recent=[...flights].sort((a,b)=>a.scheduled_time.localeCompare(b.scheduled_time)).slice(0,8);
+  setWrap('recentWrap',buildTable(recent));
+}
+
+/* ─ Flights panel ─ */
+function renderTable(){
+  const s=document.getElementById('fSearch').value.toLowerCase();
+  const ty=document.getElementById('fType').value;
+  const tm=document.getElementById('fTerm').value;
+  const st=document.getElementById('fStatus').value;
+  const list=flights.filter(f=>{
+    if(ty&&f.type!==ty)return false;
+    if(tm&&f.terminal!==tm)return false;
+    if(st&&f.status!==st)return false;
+    if(s&&!`${f.flight_num} ${f.airline} ${f.city} ${f.code}`.toLowerCase().includes(s))return false;
+    return true;
+  }).sort((a,b)=>a.scheduled_time.localeCompare(b.scheduled_time));
+  document.getElementById('fCount').textContent=`${list.length} flight${list.length!==1?'s':''}`;
+  setWrap('flightsWrap',buildTable(list));
+}
+
+function buildTable(list){
+  if(!list.length)return'<div class="load-msg">No flights match your filters.</div>';
+  return`<table class="tbl"><thead><tr>
+    <th>Time</th><th>Flight</th><th>Airline</th><th>Dest / Origin</th>
+    <th>Terminal</th><th>Gate</th><th>Type</th><th>Status</th><th>Actions</th>
+  </tr></thead><tbody>${list.map(f=>`<tr>
+    <td><strong style="font-size:.9rem;font-weight:800;color:var(--navy)">${fmt(f.scheduled_time)}</strong>${f.estimated_time&&f.estimated_time!==f.scheduled_time?`<br><span style="font-size:.67rem;color:var(--amber);font-weight:600">Est: ${fmt(f.estimated_time)}</span>`:''}</td>
+    <td class="col-fn">${f.flight_num}</td>
+    <td><div class="col-al">${logo(f.airline)}<span class="al-n">${f.airline}</span></div></td>
+    <td><strong style="letter-spacing:.04em">${f.code}</strong> <span style="font-size:.75rem;color:var(--gray)">${f.city}</span></td>
+    <td><span class="tp ${f.terminal==='T1'?'t1p':'t2p'}">${f.terminal}</span></td>
+    <td><strong style="color:var(--navy)">${f.gate||'—'}</strong></td>
+    <td><span style="font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)">${f.type==='departure'?'✈ DEP':'↙ ARR'}</span></td>
+    <td>${badge(f.status)}</td>
+    <td><button class="btn btn-ghost btn-sm" onclick="openEdit(${f.id})">✏ Edit</button></td>
+  </tr>`).join('')}</tbody></table>`;
+}
+
+/* ─ Modal ─ */
+function setForm(f){
+  document.getElementById('fn').value =f.flight_num||'';
+  document.getElementById('fal').value=f.airline||'British Airways';
+  document.getElementById('fc').value =f.city||'';
+  document.getElementById('fcd').value=f.code||'';
+  document.getElementById('ft').value =f.scheduled_time||'';
+  document.getElementById('fe').value =f.estimated_time||'';
+  document.getElementById('ftr').value=f.terminal||'T1';
+  document.getElementById('fg').value =f.gate||'';
+  document.getElementById('fs').value =f.status||'On Time';
+  document.getElementById('ftp').value=f.type||'departure';
+}
+function openAdd(){
+  editingId=null;
+  document.getElementById('modalTtl').textContent='Add New Flight';
+  document.getElementById('delBtn').style.display='none';
+  document.getElementById('modalNotice').innerHTML='';
+  setForm({});
+  document.getElementById('fModal').classList.add('open');
+}
+function openEdit(id){
+  const f=flights.find(x=>x.id===id);if(!f)return;
+  editingId=id;
+  document.getElementById('modalTtl').textContent=`Edit · ${f.flight_num}`;
+  document.getElementById('delBtn').style.display='inline-flex';
+  document.getElementById('modalNotice').innerHTML='<div class="notice n-warn"><span>⚠️</span>You are editing a <strong>live flight</strong>. Changes will be visible to passengers on the public board immediately.</div>';
+  setForm(f);
+  document.getElementById('fModal').classList.add('open');
+}
+function closeModal(){document.getElementById('fModal').classList.remove('open');editingId=null;}
+function autoTerm(){
+  const t2=['Southwest Airlines','American Airlines'];
+  document.getElementById('ftr').value=t2.includes(document.getElementById('fal').value)?'T2':'T1';
+}
+function getForm(){
+  return{
+    flight_num:document.getElementById('fn').value.trim(),
+    airline:document.getElementById('fal').value,
+    city:document.getElementById('fc').value.trim(),
+    code:document.getElementById('fcd').value.trim().toUpperCase(),
+    scheduled_time:document.getElementById('ft').value,
+    estimated_time:document.getElementById('fe').value||null,
+    terminal:document.getElementById('ftr').value,
+    gate:document.getElementById('fg').value.trim(),
+    status:document.getElementById('fs').value,
+    type:document.getElementById('ftp').value,
+  };
+}
+async function doSave(){
+  const d=getForm();
+  if(!d.flight_num||!d.city||!d.code||!d.scheduled_time){alert('Please fill in Flight Number, City, Airport Code, and Scheduled Time.');return;}
+  try{
+    if(editingId!==null){
+      const r=await fetch(`${API}/${editingId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Admin-Password':PASS},body:JSON.stringify(d)});
+      if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    }else{
+      const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Password':PASS},body:JSON.stringify(d)});
+      if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    }
+    closeModal();await loadFlights();
+  }catch(e){alert('Save failed: '+e.message);}
+}
+async function doDelete(){
+  if(!confirm('Delete this flight from the live board? This cannot be undone.'))return;
+  try{
+    const r=await fetch(`${API}/${editingId}`,{method:'DELETE',headers:{'X-Admin-Password':PASS}});
+    if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    closeModal();await loadFlights();
+  }catch(e){alert('Delete failed: '+e.message);}
+}
+
+window.addEventListener('DOMContentLoaded',()=>document.getElementById('pwInput').focus());
+</script>
+</body>
+</html>
