@@ -50,166 +50,256 @@
 
     /* ── HERO ── */
     .page-hero{background:var(--navy);border-bottom:3px solid var(--gold);padding:36px 60px 32px;position:relative;overflow:hidden}
-    .page-hero::before{content:'🚌';position:absolute;right:60px;top:50%;transform:translateY(-50%);font-size:8rem;opacity:.04}
     .page-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
     .page-title{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:-.01em;line-height:1}
     .page-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--gold);font-size:1.05em}
-    .page-desc{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.65;max-width:580px;margin-top:12px}
+    .page-desc{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.65;max-width:600px;margin-top:12px}
 
-    /* ── ALERT BANNER ── */
+    /* ── ALERT ── */
     .alert-banner{background:var(--red);padding:14px 60px;display:flex;align-items:center;gap:14px}
-    .alert-icon{font-size:1.3rem;flex-shrink:0}
     .alert-text{font-size:.82rem;font-weight:700;color:var(--white);line-height:1.5}
-    .alert-text strong{font-size:.9rem}
 
     /* ── CONTENT ── */
     .content{max-width:1240px;margin:0 auto;padding:44px 60px 80px}
 
+    /* ── INFO ROW ── */
+    .info-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:40px}
+    .info-card{background:var(--white);border-radius:9px;border:1px solid rgba(0,0,0,.07);padding:20px}
+    .info-icon{font-size:1.5rem;margin-bottom:8px}
+    .info-label{font-size:.63rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gray);margin-bottom:4px}
+    .info-val{font-size:.95rem;font-weight:700;color:var(--navy);line-height:1.3}
+    .info-sub{font-size:.73rem;color:var(--gray);margin-top:3px;line-height:1.4}
+
     /* ── SECTION HEADERS ── */
     .sec-ey{font-size:.64rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sky);margin-bottom:5px}
-    .sec-title{font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:800;text-transform:uppercase;color:var(--navy);letter-spacing:-.01em;line-height:1.05;margin-bottom:20px}
-    .sec-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--sky);font-size:1.06em}
+    .sec-title{font-size:clamp(1.2rem,2vw,1.8rem);font-weight:800;text-transform:uppercase;color:var(--navy);letter-spacing:-.01em;line-height:1.05;margin-bottom:20px}
+    .sec-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--sky)}
 
-    /* ── INFO CARDS ROW ── */
-    .info-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:44px}
-    .info-card{background:var(--white);border-radius:9px;border:1px solid rgba(0,0,0,.07);padding:20px;display:flex;flex-direction:column;gap:8px}
-    .info-icon{font-size:1.6rem}
-    .info-label{font-size:.65rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gray)}
-    .info-val{font-size:.95rem;font-weight:700;color:var(--navy);line-height:1.3}
-    .info-sub{font-size:.75rem;color:var(--gray);line-height:1.5}
-
-    /* ── AVAILABILITY BADGE ── */
-    .avail-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:100px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-    .av-green{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.25)}
-    .av-amber{background:rgba(217,119,6,.1);color:var(--amber);border:1px solid rgba(217,119,6,.25)}
-    .av-red{background:rgba(220,38,38,.1);color:var(--red);border:1px solid rgba(220,38,38,.25)}
-    .av-dot{width:7px;height:7px;border-radius:50%}
-
-    /* ── SHUTTLE MAP ── */
-    .shuttle-section{background:var(--white);border-radius:12px;border:1px solid rgba(0,0,0,.08);overflow:hidden;margin-bottom:44px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
-    .shuttle-hd{background:var(--navy);padding:18px 24px;display:flex;align-items:center;justify-content:space-between}
-    .shuttle-hd-title{font-size:.9rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--white)}
-    .shuttle-hd-sub{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
-    .live-pill{display:flex;align-items:center;gap:6px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.35);border-radius:100px;padding:5px 12px;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80}
+    /* ── CARD WRAPPERS ── */
+    .map-card{background:var(--white);border-radius:12px;border:1px solid rgba(0,0,0,.08);overflow:hidden;margin-bottom:40px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+    .map-card-hd{background:var(--navy);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+    .map-card-title{font-size:.88rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--white)}
+    .map-card-sub{font-size:.68rem;color:rgba(255,255,255,.38);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
+    .live-pill{display:flex;align-items:center;gap:6px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.35);border-radius:100px;padding:5px 12px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80}
     .live-dot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:pulse 1.8s ease-in-out infinite}
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
-    .shuttle-canvas-wrap{padding:30px 40px 24px;background:#f8fafd}
-    canvas#shuttleMap{width:100%;display:block;border-radius:8px}
-    .shuttle-legend{display:flex;align-items:center;gap:24px;padding:14px 24px;border-top:1px solid rgba(0,0,0,.07);flex-wrap:wrap}
-    .legend-item{display:flex;align-items:center;gap:7px;font-size:.75rem;font-weight:600;color:var(--gray)}
-    .legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
-    .bus-roster{padding:16px 24px;border-top:1px solid rgba(0,0,0,.07);display:flex;gap:10px;flex-wrap:wrap}
-    .bus-pill{display:flex;align-items:center;gap:7px;background:var(--off);border:1px solid rgba(0,0,0,.09);border-radius:6px;padding:7px 13px;font-size:.76rem;font-weight:700;color:var(--navy)}
-    .bus-pill-dot{width:9px;height:9px;border-radius:2px}
 
-    /* ── PARKING LOT MAP ── */
-    .lot-section{background:var(--white);border-radius:12px;border:1px solid rgba(0,0,0,.08);overflow:hidden;margin-bottom:44px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
-    .lot-hd{background:var(--navy);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .lot-hd-left{}
-    .lot-hd-title{font-size:.9rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--white)}
-    .lot-hd-sub{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
-    .lot-legend{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-    .lot-legend-item{display:flex;align-items:center;gap:6px;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.65)}
-    .lot-legend-box{width:16px;height:14px;border-radius:3px;flex-shrink:0}
-    .lot-body{padding:28px 32px}
-    .lot-stats{display:flex;gap:20px;margin-bottom:22px;flex-wrap:wrap}
-    .lot-stat{text-align:center}
-    .lot-stat-num{font-size:1.8rem;font-weight:800;line-height:1}
-    .lot-stat-lbl{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:2px}
-    .lot-stat-num.green{color:var(--green)}.lot-stat-num.red{color:var(--red)}.lot-stat-num.amber{color:var(--amber)}.lot-stat-num.navy{color:var(--navy)}
+    /* ════════════════════════════════════
+       SHUTTLE MAP — DIV BASED
+    ════════════════════════════════════ */
+    .shuttle-map-body{padding:28px 32px;background:#eef2f8}
 
-    /* Strip lot grid */
-    .lot-map{display:flex;flex-direction:column;gap:6px}
-    .lot-entry-exit{background:rgba(26,107,204,.08);border:2px dashed rgba(26,107,204,.3);border-radius:6px;padding:8px 16px;text-align:center;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sky);margin-bottom:6px}
-    .lot-row{display:flex;align-items:center;gap:4px}
-    .lot-row-label{width:28px;font-size:.65rem;font-weight:800;color:var(--gray);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0;text-align:center}
-    .lot-spaces{display:flex;gap:4px;flex-wrap:wrap}
-    .lot-space{
-      width:38px;height:52px;border-radius:5px;display:flex;flex-direction:column;
-      align-items:center;justify-content:center;font-size:.55rem;font-weight:800;
-      letter-spacing:.04em;cursor:pointer;border:2px solid transparent;
-      transition:all .18s;user-select:none;flex-shrink:0;
+    .shuttle-map-wrap{
+      position:relative;
+      width:100%;
+      height:240px;
+      background:#e8edf5;
+      border-radius:10px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.07);
     }
-    .lot-space.available{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.3);color:var(--green)}
-    .lot-space.available:hover{background:rgba(22,163,74,.22);border-color:var(--green);transform:scale(1.06)}
-    .lot-space.taken{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.25);color:var(--red);cursor:not-allowed}
-    .lot-space.reserved{background:rgba(232,160,32,.15);border-color:var(--gold);color:#9a6700;cursor:not-allowed}
-    .lot-space.selected{background:rgba(26,107,204,.15);border-color:var(--sky);color:var(--sky)}
-    .space-num{font-size:.6rem;font-weight:800;line-height:1}
-    .space-icon{font-size:.85rem;line-height:1}
-    .lot-drive-aisle{height:22px;background:rgba(0,0,0,.04);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin:2px 0}
-    .lot-tip{font-size:.78rem;color:var(--gray);margin-top:14px;font-style:italic}
 
-    /* ── RESERVE FORM ── */
-    .reserve-section{background:var(--white);border-radius:12px;border:1px solid rgba(0,0,0,.08);overflow:hidden;margin-bottom:44px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+    /* Route roads */
+    .road-outbound{
+      position:absolute;
+      left:10%;right:10%;
+      top:70px;
+      height:26px;
+      background:#c8d4e4;
+      border-radius:6px;
+    }
+    .road-return{
+      position:absolute;
+      left:10%;right:10%;
+      top:130px;
+      height:26px;
+      background:#c8d4e4;
+      border-radius:6px;
+    }
+    /* dashed centre line */
+    .road-outbound::after,.road-return::after{
+      content:'';position:absolute;left:0;right:0;top:50%;
+      border-top:2px dashed rgba(255,255,255,.7);
+    }
+    .road-label-out{position:absolute;left:10%;top:55px;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8898aa}
+    .road-label-ret{position:absolute;left:10%;top:158px;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8898aa}
+
+    /* Stops */
+    .stop-post{position:absolute;top:50px;width:2px;background:#0a1628;height:110px;}
+    .stop-sign{
+      position:absolute;
+      top:42px;
+      width:52px;
+      margin-left:-26px;
+      background:#0a1628;
+      border-radius:6px;
+      padding:4px 0;
+      text-align:center;
+      font-size:.58rem;
+      font-weight:800;
+      color:var(--goldl);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      line-height:1.3;
+    }
+    .stop-label{
+      position:absolute;
+      top:166px;
+      font-size:.7rem;
+      font-weight:800;
+      color:#0a1628;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      text-align:center;
+      white-space:nowrap;
+    }
+
+    /* Buses */
+    .bus-div{
+      position:absolute;
+      width:52px;
+      height:22px;
+      border-radius:5px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:.5rem;
+      font-weight:800;
+      color:#fff;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      transition:background .3s;
+      box-shadow:0 2px 6px rgba(0,0,0,.18);
+      z-index:10;
+      flex-direction:column;
+      gap:1px;
+      cursor:default;
+    }
+    .bus-div .bus-body-label{font-size:.48rem;opacity:.85}
+    .bus-div .bus-id-label{font-size:.55rem;font-weight:900}
+    .bus-div.at-stop{border:2px solid #4ade80}
+
+    /* arrow for direction */
+    .bus-arrow{font-size:.55rem;line-height:1}
+
+    /* Legend */
+    .shuttle-legend{display:flex;align-items:center;gap:22px;padding:14px 24px;border-top:1px solid rgba(0,0,0,.07);flex-wrap:wrap}
+    .leg-item{display:flex;align-items:center;gap:7px;font-size:.74rem;font-weight:600;color:var(--gray)}
+    .leg-box{width:14px;height:10px;border-radius:3px;flex-shrink:0}
+
+    /* Bus roster */
+    .bus-roster{display:flex;align-items:center;gap:10px;padding:14px 24px;border-top:1px solid rgba(0,0,0,.07);flex-wrap:wrap}
+    .roster-label{font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);flex-shrink:0}
+    .bus-pill{display:flex;align-items:center;gap:6px;background:var(--off);border:1px solid rgba(0,0,0,.09);border-radius:6px;padding:6px 12px;font-size:.73rem;font-weight:700;color:var(--navy)}
+    .bus-pill-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+    /* ════════════════════════════════════
+       PARKING LOT MAP
+    ════════════════════════════════════ */
+    .lot-hd-right{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+    .lot-legend-item{display:flex;align-items:center;gap:6px;font-size:.7rem;font-weight:600;color:rgba(255,255,255,.65)}
+    .lot-legend-box{width:14px;height:12px;border-radius:3px;flex-shrink:0}
+
+    .lot-body{padding:24px 28px}
+    .lot-stats{display:flex;gap:24px;margin-bottom:18px;flex-wrap:wrap}
+    .lot-stat-num{font-size:1.7rem;font-weight:800;line-height:1}
+    .lot-stat-lbl{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:2px}
+    .ls-navy{color:var(--navy)}.ls-green{color:var(--green)}.ls-red{color:var(--red)}.ls-amber{color:var(--amber)}
+
+    .lot-entry{background:rgba(26,107,204,.07);border:2px dashed rgba(26,107,204,.3);border-radius:6px;padding:7px;text-align:center;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sky);margin-bottom:10px}
+
+    .lot-map{display:flex;flex-direction:column;gap:4px;overflow-x:auto;padding-bottom:6px}
+    .lot-row-wrap{display:flex;align-items:center;gap:6px;min-width:max-content}
+    .lot-row-lbl{width:30px;font-size:.63rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);text-align:center;flex-shrink:0}
+    .lot-spaces-row{display:flex;gap:4px}
+
+    .sp{
+      width:36px;height:50px;
+      border-radius:5px;border:2px solid transparent;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      font-size:.52rem;font-weight:800;letter-spacing:.03em;
+      user-select:none;flex-shrink:0;transition:all .15s;
+    }
+    .sp .sp-icon{font-size:.9rem;line-height:1}
+    .sp .sp-id{font-size:.52rem;margin-top:1px}
+    .sp.available{background:rgba(22,163,74,.13);border-color:rgba(22,163,74,.35);color:var(--green);cursor:pointer}
+    .sp.available:hover{background:rgba(22,163,74,.25);border-color:var(--green);transform:scale(1.07)}
+    .sp.taken{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.25);color:var(--red);cursor:not-allowed}
+    .sp.reserved{background:rgba(232,160,32,.15);border-color:var(--gold);color:#9a6700;cursor:not-allowed}
+    .sp.selected{background:rgba(26,107,204,.16);border-color:var(--sky);color:var(--sky)}
+
+    .drive-aisle{height:18px;background:rgba(0,0,0,.04);border-radius:4px;margin:2px 0;display:flex;align-items:center;padding:0 36px;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+
+    .lot-tip{font-size:.77rem;color:var(--gray);margin-top:12px;font-style:italic}
+
+    /* ── RESERVE ── */
+    .reserve-card{background:var(--white);border-radius:12px;border:1px solid rgba(0,0,0,.08);overflow:hidden;margin-bottom:40px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
     .reserve-hd{background:var(--deep);border-bottom:3px solid var(--gold);padding:18px 24px}
-    .reserve-hd-title{font-size:.9rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--white)}
-    .reserve-hd-sub{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:2px;letter-spacing:.05em;text-transform:uppercase}
+    .reserve-hd-title{font-size:.88rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--white)}
+    .reserve-hd-sub{font-size:.68rem;color:rgba(255,255,255,.38);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
     .reserve-body{padding:28px}
-    .selected-spot-display{background:rgba(26,107,204,.06);border:1.5px solid rgba(26,107,204,.2);border-radius:8px;padding:14px 18px;margin-bottom:22px;display:flex;align-items:center;gap:12px}
-    .ssd-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:3px}
-    .ssd-val{font-size:1.1rem;font-weight:800;color:var(--navy)}
-    .ssd-none{font-size:.85rem;color:var(--gray);font-style:italic}
-    .reserve-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+
+    .spot-display{background:rgba(26,107,204,.06);border:1.5px solid rgba(26,107,204,.2);border-radius:8px;padding:14px 18px;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+    .spot-display-val{font-size:1.1rem;font-weight:800;color:var(--navy)}
+    .spot-display-none{font-size:.85rem;color:var(--gray);font-style:italic}
+
+    .fg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
     .ff{display:flex;flex-direction:column;gap:5px}
     .ff.full{grid-column:span 2}
-    .fl{font-size:.63rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)}
-    .fi-r{background:var(--off);border:1.5px solid rgba(0,0,0,.12);color:var(--text);font-family:inherit;font-size:.9rem;padding:10px 13px;border-radius:6px;outline:none;transition:border-color .2s;width:100%}
-    .fi-r:focus{border-color:var(--sky)}
-    .reserve-note{background:rgba(232,160,32,.07);border:1px solid rgba(232,160,32,.2);border-radius:7px;padding:11px 14px;font-size:.78rem;color:var(--text);line-height:1.6;margin-bottom:18px;display:flex;gap:8px}
-    .btn-reserve{background:var(--gold);color:var(--navy);border:none;font-family:inherit;font-weight:800;font-size:.88rem;letter-spacing:.08em;text-transform:uppercase;padding:13px 32px;border-radius:6px;cursor:pointer;transition:background .2s}
-    .btn-reserve:hover{background:var(--goldl)}
-    .btn-reserve:disabled{background:var(--gray);cursor:not-allowed;color:var(--white)}
+    .fl{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)}
+    .fi{background:var(--off);border:1.5px solid rgba(0,0,0,.12);color:var(--text);font-family:inherit;font-size:.9rem;padding:10px 13px;border-radius:6px;outline:none;transition:border-color .2s;width:100%}
+    .fi:focus{border-color:var(--sky)}
+
+    .note-box{background:rgba(232,160,32,.07);border:1px solid rgba(232,160,32,.22);border-radius:7px;padding:11px 14px;font-size:.77rem;color:var(--text);line-height:1.6;margin-bottom:18px;display:flex;gap:8px}
+    .btn-res{background:var(--gold);color:var(--navy);border:none;font-family:inherit;font-weight:800;font-size:.86rem;letter-spacing:.08em;text-transform:uppercase;padding:13px 32px;border-radius:6px;cursor:pointer;transition:background .2s}
+    .btn-res:hover{background:var(--goldl)}
+    .btn-res:disabled{background:var(--gray);color:rgba(255,255,255,.7);cursor:not-allowed}
 
     /* ── CONFIRMATION ── */
-    .confirm-screen{display:none;padding:28px}
-    .confirm-screen.show{display:block}
-    .confirm-card{background:var(--white);border:2px solid var(--green);border-radius:12px;overflow:hidden;max-width:520px;margin:0 auto}
-    .confirm-hd{background:var(--green);padding:22px 26px;text-align:center}
-    .confirm-hd-icon{font-size:2.4rem;margin-bottom:6px}
-    .confirm-hd-title{font-size:1.1rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--white)}
-    .confirm-hd-sub{font-size:.72rem;color:rgba(255,255,255,.7);margin-top:3px;letter-spacing:.06em;text-transform:uppercase}
-    .confirm-body{padding:24px 26px}
-    .confirm-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)}
-    .confirm-row:last-child{border-bottom:none}
-    .confirm-lbl{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
-    .confirm-val{font-size:.9rem;font-weight:700;color:var(--navy);text-align:right}
-    .confirm-conf-num{font-size:1.6rem;font-weight:800;color:var(--green);letter-spacing:.06em;font-family:monospace}
-    .confirm-screenshot{background:rgba(217,119,6,.07);border:1.5px solid rgba(217,119,6,.25);border-radius:8px;padding:14px 16px;margin-top:18px;display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--text);line-height:1.6}
-    .confirm-screenshot strong{color:var(--amber)}
-    .btn-new{background:var(--sky);color:var(--white);border:none;font-family:inherit;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;padding:11px 24px;border-radius:6px;cursor:pointer;transition:background .2s;margin-top:16px;display:block;width:100%}
+    .confirm-wrap{display:none;padding:28px}
+    .confirm-wrap.show{display:block}
+    .confirm-inner{max-width:500px;margin:0 auto;border:2px solid var(--green);border-radius:12px;overflow:hidden}
+    .conf-hd{background:var(--green);padding:22px;text-align:center}
+    .conf-hd-icon{font-size:2.2rem;margin-bottom:6px}
+    .conf-hd-title{font-size:1.1rem;font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:.04em}
+    .conf-hd-sub{font-size:.68rem;color:rgba(255,255,255,.7);margin-top:3px;letter-spacing:.06em;text-transform:uppercase}
+    .conf-body{padding:22px;background:var(--white)}
+    .conf-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+    .conf-row:last-child{border-bottom:none}
+    .conf-lbl{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
+    .conf-val{font-size:.88rem;font-weight:700;color:var(--navy);text-align:right;max-width:60%}
+    .conf-num{font-size:1.5rem;font-weight:800;color:var(--green);font-family:monospace;letter-spacing:.06em}
+    .screenshot-box{background:rgba(217,119,6,.07);border:1.5px solid rgba(217,119,6,.25);border-radius:8px;padding:13px 15px;margin-top:16px;font-size:.79rem;color:var(--text);line-height:1.65;display:flex;gap:9px}
+    .btn-new{display:block;width:100%;margin-top:16px;background:var(--sky);color:var(--white);border:none;font-family:inherit;font-weight:700;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;padding:12px;border-radius:6px;cursor:pointer;transition:background .2s}
     .btn-new:hover{background:#1558a8}
 
-    /* ── SHUTTLE INFO CARDS ── */
-    .shuttle-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:44px}
-    .sic{background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,.07);padding:22px;display:flex;flex-direction:column;gap:9px}
-    .sic-icon{font-size:1.5rem}
-    .sic-title{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--navy)}
-    .sic-body{font-size:.82rem;color:var(--text);line-height:1.65}
-    .sic-body ul{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:4px}
-    .sic-body ul li{display:flex;gap:7px;align-items:flex-start;font-size:.8rem}.sic-body ul li::before{content:'·';color:var(--gold);font-weight:800;flex-shrink:0}
+    /* ── SHUTTLE INFO ── */
+    .sinfo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
+    .sic{background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,.07);padding:22px}
+    .sic-icon{font-size:1.5rem;margin-bottom:9px}
+    .sic-title{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--navy);margin-bottom:8px}
+    .sic-body{font-size:.81rem;color:var(--text);line-height:1.65}
+    .sic-body ul{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:6px}
+    .sic-body ul li{display:flex;gap:7px;align-items:flex-start}
+    .sic-body ul li::before{content:'·';color:var(--gold);font-weight:800;flex-shrink:0}
 
     /* ── FOOTER ── */
     footer{background:var(--navy);border-top:2px solid rgba(255,255,255,.05);padding:30px 60px;display:flex;align-items:center;justify-content:space-between}
     .fc{font-size:.74rem;color:rgba(255,255,255,.27)}
-    .fi{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.27);letter-spacing:.12em;text-transform:uppercase}
+    .fi2{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.27);letter-spacing:.12em;text-transform:uppercase}
 
     @media(max-width:900px){
       .content,.page-hero,.alert-banner,footer{padding-left:20px;padding-right:20px}
       .info-row{grid-template-columns:1fr 1fr}
-      .shuttle-info-grid{grid-template-columns:1fr}
-      .reserve-grid{grid-template-columns:1fr}.ff.full{grid-column:span 1}
-      .shuttle-canvas-wrap{padding:16px}
-      .lot-body{padding:16px}
+      .sinfo-grid{grid-template-columns:1fr}
+      .fg{grid-template-columns:1fr}.ff.full{grid-column:span 1}
+      .shuttle-map-body{padding:16px}
+      .lot-body{padding:14px}
     }
-    @media(max-width:560px){
-      .info-row{grid-template-columns:1fr}
-      .lot-space{width:32px;height:44px}
-    }
+    @media(max-width:560px){.info-row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 
+<!-- TOPBAR -->
 <div class="topbar">
   <span>Felix Lego City International Airport &nbsp;·&nbsp; Lego City, Republic States</span>
   <div class="topbar-links">
@@ -219,6 +309,7 @@
   </div>
 </div>
 
+<!-- HEADER -->
 <header>
   <a href="index.html" class="logo-area">
     <div class="logo-code">FLX</div>
@@ -242,19 +333,19 @@
   </button>
 </header>
 
-<!-- PAGE HERO -->
+<!-- HERO -->
 <div class="page-hero">
-  <div class="page-eyebrow">🅿 FLX Consolidated Parking &amp; Shuttle</div>
+  <div class="page-eyebrow">🅿 FLX Consolidated Parking &amp; City Metro Shuttle</div>
   <h1 class="page-title">Parking &amp; <em>Ground Transport</em></h1>
-  <p class="page-desc">Reserve your spot at the FLX Consolidated Parking Lot and take the dedicated City Metro shuttle directly to Terminal 1 or Terminal 2. No curbside vehicle access — all passengers must use the FLX Shuttle.</p>
+  <p class="page-desc">Reserve your spot at the FLX Consolidated Parking Lot and ride the City Metro MCI Coach shuttle directly to your terminal. No private vehicle curbside access at either terminal.</p>
 </div>
 
-<!-- ALERT BANNER -->
+<!-- ALERT -->
 <div class="alert-banner">
-  <div class="alert-icon">🚫</div>
+  <span style="font-size:1.3rem;flex-shrink:0">🚫</span>
   <div class="alert-text">
     <strong>Effective May 13, 2026 — NO private vehicle curbside access at Terminal 1 or Terminal 2.</strong><br>
-    All passengers must park at the FLX Consolidated Parking Lot and take the FLX Shuttle Bus to their terminal. Rideshares and taxis must also use the FLX Ground Transport Center.
+    All passengers must use the FLX Consolidated Parking Lot and take the FLX Shuttle Bus to their terminal. No drop-offs or pick-ups at the terminal curb.
   </div>
 </div>
 
@@ -272,7 +363,7 @@
       <div class="info-icon">✅</div>
       <div class="info-label">Available Now</div>
       <div class="info-val" id="availCount">—</div>
-      <div class="info-sub" id="availBadgeWrap"></div>
+      <div class="info-sub" id="availSub"></div>
     </div>
     <div class="info-card">
       <div class="info-icon">🚌</div>
@@ -288,177 +379,178 @@
     </div>
   </div>
 
-  <!-- LIVE SHUTTLE MAP -->
-  <div class="shuttle-section">
-    <div class="shuttle-hd">
-      <div>
-        <div class="shuttle-hd-title">FLX Shuttle — Live Map</div>
-        <div class="shuttle-hd-sub">City Metro MCI Coach Service · Dedicated Busway</div>
-      </div>
-      <div class="live-pill"><div class="live-dot"></div>Live</div>
-    </div>
-    <div class="shuttle-canvas-wrap">
-      <canvas id="shuttleMap" height="260"></canvas>
-    </div>
-    <div class="bus-roster" id="busRoster"></div>
-    <div class="shuttle-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#1a6bcc"></div>Bus In Transit</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#16a34a"></div>Bus At Stop</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#e8a020;border-radius:50%"></div>Bus Stop</div>
-      <div style="margin-left:auto;font-size:.72rem;color:var(--gray)">Max 2 buses per stop &nbsp;·&nbsp; 3–5 active buses &nbsp;·&nbsp; MCI Coach operated by City Metro</div>
-    </div>
-  </div>
-
-  <!-- SHUTTLE INFO -->
-  <div class="sec-ey">How It Works</div>
-  <div class="sec-title">FLX Shuttle <em>Service Guide</em></div>
-  <div class="shuttle-info-grid">
+  <!-- SHUTTLE INFO CARDS -->
+  <div class="sec-ey">City Metro FLX Shuttle</div>
+  <div class="sec-title">How the <em>Shuttle Works</em></div>
+  <div class="sinfo-grid">
     <div class="sic">
       <div class="sic-icon">🚌</div>
       <div class="sic-title">The Fleet</div>
-      <div class="sic-body">Brand new MCI Coach buses operated by City Metro on a fully dedicated busway. Buses are climate-controlled with luggage storage, accessibility ramps, and digital displays.
+      <div class="sic-body">Brand-new MCI Coach buses operated by City Metro on a fully dedicated busway — no traffic, no delays.
         <ul>
           <li>3–5 buses active at all times</li>
           <li>Maximum 2 buses per stop at once</li>
-          <li>Route: Lot → T1 → T2 → Lot (loop)</li>
-          <li>Every 2–5 min standard; 90 sec rush hour</li>
+          <li>Climate-controlled with luggage storage</li>
+          <li>Full ADA accessibility ramps</li>
         </ul>
       </div>
     </div>
     <div class="sic">
       <div class="sic-icon">📍</div>
       <div class="sic-title">Three Stops</div>
-      <div class="sic-body">The FLX Shuttle makes exactly three stops on its continuous loop route:
+      <div class="sic-body">Continuous loop — three stops, no detours:
         <ul>
-          <li><strong>FLX Consolidated Lot</strong> — Main parking hub, covered waiting area, luggage carts</li>
-          <li><strong>Terminal 1</strong> — International arrivals &amp; departures level</li>
+          <li><strong>FLX Consolidated Lot</strong> — covered waiting area, luggage carts</li>
+          <li><strong>Terminal 1</strong> — International departures &amp; arrivals level</li>
           <li><strong>Terminal 2</strong> — Domestic departures &amp; arrivals level</li>
         </ul>
       </div>
     </div>
     <div class="sic">
       <div class="sic-icon">⏱</div>
-      <div class="sic-title">Timing &amp; Tips</div>
-      <div class="sic-body">Allow extra time when using the shuttle, especially during peak travel hours.
+      <div class="sic-title">Journey Times</div>
+      <div class="sic-body">Dedicated busway means consistent journey times every time:
         <ul>
-          <li>Lot to T1: approx. 6–8 minutes</li>
-          <li>T1 to T2: approx. 4 minutes via connector road</li>
-          <li>T2 back to Lot: approx. 6 minutes</li>
-          <li>Arrive at lot at least 90 min before departure</li>
+          <li>Lot → Terminal 1: ~6–8 minutes</li>
+          <li>Terminal 1 → Terminal 2: ~4 minutes</li>
+          <li>Terminal 2 → Lot: ~6 minutes</li>
+          <li>Arrive at lot 90+ min before departure</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- PARKING LOT MAP -->
-  <div class="lot-section">
-    <div class="lot-hd">
-      <div class="lot-hd-left">
-        <div class="lot-hd-title">FLX Consolidated Parking Lot — Space Map</div>
-        <div class="lot-hd-sub">Click an available (green) space to select it for reservation</div>
+  <!-- LIVE SHUTTLE MAP -->
+  <div class="map-card">
+    <div class="map-card-hd">
+      <div>
+        <div class="map-card-title">FLX Shuttle — Live Position Map</div>
+        <div class="map-card-sub">City Metro MCI Coach Service · Dedicated Busway · Auto-updates</div>
       </div>
-      <div class="lot-legend">
-        <div class="lot-legend-item"><div class="lot-legend-box" style="background:rgba(22,163,74,.2);border:1.5px solid rgba(22,163,74,.4)"></div>Available</div>
-        <div class="lot-legend-item"><div class="lot-legend-box" style="background:rgba(220,38,38,.15);border:1.5px solid rgba(220,38,38,.3)"></div>Occupied</div>
-        <div class="lot-legend-item"><div class="lot-legend-box" style="background:rgba(232,160,32,.2);border:1.5px solid var(--gold)"></div>Reserved</div>
-        <div class="lot-legend-item"><div class="lot-legend-box" style="background:rgba(26,107,204,.18);border:1.5px solid var(--sky)"></div>Selected</div>
+      <div class="live-pill"><div class="live-dot"></div>Live</div>
+    </div>
+
+    <!-- The actual map -->
+    <div class="shuttle-map-body">
+      <div class="shuttle-map-wrap" id="shuttleMapWrap">
+
+        <!-- Roads -->
+        <div class="road-outbound" id="roadOutbound"></div>
+        <div class="road-return"  id="roadReturn"></div>
+
+        <!-- Direction labels -->
+        <div class="road-label-out">Outbound ➜</div>
+        <div class="road-label-ret">◄ Return</div>
+
+        <!-- Stops are injected by JS -->
+        <!-- Buses are injected by JS -->
+
+      </div>
+    </div>
+
+    <!-- Bus roster -->
+    <div class="bus-roster">
+      <span class="roster-label">Active Buses:</span>
+      <div id="busRoster"></div>
+    </div>
+
+    <!-- Legend -->
+    <div class="shuttle-legend">
+      <div class="leg-item"><div class="leg-box" style="background:#1a6bcc;border-radius:3px"></div>In Transit</div>
+      <div class="leg-item"><div class="leg-box" style="background:#16a34a;border-radius:3px;border:1.5px solid #4ade80"></div>At Stop</div>
+      <div class="leg-item"><div class="leg-box" style="background:#e8a020;border-radius:50%"></div>Bus Stop</div>
+      <div style="margin-left:auto;font-size:.7rem;color:var(--gray)">Max 2 buses per stop · MCI Coach by City Metro · KFLX</div>
+    </div>
+  </div>
+
+  <!-- PARKING LOT MAP -->
+  <div class="map-card">
+    <div class="map-card-hd">
+      <div>
+        <div class="map-card-title">FLX Consolidated Lot — Space Map</div>
+        <div class="map-card-sub">Click a green (available) space to select it for reservation</div>
+      </div>
+      <div class="lot-hd-right">
+        <div class="lot-legend-item"><div class="lot-legend-box" style="background:rgba(22,163,74,.25);border:1.5px solid rgba(22,163,74,.5)"></div>Available</div>
+        <div class="lot-legend-item"><div class="lot-legend-box" style="background:rgba(220,38,38,.2);border:1.5px solid rgba(220,38,38,.4)"></div>Occupied</div>
+        <div class="lot-legend-item"><div class="lot-legend-box" style="background:rgba(232,160,32,.25);border:1.5px solid var(--gold)"></div>Reserved</div>
+        <div class="lot-legend-item"><div class="lot-legend-box" style="background:rgba(26,107,204,.22);border:1.5px solid var(--sky)"></div>Selected</div>
       </div>
     </div>
     <div class="lot-body">
       <div class="lot-stats">
-        <div class="lot-stat"><div class="lot-stat-num navy" id="lotTotal">100</div><div class="lot-stat-lbl">Total</div></div>
-        <div class="lot-stat"><div class="lot-stat-num green" id="lotAvail">—</div><div class="lot-stat-lbl">Available</div></div>
-        <div class="lot-stat"><div class="lot-stat-num red" id="lotTaken">—</div><div class="lot-stat-lbl">Occupied</div></div>
-        <div class="lot-stat"><div class="lot-stat-num amber" id="lotReserved">0</div><div class="lot-stat-lbl">Reserved</div></div>
+        <div><div class="lot-stat-num ls-navy">100</div><div class="lot-stat-lbl">Total</div></div>
+        <div><div class="lot-stat-num ls-green" id="stAvail">—</div><div class="lot-stat-lbl">Available</div></div>
+        <div><div class="lot-stat-num ls-red"   id="stTaken">—</div><div class="lot-stat-lbl">Occupied</div></div>
+        <div><div class="lot-stat-num ls-amber"  id="stReserved">0</div><div class="lot-stat-lbl">Reserved</div></div>
       </div>
-      <div class="lot-entry-exit">↕ ENTRY / EXIT — Shuttle Drop-off &amp; Pick-up Lane</div>
+      <div class="lot-entry">↕ ENTRY / EXIT — FLX Shuttle Drop-off &amp; Pick-up Lane</div>
       <div class="lot-map" id="lotMap"></div>
-      <p class="lot-tip">💡 Tap any green space to select it, then complete your reservation below.</p>
+      <p class="lot-tip">💡 Tap any green space to select it, then fill in the reservation form below.</p>
     </div>
   </div>
 
-  <!-- RESERVATION SECTION -->
-  <div class="reserve-section" id="reserveSection">
+  <!-- RESERVATION -->
+  <div class="reserve-card" id="reserveCard">
     <div class="reserve-hd">
-      <div class="reserve-hd-title">🅿 Reserve Your Parking Space</div>
-      <div class="reserve-hd-sub">Complete the form below to confirm your spot</div>
+      <div class="reserve-hd-title">🅿 Reserve Your Space</div>
+      <div class="reserve-hd-sub">All fields required · Payment collected on arrival</div>
     </div>
 
-    <!-- Reserve form (shown by default) -->
-    <div id="reserveForm" class="reserve-body">
-      <div class="selected-spot-display">
-        <div style="font-size:1.8rem">🅿</div>
+    <!-- Form -->
+    <div id="reserveFormWrap" class="reserve-body">
+      <div class="spot-display">
+        <span style="font-size:1.8rem">🅿</span>
         <div>
-          <div class="ssd-label">Selected Spot</div>
-          <div class="ssd-val" id="selectedSpotDisplay"><span class="ssd-none">No spot selected — click a green space on the map above</span></div>
+          <div style="font-size:.63rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:3px">Selected Space</div>
+          <div id="spotDisplayVal"><span class="spot-display-none">No space selected — click a green spot on the map above</span></div>
         </div>
       </div>
-      <div class="reserve-grid">
-        <div class="ff">
-          <label class="fl">First Name</label>
-          <input class="fi-r" type="text" id="rFirstName" placeholder="Your first name">
-        </div>
-        <div class="ff">
-          <label class="fl">Last Name</label>
-          <input class="fi-r" type="text" id="rLastName" placeholder="Your last name">
-        </div>
-        <div class="ff">
-          <label class="fl">License Plate</label>
-          <input class="fi-r" type="text" id="rPlate" placeholder="e.g. FLX·2026" maxlength="10" style="text-transform:uppercase">
-        </div>
-        <div class="ff">
-          <label class="fl">Vehicle Make &amp; Model</label>
-          <input class="fi-r" type="text" id="rVehicle" placeholder="e.g. Toyota Camry">
-        </div>
-        <div class="ff">
-          <label class="fl">Check-In Date</label>
-          <input class="fi-r" type="date" id="rCheckin">
-        </div>
-        <div class="ff">
-          <label class="fl">Check-Out Date</label>
-          <input class="fi-r" type="date" id="rCheckout">
-        </div>
+      <div class="fg">
+        <div class="ff"><label class="fl">First Name</label><input class="fi" id="rFN" type="text" placeholder="First name"></div>
+        <div class="ff"><label class="fl">Last Name</label><input class="fi" id="rLN" type="text" placeholder="Last name"></div>
+        <div class="ff"><label class="fl">License Plate</label><input class="fi" id="rPL" type="text" placeholder="e.g. FLX·2026" maxlength="10" style="text-transform:uppercase"></div>
+        <div class="ff"><label class="fl">Vehicle Make &amp; Model</label><input class="fi" id="rVM" type="text" placeholder="e.g. Toyota Camry"></div>
+        <div class="ff"><label class="fl">Check-In Date</label><input class="fi" id="rCI" type="date"></div>
+        <div class="ff"><label class="fl">Check-Out Date</label><input class="fi" id="rCO" type="date"></div>
         <div class="ff full">
-          <label class="fl">Terminal (for shuttle)</label>
-          <select class="fi-r" id="rTerminal">
+          <label class="fl">Destination Terminal (for shuttle)</label>
+          <select class="fi" id="rTM">
             <option value="T1">Terminal 1 — International</option>
             <option value="T2">Terminal 2 — Domestic</option>
           </select>
         </div>
       </div>
-      <div class="reserve-note">
-        <span>ℹ️</span>
-        Payment is collected on arrival at the FLX Consolidated Parking Lot attendant booth. Reservations are held for 30 minutes after your check-in time. <strong>Please screenshot your confirmation page</strong> — no email confirmation is sent.
+      <div class="note-box">
+        <span>📸</span>
+        <div>Payment is collected at the FLX Parking Attendant Booth on arrival. Reservations are held for 30 minutes after your check-in time. <strong>Please screenshot your confirmation page</strong> — no email confirmation is sent.</div>
       </div>
-      <button class="btn-reserve" id="reserveBtn" onclick="doReserve()" disabled>Select a spot to continue</button>
+      <button class="btn-res" id="resBtn" onclick="doReserve()" disabled>Select a space to continue</button>
     </div>
 
-    <!-- Confirmation screen -->
-    <div class="confirm-screen" id="confirmScreen">
-      <div class="confirm-card">
-        <div class="confirm-hd">
-          <div class="confirm-hd-icon">✅</div>
-          <div class="confirm-hd-title">Reservation Confirmed!</div>
-          <div class="confirm-hd-sub">FLX Consolidated Parking Lot</div>
+    <!-- Confirmation -->
+    <div class="confirm-wrap" id="confirmWrap">
+      <div class="confirm-inner">
+        <div class="conf-hd">
+          <div class="conf-hd-icon">✅</div>
+          <div class="conf-hd-title">Parking Confirmed!</div>
+          <div class="conf-hd-sub">FLX Consolidated Parking Lot</div>
         </div>
-        <div class="confirm-body">
-          <div class="confirm-row">
-            <span class="confirm-lbl">Confirmation #</span>
-            <span class="confirm-val"><span class="confirm-conf-num" id="confNum"></span></span>
+        <div class="conf-body">
+          <div class="conf-row"><span class="conf-lbl">Confirmation #</span><span class="conf-val"><span class="conf-num" id="cNum"></span></span></div>
+          <div class="conf-row"><span class="conf-lbl">Name</span><span class="conf-val" id="cName"></span></div>
+          <div class="conf-row"><span class="conf-lbl">Space</span><span class="conf-val" id="cSpot"></span></div>
+          <div class="conf-row"><span class="conf-lbl">License Plate</span><span class="conf-val" id="cPlate"></span></div>
+          <div class="conf-row"><span class="conf-lbl">Vehicle</span><span class="conf-val" id="cVehicle"></span></div>
+          <div class="conf-row"><span class="conf-lbl">Check-In</span><span class="conf-val" id="cIn"></span></div>
+          <div class="conf-row"><span class="conf-lbl">Check-Out</span><span class="conf-val" id="cOut"></span></div>
+          <div class="conf-row"><span class="conf-lbl">Terminal</span><span class="conf-val" id="cTerm"></span></div>
+          <div class="conf-row"><span class="conf-lbl">Rate</span><span class="conf-val">$28.00 / day · Pay on arrival</span></div>
+          <div class="screenshot-box">
+            <span style="font-size:1.1rem">📸</span>
+            <div><strong>Screenshot this page now.</strong> No email is sent. Show your confirmation number at the FLX Parking Attendant Booth. Reservation held 30 min after check-in time.</div>
           </div>
-          <div class="confirm-row"><span class="confirm-lbl">Name</span><span class="confirm-val" id="confName"></span></div>
-          <div class="confirm-row"><span class="confirm-lbl">Spot</span><span class="confirm-val" id="confSpot"></span></div>
-          <div class="confirm-row"><span class="confirm-lbl">License Plate</span><span class="confirm-val" id="confPlate"></span></div>
-          <div class="confirm-row"><span class="confirm-lbl">Vehicle</span><span class="confirm-val" id="confVehicle"></span></div>
-          <div class="confirm-row"><span class="confirm-lbl">Check-In</span><span class="confirm-val" id="confCheckin"></span></div>
-          <div class="confirm-row"><span class="confirm-lbl">Check-Out</span><span class="confirm-val" id="confCheckout"></span></div>
-          <div class="confirm-row"><span class="confirm-lbl">Terminal</span><span class="confirm-val" id="confTerminal"></span></div>
-          <div class="confirm-row"><span class="confirm-lbl">Daily Rate</span><span class="confirm-val">$28.00 / day — Pay on arrival</span></div>
-          <div class="confirm-screenshot">
-            <span style="font-size:1.2rem">📸</span>
-            <div><strong>Please screenshot this confirmation page now.</strong> No email confirmation will be sent. Present your confirmation number at the FLX Parking Attendant Booth on arrival. Reservations held for 30 minutes after check-in time.</div>
-          </div>
-          <button class="btn-new" onclick="resetReservation()">Make Another Reservation</button>
+          <button class="btn-new" onclick="resetRes()">Make Another Reservation</button>
         </div>
       </div>
     </div>
@@ -468,13 +560,13 @@
 
 <footer>
   <div class="fc">© 2025 Felix Lego City International Airport · Lego City, Republic States. All rights reserved.</div>
-  <div class="fi">IATA: FLX &nbsp;·&nbsp; ICAO: KFLX</div>
+  <div class="fi2">IATA: FLX &nbsp;·&nbsp; ICAO: KFLX</div>
 </footer>
 
 <script>
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/* ─────────────────────────────
    NAV
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+───────────────────────────── */
 function toggleMenu(){
   document.getElementById('mainNav').classList.toggle('open');
   document.getElementById('hamburger').classList.toggle('open');
@@ -484,475 +576,335 @@ document.querySelectorAll('#mainNav a').forEach(a=>a.addEventListener('click',()
   document.getElementById('hamburger').classList.remove('open');
 }));
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/* ─────────────────────────────
    PARKING LOT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-const ROWS = ['A','B','C','D'];
-const SPOTS_PER_ROW = 25;
-const TOTAL = 100;
+───────────────────────────── */
+const ROWS=['A','B','C','D'];
+const PER_ROW=25;
+let spotState={};
+let reservedSpots={};
+let selectedSpot=null;
 
-// Deterministic pseudo-random occupancy seeded by today's date
-function seededRandom(seed){let x=Math.sin(seed)*10000;return x-Math.floor(x);}
-
-let spotState = {}; // spotId -> 'available' | 'taken'
-let reservedSpots = {}; // spotId -> true
-let selectedSpot = null;
+function seededRand(n){let x=Math.sin(n+1)*99999;return x-Math.floor(x);}
 
 function initLot(){
-  const today = new Date();
-  const seed = today.getFullYear()*10000 + (today.getMonth()+1)*100 + today.getDate();
-  let takenCount = 0;
-  // Aim for 55-75% occupancy
-  const targetTaken = Math.floor(55 + seededRandom(seed*3)*20);
-  const allIds = [];
-  ROWS.forEach(r=>{for(let i=1;i<=SPOTS_PER_ROW;i++) allIds.push(r+i);});
-  // shuffle deterministically
-  const shuffled = allIds.map((id,i)=>({id,r:seededRandom(seed+i)})).sort((a,b)=>a.r-b.r).map(x=>x.id);
-  allIds.forEach(id=> spotState[id]='available');
-  shuffled.slice(0,targetTaken).forEach(id=>{ spotState[id]='taken'; takenCount++;});
+  const today=new Date();
+  const seed=today.getFullYear()*10000+(today.getMonth()+1)*100+today.getDate();
+  const allIds=[];
+  ROWS.forEach(r=>{for(let i=1;i<=PER_ROW;i++)allIds.push(r+i);});
+  allIds.forEach(id=>spotState[id]='available');
+  // 60-72% occupied
+  const nTaken=Math.floor(60+seededRand(seed)*12);
+  const shuffled=[...allIds].sort((a,b)=>seededRand(seed+a.charCodeAt(0)+parseInt(a.slice(1)))-seededRand(seed+b.charCodeAt(0)+parseInt(b.slice(1))));
+  shuffled.slice(0,nTaken).forEach(id=>spotState[id]='taken');
   renderLot();
 }
 
 function renderLot(){
-  const lotMap = document.getElementById('lotMap');
-  lotMap.innerHTML='';
-  let avail=0, taken=0, reserved=0;
+  const wrap=document.getElementById('lotMap');
+  wrap.innerHTML='';
+  let avail=0,taken=0,reserved=0;
 
-  ROWS.forEach(row=>{
-    const rowDiv = document.createElement('div');
-    rowDiv.className='lot-row';
+  ROWS.forEach((row,ri)=>{
+    const rowWrap=document.createElement('div');
+    rowWrap.className='lot-row-wrap';
     const lbl=document.createElement('div');
-    lbl.className='lot-row-label';
+    lbl.className='lot-row-lbl';
     lbl.textContent='Row '+row;
-    rowDiv.appendChild(lbl);
-    const spacesDiv=document.createElement('div');
-    spacesDiv.className='lot-spaces';
+    rowWrap.appendChild(lbl);
+    const spacesRow=document.createElement('div');
+    spacesRow.className='lot-spaces-row';
 
-    for(let i=1;i<=SPOTS_PER_ROW;i++){
+    for(let i=1;i<=PER_ROW;i++){
       const id=row+i;
-      const state = reservedSpots[id]?'reserved':spotState[id];
-      if(state==='available') avail++;
-      else if(state==='taken') taken++;
-      else if(state==='reserved') reserved++;
-      const sp=document.createElement('div');
-      sp.className='lot-space '+(selectedSpot===id?'selected':state);
-      sp.innerHTML=`<span class="space-icon">${state==='taken'?'🚗':state==='reserved'?'🔒':'🅿'}</span><span class="space-num">${id}</span>`;
-      if(state==='available'){
-        sp.onclick=()=>selectSpot(id);
-        sp.title=`Click to select spot ${id}`;
-      }
-      spacesDiv.appendChild(sp);
-    }
-    rowDiv.appendChild(spacesDiv);
-    lotMap.appendChild(rowDiv);
+      const st=reservedSpots[id]?'reserved':spotState[id];
+      if(st==='available')avail++;
+      else if(st==='taken')taken++;
+      else if(st==='reserved')reserved++;
 
-    // Drive aisle after each row except last
-    if(row!=='D'){
+      const sp=document.createElement('div');
+      const cls=selectedSpot===id?'selected':st;
+      sp.className='sp '+cls;
+      sp.innerHTML='<span class="sp-icon">'+(cls==='taken'?'🚗':cls==='reserved'?'🔒':'🅿')+'</span><span class="sp-id">'+id+'</span>';
+      if(st==='available'){
+        sp.onclick=()=>selectSpot(id);
+        sp.title='Select space '+id;
+      }
+      spacesRow.appendChild(sp);
+    }
+    rowWrap.appendChild(spacesRow);
+    wrap.appendChild(rowWrap);
+
+    if(ri<ROWS.length-1){
       const aisle=document.createElement('div');
-      aisle.className='lot-drive-aisle';
+      aisle.className='drive-aisle';
       aisle.textContent='← Drive Aisle →';
-      lotMap.appendChild(aisle);
+      wrap.appendChild(aisle);
     }
   });
 
-  document.getElementById('lotAvail').textContent=avail;
-  document.getElementById('lotTaken').textContent=taken;
-  document.getElementById('lotReserved').textContent=reserved;
-  document.getElementById('availCount').textContent=avail+' / '+TOTAL;
-
-  // Availability badge
-  const pct=avail/TOTAL;
-  let bClass='av-green', bLabel='Good Availability';
-  if(pct<0.2){bClass='av-red';bLabel='Almost Full';}
-  else if(pct<0.4){bClass='av-amber';bLabel='Limited Availability';}
-  document.getElementById('availBadgeWrap').innerHTML=`<span class="avail-badge ${bClass}"><span class="av-dot" style="background:${pct<0.2?'var(--red)':pct<0.4?'var(--amber)':'var(--green)}"></span>${bLabel}</span>`;
+  document.getElementById('stAvail').textContent=avail;
+  document.getElementById('stTaken').textContent=taken;
+  document.getElementById('stReserved').textContent=reserved;
+  document.getElementById('availCount').textContent=avail+' / 100 spaces';
+  const pct=avail/100;
+  let label='Good Availability',color=var_green;
+  if(pct<0.2){label='Almost Full';color=var_red;}
+  else if(pct<0.4){label='Limited Availability';color=var_amber;}
+  document.getElementById('availSub').textContent=label;
 }
+
+const var_green='#16a34a',var_red='#dc2626',var_amber='#d97706';
 
 function selectSpot(id){
-  if(spotState[id]!=='available'||reservedSpots[id]) return;
+  if(spotState[id]!=='available'||reservedSpots[id])return;
   selectedSpot=id;
-  document.getElementById('selectedSpotDisplay').innerHTML=`<strong style="font-size:1.4rem;color:var(--navy)">${id}</strong> &nbsp;<span style="font-size:.8rem;color:var(--gray)">Row ${id[0]} · Space ${id.slice(1)}</span>`;
-  document.getElementById('reserveBtn').disabled=false;
-  document.getElementById('reserveBtn').textContent='Reserve Spot '+id+' →';
+  document.getElementById('spotDisplayVal').innerHTML='<strong style="font-size:1.3rem;color:var(--navy)">Space '+id+'</strong> &nbsp;<span style="font-size:.8rem;color:var(--gray)">Row '+id[0]+' · Position '+id.slice(1)+'</span>';
+  const btn=document.getElementById('resBtn');
+  btn.disabled=false;
+  btn.textContent='Reserve Space '+id+' →';
   renderLot();
-  document.getElementById('reserveSection').scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('reserveCard').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/* ─────────────────────────────
    RESERVATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-// Pre-fill today's date
-(function(){
+───────────────────────────── */
+(function setDates(){
   const today=new Date();
   const fmt=d=>d.toISOString().split('T')[0];
   const tom=new Date(today);tom.setDate(tom.getDate()+1);
-  document.getElementById('rCheckin').value=fmt(today);
-  document.getElementById('rCheckout').value=fmt(tom);
+  document.getElementById('rCI').value=fmt(today);
+  document.getElementById('rCO').value=fmt(tom);
 })();
 
 function doReserve(){
-  const spot=selectedSpot;
-  const fn=document.getElementById('rFirstName').value.trim();
-  const ln=document.getElementById('rLastName').value.trim();
-  const plate=document.getElementById('rPlate').value.trim().toUpperCase();
-  const vehicle=document.getElementById('rVehicle').value.trim();
-  const checkin=document.getElementById('rCheckin').value;
-  const checkout=document.getElementById('rCheckout').value;
-  const terminal=document.getElementById('rTerminal').value;
-
-  if(!spot){alert('Please select a parking spot from the map above.');return;}
+  const fn=document.getElementById('rFN').value.trim();
+  const ln=document.getElementById('rLN').value.trim();
+  const pl=document.getElementById('rPL').value.trim().toUpperCase();
+  const vm=document.getElementById('rVM').value.trim();
+  const ci=document.getElementById('rCI').value;
+  const co=document.getElementById('rCO').value;
+  const tm=document.getElementById('rTM').value;
+  if(!selectedSpot){alert('Please select a parking space from the map.');return;}
   if(!fn||!ln){alert('Please enter your first and last name.');return;}
-  if(!plate){alert('Please enter your license plate number.');return;}
-  if(!vehicle){alert('Please enter your vehicle make and model.');return;}
-  if(!checkin||!checkout){alert('Please select check-in and check-out dates.');return;}
-  if(new Date(checkout)<=new Date(checkin)){alert('Check-out must be after check-in.');return;}
+  if(!pl){alert('Please enter your license plate.');return;}
+  if(!vm){alert('Please enter your vehicle make and model.');return;}
+  if(!ci||!co){alert('Please select check-in and check-out dates.');return;}
+  if(new Date(co)<=new Date(ci)){alert('Check-out must be after check-in.');return;}
 
-  const confNum='FLX-'+Math.random().toString(36).substr(2,4).toUpperCase()+'-'+Date.now().toString().slice(-4);
-  const days=Math.ceil((new Date(checkout)-new Date(checkin))/(1000*60*60*24));
+  const num='FLX-'+Math.random().toString(36).substr(2,4).toUpperCase()+'-'+Date.now().toString().slice(-4);
+  const fmtDate=s=>new Date(s+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric',year:'numeric'});
 
-  // Mark spot reserved
-  reservedSpots[spot]=true;
+  document.getElementById('cNum').textContent=num;
+  document.getElementById('cName').textContent=fn+' '+ln;
+  document.getElementById('cSpot').textContent='Space '+selectedSpot+' (Row '+selectedSpot[0]+')';
+  document.getElementById('cPlate').textContent=pl;
+  document.getElementById('cVehicle').textContent=vm;
+  document.getElementById('cIn').textContent=fmtDate(ci);
+  document.getElementById('cOut').textContent=fmtDate(co);
+  document.getElementById('cTerm').textContent=tm==='T1'?'Terminal 1 — International':'Terminal 2 — Domestic';
+
+  reservedSpots[selectedSpot]=true;
   selectedSpot=null;
-
-  // Fill confirmation
-  document.getElementById('confNum').textContent=confNum;
-  document.getElementById('confName').textContent=fn+' '+ln;
-  document.getElementById('confSpot').textContent='Spot '+spot+' (Row '+spot[0]+')';
-  document.getElementById('confPlate').textContent=plate;
-  document.getElementById('confVehicle').textContent=vehicle;
-  document.getElementById('confCheckin').textContent=new Date(checkin+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric',year:'numeric'});
-  document.getElementById('confCheckout').textContent=new Date(checkout+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric',year:'numeric'});
-  document.getElementById('confTerminal').textContent=terminal==='T1'?'Terminal 1 — International':'Terminal 2 — Domestic';
-
-  // Show confirmation, hide form
-  document.getElementById('reserveForm').style.display='none';
-  document.getElementById('confirmScreen').classList.add('show');
+  document.getElementById('reserveFormWrap').style.display='none';
+  document.getElementById('confirmWrap').classList.add('show');
   renderLot();
-  document.getElementById('confirmScreen').scrollIntoView({behavior:'smooth'});
+  document.getElementById('confirmWrap').scrollIntoView({behavior:'smooth'});
 }
 
-function resetReservation(){
-  // Reset form
-  document.getElementById('reserveForm').style.display='block';
-  document.getElementById('confirmScreen').classList.remove('show');
-  document.getElementById('selectedSpotDisplay').innerHTML='<span class="ssd-none">No spot selected — click a green space on the map above</span>';
-  document.getElementById('reserveBtn').disabled=true;
-  document.getElementById('reserveBtn').textContent='Select a spot to continue';
-  document.getElementById('rFirstName').value='';
-  document.getElementById('rLastName').value='';
-  document.getElementById('rPlate').value='';
-  document.getElementById('rVehicle').value='';
-  // Reset reserved spots (simulates page refresh reset)
+function resetRes(){
   reservedSpots={};
   selectedSpot=null;
+  document.getElementById('reserveFormWrap').style.display='block';
+  document.getElementById('confirmWrap').classList.remove('show');
+  document.getElementById('spotDisplayVal').innerHTML='<span class="spot-display-none">No space selected — click a green spot on the map above</span>';
+  const btn=document.getElementById('resBtn');
+  btn.disabled=true;btn.textContent='Select a space to continue';
+  ['rFN','rLN','rPL','rVM'].forEach(id=>document.getElementById(id).value='');
   renderLot();
   document.getElementById('lotMap').scrollIntoView({behavior:'smooth'});
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   SHUTTLE MAP (Canvas Animation)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-const canvas = document.getElementById('shuttleMap');
-const ctx = canvas.getContext('2d');
+/* ─────────────────────────────
+   SHUTTLE MAP (div animation)
+───────────────────────────── */
+const BUS_COLORS=['#1a6bcc','#2e7d32','#7c3aed','#d97706','#be185d'];
+const BUS_IDS=['CM-101','CM-102','CM-103','CM-104','CM-105'];
+const NUM_BUSES=4;
 
-// Responsive canvas
-function resizeCanvas(){
-  const wrap=canvas.parentElement;
-  canvas.width=wrap.clientWidth;
-  canvas.height=260;
-}
-resizeCanvas();
-window.addEventListener('resize',()=>{resizeCanvas();});
-
-// Route stops (x positions, as fraction of canvas width)
-// LOT -> T1 -> T2 -> LOT (loop, going right then back)
-// We'll lay them out left to right: LOT, T1, T2
-
-const STOPS=[
-  {id:'LOT', label:'FLX Consolidated Lot', shortLabel:'Parking Lot', x:0.12},
-  {id:'T1',  label:'Terminal 1 — International', shortLabel:'Terminal 1', x:0.5},
-  {id:'T2',  label:'Terminal 2 — Domestic', shortLabel:'Terminal 2', x:0.88},
+// Stops: left%, top% (outbound road), label
+const STOP_DEFS=[
+  {id:'LOT', short:'🅿 LOT',      label:'FLX Consolidated Lot', pct:0.12},
+  {id:'T1',  short:'✈ T1',       label:'Terminal 1',            pct:0.50},
+  {id:'T2',  short:'✈ T2',       label:'Terminal 2',            pct:0.88},
 ];
 
-// Bus colors
-const BUS_COLORS=['#1a6bcc','#2e7d32','#9c2b6e','#d97706','#5b21b6'];
+// Build stops in the map
+const mapWrap=document.getElementById('shuttleMapWrap');
 
-// Bus states
-const NUM_BUSES = 4; // Start with 4, randomly between 3-5
+STOP_DEFS.forEach(s=>{
+  // Vertical post
+  const post=document.createElement('div');
+  post.className='stop-post';
+  post.style.left='calc('+s.pct*100+'% )';
+  post.style.marginLeft='-1px';
+  mapWrap.appendChild(post);
 
-class Bus {
-  constructor(id, offset){
-    this.id='CM-'+(100+id+1);
-    this.color=BUS_COLORS[id % BUS_COLORS.length];
-    // Position along the full route (0..1, wraps)
-    this.progress=offset;
-    // Route segments: LOT->T1->T2->LOT = 3 segments
-    // Each segment is 1/3 of total progress
-    this.speed=0; // pixels per tick — calculated
-    this.atStop=false;
-    this.stopTimer=0;
-    this.stopDuration=0;
-    this.currentStopId=null;
-    this.lane=0; // 0 or 1 (for stacking)
-  }
-}
+  // Sign
+  const sign=document.createElement('div');
+  sign.className='stop-sign';
+  sign.style.left='calc('+s.pct*100+'%)';
+  sign.innerHTML=s.short;
+  mapWrap.appendChild(sign);
 
-let buses=[];
+  // Label below
+  const lbl=document.createElement('div');
+  lbl.className='stop-label';
+  lbl.style.left='calc('+s.pct*100+'%)';
+  lbl.style.transform='translateX(-50%)';
+  lbl.textContent=s.label;
+  mapWrap.appendChild(lbl);
+});
+
+// Bus state
+// Progress 0..1 loops:
+//   0.00 - 0.33: LOT→T1 (outbound, top road Y=70+13=83)
+//   0.33 - 0.67: T1→T2  (outbound, top road)
+//   0.67 - 1.00: T2→LOT (return, bottom road Y=130+13=143)
+const OUTBOUND_Y=83;  // px from top of mapWrap
+const RETURN_Y=143;
+
+const buses=[];
 for(let i=0;i<NUM_BUSES;i++){
-  buses.push(new Bus(i, i/NUM_BUSES));
-}
-
-// Track how many buses are at each stop
-const stopOccupancy={}; // stopId -> count
-
-// Get canvas coords for a bus at progress [0,1]
-// Route is a loop: 0=LOT, 1/3=T1, 2/3=T2, 1=LOT
-function getRoutePos(progress, canvasW){
-  const seg=progress*3; // 0-3
-  const s=Math.floor(seg)%3;
-  const t=seg%1;
-  const s0=STOPS[s];
-  const s1=STOPS[(s+1)%3];
-  const x0=s0.x*canvasW;
-  const x1=s1.x*canvasW;
-  // Going LOT->T1->T2 then back LOT is a left-to-right-to-right wraparound
-  // For T2->LOT segment, we go back left (underpass style — draw as lower lane)
-  let x,returning;
-  if(s===2){
-    // T2 -> LOT: go back (right to left), lower road
-    x=x0+(x1-x0)*t;
-    returning=true;
-  } else {
-    x=x0+(x1-x0)*t;
-    returning=false;
-  }
-  return{x,returning,segIndex:s,segT:t};
-}
-
-const ROAD_Y_TOP=120;
-const ROAD_Y_BOT=165;
-const BUS_W=36;
-const BUS_H=18;
-
-let frame=0;
-const SPEED=0.0004; // progress per frame
-
-function getStopX(stopIndex, canvasW){return STOPS[stopIndex].x*canvasW;}
-
-function drawShuttle(){
-  const W=canvas.width, H=canvas.height;
-  ctx.clearRect(0,0,W,H);
-
-  // Background
-  ctx.fillStyle='#eef2f8';
-  ctx.fillRect(0,0,W,H);
-
-  // Title
-  ctx.fillStyle='#0a1628';
-  ctx.font='bold 11px Helvetica Neue, Helvetica, Arial, sans-serif';
-  ctx.letterSpacing='1px';
-  ctx.fillText('FLX SHUTTLE ROUTE — REAL TIME',16,22);
-  ctx.fillStyle='#8898aa';
-  ctx.font='10px Helvetica Neue, Helvetica, Arial, sans-serif';
-  ctx.fillText('City Metro MCI Coach · Dedicated Busway',16,38);
-
-  // Road (top lane: LOT->T1->T2, bottom lane: T2->LOT return)
-  // Top road
-  ctx.fillStyle='#c8d4e8';
-  roundRect(ctx, STOPS[0].x*W-10, ROAD_Y_TOP-12, (STOPS[2].x-STOPS[0].x)*W+20, 28, 8);
-  ctx.fill();
-  // Road stripe
-  ctx.setLineDash([14,10]);
-  ctx.strokeStyle='rgba(255,255,255,.7)';
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  ctx.moveTo(STOPS[0].x*W,ROAD_Y_TOP+2);
-  ctx.lineTo(STOPS[2].x*W,ROAD_Y_TOP+2);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Bottom road (return)
-  ctx.fillStyle='#c8d4e8';
-  roundRect(ctx, STOPS[0].x*W-10, ROAD_Y_BOT-12, (STOPS[2].x-STOPS[0].x)*W+20, 28, 8);
-  ctx.fill();
-  ctx.setLineDash([14,10]);
-  ctx.strokeStyle='rgba(255,255,255,.7)';
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  ctx.moveTo(STOPS[2].x*W,ROAD_Y_BOT+2);
-  ctx.lineTo(STOPS[0].x*W,ROAD_Y_BOT+2);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Return direction arrow
-  ctx.fillStyle='rgba(10,22,40,.18)';
-  ctx.font='10px sans-serif';
-  ctx.fillText('← Return Route',W*0.5-28,ROAD_Y_BOT+15);
-  ctx.fillText('Outbound Route →',W*0.5-32,ROAD_Y_TOP-16);
-
-  // Stops
-  STOPS.forEach((stop,i)=>{
-    const x=stop.x*W;
-    // Stop post
-    ctx.fillStyle='#0a1628';
-    ctx.fillRect(x-2,ROAD_Y_TOP-40,4,85);
-    // Stop sign circle
-    ctx.fillStyle='#e8a020';
-    ctx.beginPath();
-    ctx.arc(x,ROAD_Y_TOP-44,13,0,Math.PI*2);
-    ctx.fill();
-    ctx.fillStyle='#fff';
-    ctx.font='bold 10px sans-serif';
-    ctx.textAlign='center';
-    ctx.fillText('🚌',x,ROAD_Y_TOP-40);
-    ctx.textAlign='left';
-    // Label box
-    const lw=Math.min(120, stop.shortLabel.length*7+16);
-    ctx.fillStyle='#0a1628';
-    roundRect(ctx, x-lw/2, ROAD_Y_BOT+22, lw, 22, 5);
-    ctx.fill();
-    ctx.fillStyle='#f5c356';
-    ctx.font='bold 9.5px Helvetica Neue, Helvetica, Arial, sans-serif';
-    ctx.textAlign='center';
-    ctx.fillText(stop.shortLabel.toUpperCase(),x,ROAD_Y_BOT+37);
-    ctx.textAlign='left';
+  buses.push({
+    id: BUS_IDS[i],
+    color: BUS_COLORS[i],
+    progress: i/NUM_BUSES,
+    atStop: false,
+    stopTicks: 0,
+    stopDuration: 0,
+    lastStop: null,
+    el: null,
+    laneOffset: 0,
   });
+}
 
-  // Track stop occupancy for this frame
-  const frameOccupancy={};
-  STOPS.forEach(s=>frameOccupancy[s.id]=0);
+// Create bus divs
+const stopOcc={LOT:0,T1:0,T2:0};
 
-  // Update & draw buses
+buses.forEach(bus=>{
+  const div=document.createElement('div');
+  div.className='bus-div';
+  div.style.background=bus.color;
+  div.id='bus-'+bus.id;
+  div.innerHTML='<span class="bus-id-label">'+bus.id+'</span><span class="bus-body-label">City Metro</span>';
+  mapWrap.appendChild(div);
+  bus.el=div;
+});
+
+// Bus roster
+const rosterWrap=document.getElementById('busRoster');
+buses.forEach(bus=>{
+  const pill=document.createElement('div');
+  pill.className='bus-pill';
+  const dot=document.createElement('div');
+  dot.className='bus-pill-dot';
+  dot.style.background=bus.color;
+  pill.appendChild(dot);
+  pill.appendChild(document.createTextNode(bus.id+' · City Metro'));
+  rosterWrap.appendChild(pill);
+});
+
+const SPEED=0.0008; // progress per frame
+const FPS_OCC_RESET=60;
+let occReset=0;
+
+function getBusXY(progress){
+  const seg=Math.floor(progress*3)%3;
+  const t=(progress*3)%1;
+  let x,y,returning;
+  if(seg===0){// LOT→T1
+    const x0=STOP_DEFS[0].pct, x1=STOP_DEFS[1].pct;
+    x=x0+(x1-x0)*t; y=OUTBOUND_Y; returning=false;
+  } else if(seg===1){// T1→T2
+    const x0=STOP_DEFS[1].pct, x1=STOP_DEFS[2].pct;
+    x=x0+(x1-x0)*t; y=OUTBOUND_Y; returning=false;
+  } else {// T2→LOT (return)
+    const x0=STOP_DEFS[2].pct, x1=STOP_DEFS[0].pct;
+    x=x0+(x1-x0)*t; y=RETURN_Y; returning=true;
+  }
+  return{x,y,returning,seg};
+}
+
+function getStopAtProgress(p){
+  const seg=Math.floor(p*3)%3;
+  const t=(p*3)%1;
+  if(t<0.04) return STOP_DEFS[seg].id;
+  return null;
+}
+
+// Per-frame stop occupancy
+const frameOcc={LOT:0,T1:0,T2:0};
+
+function animateShuttle(){
+  // Reset frame occupancy
+  frameOcc.LOT=0; frameOcc.T1=0; frameOcc.T2=0;
+
+  const mapW=mapWrap.offsetWidth||600;
+  const BW=52, BH=22;
+
   buses.forEach(bus=>{
+    if(!bus.el) return;
+
     if(bus.atStop){
-      bus.stopTimer++;
-      if(bus.stopTimer>=bus.stopDuration){
+      bus.stopTicks++;
+      if(bus.stopTicks>=bus.stopDuration){
         bus.atStop=false;
-        bus.stopTimer=0;
-        bus.currentStopId=null;
+        bus.stopTicks=0;
+        bus.el.classList.remove('at-stop');
       }
     } else {
       bus.progress+=SPEED;
       if(bus.progress>=1) bus.progress-=1;
-      // Check if arrived at a stop
-      const seg=bus.progress*3;
-      const s=Math.floor(seg)%3;
-      const t=seg%1;
-      if(t<SPEED*3+0.01 && t>0 && !bus.atStop){
-        const stop=STOPS[s];
-        if(!bus.lastStop || bus.lastStop!==stop.id){
-          if((frameOccupancy[stop.id]||0)<2){
-            bus.atStop=true;
-            // stop for 90-180 frames (~1.5-3 sec at 60fps) simulating 2-5 min wait
-            bus.stopDuration=90+Math.floor(Math.random()*120);
-            bus.stopTimer=0;
-            bus.currentStopId=stop.id;
-            bus.lastStop=stop.id;
-            frameOccupancy[stop.id]=(frameOccupancy[stop.id]||0)+1;
-          }
+
+      // Check stop arrival
+      const sid=getStopAtProgress(bus.progress);
+      if(sid && sid!==bus.lastStop){
+        if((frameOcc[sid]||0)<2){
+          bus.atStop=true;
+          bus.stopDuration=80+Math.floor(Math.random()*100);
+          bus.stopTicks=0;
+          bus.lastStop=sid;
+          bus.el.classList.add('at-stop');
+          frameOcc[sid]=(frameOcc[sid]||0)+1;
         }
       }
+      if(!sid) bus.lastStop=null;
     }
 
-    // Calculate draw position
-    const pos=getRoutePos(bus.progress, W);
-    let busY;
-    let dir;
-    if(pos.returning){
-      busY=ROAD_Y_BOT+(bus.lane*10-5);
-      dir=-1;
-    } else {
-      busY=ROAD_Y_TOP+(bus.lane*10-5);
-      dir=1;
-    }
+    // Position
+    const {x,y,returning}=getBusXY(bus.progress);
+    const px=x*mapW - BW/2;
+    const py=y - BH/2;
+    bus.el.style.left=px+'px';
+    bus.el.style.top=py+'px';
+    bus.el.style.background=bus.atStop?'#16a34a':bus.color;
 
-    if(bus.atStop){
-      const stopIdx=STOPS.findIndex(s=>s.id===bus.currentStopId);
-      const sx=STOPS[stopIdx].x*W;
-      drawBus(sx-BUS_W/2, busY-BUS_H/2, bus, dir, true);
-    } else {
-      drawBus(pos.x-BUS_W/2, busY-BUS_H/2, bus, dir, false);
-    }
+    // Flip direction for return
+    bus.el.style.transform=returning?'scaleX(-1)':'scaleX(1)';
   });
 
-  frame++;
-  requestAnimationFrame(drawShuttle);
+  requestAnimationFrame(animateShuttle);
 }
 
-function drawBus(x,y,bus,dir,stopped){
-  const bw=BUS_W, bh=BUS_H;
-  // Shadow
-  ctx.fillStyle='rgba(0,0,0,.12)';
-  roundRect(ctx,x+2,y+3,bw,bh,4);
-  ctx.fill();
-
-  // Body
-  ctx.fillStyle=stopped?'#16a34a':bus.color;
-  roundRect(ctx,x,y,bw,bh,4);
-  ctx.fill();
-
-  // Windows
-  ctx.fillStyle='rgba(255,255,255,.5)';
-  for(let i=0;i<3;i++) ctx.fillRect(x+(dir>0?6:bw-14)+i*7,y+4,5,7);
-  // Front/back
-  ctx.fillStyle='rgba(255,255,255,.8)';
-  if(dir>0){ctx.fillRect(x+bw-4,y+5,3,5);}
-  else{ctx.fillRect(x+1,y+5,3,5);}
-
-  // ID label
-  ctx.fillStyle='#fff';
-  ctx.font='bold 6.5px Helvetica Neue, Helvetica, Arial, sans-serif';
-  ctx.textAlign='center';
-  ctx.fillText(bus.id,x+bw/2,y+bh+9);
-  ctx.textAlign='left';
-
-  // Stopped indicator
-  if(stopped){
-    ctx.fillStyle='rgba(255,255,255,.9)';
-    ctx.font='7px sans-serif';
-    ctx.textAlign='center';
-    ctx.fillText('⏱',x+bw/2,y-3);
-    ctx.textAlign='left';
-  }
-}
-
-function roundRect(ctx,x,y,w,h,r){
-  ctx.beginPath();
-  ctx.moveTo(x+r,y);
-  ctx.lineTo(x+w-r,y);
-  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h-r);
-  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-  ctx.lineTo(x+r,y+h);
-  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-  ctx.lineTo(x,y+r);
-  ctx.quadraticCurveTo(x,y,x+r,y);
-  ctx.closePath();
-}
-
-// Bus roster
-function renderRoster(){
-  const roster=document.getElementById('busRoster');
-  roster.innerHTML='<div style="font-size:.67rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);display:flex;align-items:center;margin-right:6px">Active Buses:</div>';
-  buses.forEach(b=>{
-    const pill=document.createElement('div');
-    pill.className='bus-pill';
-    const dot=document.createElement('div');
-    dot.className='bus-pill-dot';
-    dot.style.background=b.color;
-    dot.style.borderRadius='3px';
-    pill.appendChild(dot);
-    pill.appendChild(document.createTextNode(b.id+' · City Metro'));
-    roster.appendChild(pill);
-  });
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   INIT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-initLot();
-renderRoster();
-drawShuttle();
+/* ─────────────────────────────
+   INIT (after layout)
+───────────────────────────── */
+window.addEventListener('load', function(){
+  initLot();
+  animateShuttle();
+});
 </script>
 </body>
 </html>
