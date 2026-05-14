@@ -730,7 +730,7 @@ function resetRes(){
    SHUTTLE MAP (div animation)
 ───────────────────────────── */
 const BUS_COLORS=['#1a6bcc','#2e7d32','#7c3aed','#d97706','#be185d'];
-const BUS_IDS=['CM-101','CM-102','CM-103','CM-104','CM-105'];
+const BUS_IDS=['101','102','103','104','105'];
 const NUM_BUSES=4;
 
 // Stops: left%, top% (outbound road), label
@@ -798,7 +798,7 @@ buses.forEach(bus=>{
   div.className='bus-div';
   div.style.background=bus.color;
   div.id='bus-'+bus.id;
-  div.innerHTML='<span class="bus-id-label">'+bus.id+'</span><span class="bus-body-label">City Metro</span>';
+  div.innerHTML='<span class="bus-id-label">'+bus.id+'</span><span class="bus-body-label"></span>';
   mapWrap.appendChild(div);
   bus.el=div;
 });
