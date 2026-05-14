@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Felix Lego City International Airport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy:#0a1628;--deep:#0d1f3c;--sky:#1a6bcc;--gold:#e8a020;--goldl:#f5c356;
+      --white:#fff;--off:#f4f6fa;--gray:#8898aa;--text:#1a2540;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--off);color:var(--text);overflow-x:hidden}
+
+    /* ── TOPBAR ── */
+    .topbar{background:var(--navy);color:rgba(255,255,255,.6);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;padding:7px 40px;display:flex;justify-content:space-between;align-items:center}
+    .topbar a{color:var(--goldl);text-decoration:none}.topbar a:hover{text-decoration:underline}
+    .topbar-links{display:flex;gap:24px}
+
+    /* ── HEADER ── */
+    header{position:sticky;top:0;z-index:1000;background:var(--navy);border-bottom:3px solid var(--gold);display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:68px}
+    .logo-area{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+    .logo-code{font-size:2.1rem;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+    .logo-div{width:1px;height:34px;background:rgba(255,255,255,.18);margin:0 18px;flex-shrink:0}
+    .logo-text{display:flex;flex-direction:column;line-height:1.25}
+    .logo-name{font-size:.8rem;font-weight:700;color:var(--white);letter-spacing:.05em;text-transform:uppercase}
+    .logo-sub{font-size:.62rem;color:rgba(255,255,255,.45);letter-spacing:.07em;text-transform:uppercase}
+    nav#mainNav{display:flex;align-items:center;gap:2px;margin-left:auto}
+    nav#mainNav a{color:rgba(255,255,255,.72);text-decoration:none;font-size:.76rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:6px 13px;border-radius:3px;transition:color .2s,background .2s;white-space:nowrap}
+    nav#mainNav a:hover{color:var(--white);background:rgba(255,255,255,.08)}
+    nav#mainNav a.active{color:var(--gold)}
+    nav#mainNav .nav-cta{background:var(--gold);color:var(--navy)!important;font-weight:700;margin-left:10px;padding:7px 16px;border-radius:3px}
+    nav#mainNav .nav-cta:hover{background:var(--goldl)}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:8px;margin-left:12px}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:all .25s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    @media(max-width:860px){
+      .hamburger{display:flex}.topbar{display:none}
+      nav#mainNav{display:none;position:absolute;top:68px;left:0;right:0;background:var(--navy);border-bottom:2px solid var(--gold);flex-direction:column;align-items:stretch;padding:10px 0;gap:0;margin:0;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+      nav#mainNav.open{display:flex}
+      nav#mainNav a{padding:14px 28px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.85rem}
+      nav#mainNav .nav-cta{margin:10px 20px 4px;border-radius:4px;text-align:center;padding:12px}
+    }
+
+    /* ── HERO ── */
+    .hero{position:relative;height:56vh;min-height:400px;overflow:hidden;display:flex;align-items:flex-end}
+    .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:brightness(.42)}
+    .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to bottom,transparent,var(--off));pointer-events:none}
+    .hero-content{position:relative;z-index:2;padding:0 60px 56px;max-width:740px}
+    .page-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .hero-title{font-size:clamp(2rem,4.5vw,3.6rem);font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:-.01em;line-height:1}
+    .hero-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--gold);font-size:1.05em}
+    .hero-desc{font-size:.92rem;color:rgba(255,255,255,.72);line-height:1.7;max-width:580px;margin-top:14px}
+
+    /* ── LAYOUT ── */
+    .content{max-width:1160px;margin:0 auto;padding:56px 60px 80px}
+
+    /* ── SECTION HEADERS ── */
+    .sec-ey{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sky);margin-bottom:5px}
+    .sec-title{font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:800;text-transform:uppercase;color:var(--navy);letter-spacing:-.01em;line-height:1.05;margin-bottom:20px}
+    .sec-title em{font-family:'DM Serif Display',serif;font-style:italic;color:var(--sky);font-size:1.06em}
+
+    /* ── INTRO ── */
+    .intro-grid{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start;margin-bottom:56px}
+    .intro-body p{font-size:.94rem;line-height:1.78;color:var(--text);margin-bottom:16px}
+    .intro-body p:last-child{margin-bottom:0}
+    .intro-body strong{color:var(--navy)}
+    .intro-side{}
+    .fact-card{background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,.07);overflow:hidden}
+    .fact-card-hd{background:var(--navy);padding:16px 20px}
+    .fact-card-title{font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+    .fact-card-body{padding:0}
+    .fact-row{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .fact-row:last-child{border-bottom:none}
+    .fact-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+    .fact-val{font-size:.88rem;font-weight:700;color:var(--navy);text-align:right}
+
+    /* ── DIVIDER ── */
+    .divider{height:2px;background:linear-gradient(to right,var(--gold),transparent);margin:48px 0;border-radius:2px}
+
+    /* ── STATS BAND ── */
+    .stats-band{background:var(--sky);border-radius:12px;padding:36px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:56px}
+    .band-stat{text-align:center;border-right:1px solid rgba(255,255,255,.18);padding:0 24px}
+    .band-stat:last-child{border-right:none}
+    .band-num{font-size:2.6rem;font-weight:800;color:var(--white);line-height:1;letter-spacing:-.01em}
+    .band-lbl{font-size:.7rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-top:5px}
+
+    /* ── TIMELINE ── */
+    .timeline{margin-bottom:56px}
+    .tl-list{display:flex;flex-direction:column;gap:0}
+    .tl-item{display:flex;gap:20px;padding-bottom:32px;position:relative}
+    .tl-item:last-child{padding-bottom:0}
+    .tl-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:48px}
+    .tl-dot{width:16px;height:16px;background:var(--gold);border-radius:50%;border:3px solid var(--white);box-shadow:0 0 0 2px var(--gold);flex-shrink:0;margin-top:4px}
+    .tl-line{width:2px;flex:1;background:rgba(232,160,32,.25);margin-top:6px}
+    .tl-item:last-child .tl-line{display:none}
+    .tl-year{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:5px}
+    .tl-body{padding-top:2px;flex:1}
+    .tl-title{font-size:1rem;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.02em;margin-bottom:5px}
+    .tl-desc{font-size:.85rem;color:var(--text);line-height:1.65}
+
+    /* ── TERMINAL CARDS ── */
+    .terminal-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:56px}
+    .tc{background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,.07);overflow:hidden}
+    .tc-hd{padding:22px 24px;border-bottom:1px solid rgba(0,0,0,.06)}
+    .tc-badge{display:inline-block;font-size:.65rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:4px 11px;border-radius:2px;margin-bottom:10px}
+    .t1b{background:var(--gold);color:var(--navy)}
+    .t2b{background:var(--sky);color:var(--white)}
+    .tc-name{font-size:1.4rem;font-weight:800;text-transform:uppercase;color:var(--navy);letter-spacing:.02em;line-height:1.05;margin-bottom:6px}
+    .tc-desc{font-size:.84rem;color:var(--gray);line-height:1.6}
+    .tc-body{padding:20px 24px}
+    .tc-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:11px;font-size:.83rem;color:var(--text)}
+    .tc-row:last-child{margin-bottom:0}
+    .tc-row-icon{flex-shrink:0;font-size:.95rem;margin-top:1px}
+
+    /* ── LEADERSHIP ── */
+    .lead-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:56px}
+    .lead-card{background:var(--white);border-radius:10px;border:1px solid rgba(0,0,0,.07);padding:24px;text-align:center}
+    .lead-avatar{width:68px;height:68px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.6rem;border:3px solid var(--gold)}
+    .lead-name{font-size:.95rem;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
+    .lead-title{font-size:.73rem;font-weight:600;color:var(--sky);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+    .lead-desc{font-size:.78rem;color:var(--gray);line-height:1.6}
+
+    /* ── MISSION ── */
+    .mission-block{background:var(--navy);border-radius:12px;padding:44px 48px;margin-bottom:56px;border-left:5px solid var(--gold);display:grid;grid-template-columns:1fr 1fr;gap:36px}
+    .mission-item{}
+    .mission-eyebrow{font-size:.63rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .mission-text{font-size:.92rem;color:rgba(255,255,255,.75);line-height:1.75;font-style:italic}
+    .mission-text strong{color:var(--white);font-style:normal}
+
+    /* ── AWARDS ── */
+    .awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:56px}
+    .award-card{background:var(--white);border-radius:9px;border:1px solid rgba(0,0,0,.07);padding:20px;display:flex;align-items:flex-start;gap:13px}
+    .award-icon{font-size:1.6rem;flex-shrink:0}
+    .award-title{font-size:.85rem;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
+    .award-body{font-size:.76rem;color:var(--gray);line-height:1.55}
+
+    /* ── FOOTER ── */
+    footer{background:var(--navy);border-top:2px solid rgba(255,255,255,.05);padding:30px 60px;display:flex;align-items:center;justify-content:space-between}
+    .fc{font-size:.74rem;color:rgba(255,255,255,.27)}
+    .fi{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.27);letter-spacing:.12em;text-transform:uppercase}
+
+    @media(max-width:1000px){
+      .intro-grid,.mission-block{grid-template-columns:1fr}
+      .terminal-grid,.lead-grid,.awards-grid{grid-template-columns:1fr 1fr}
+      .stats-band{grid-template-columns:repeat(2,1fr)}.band-stat:nth-child(2){border-right:none}
+      .content,footer{padding-left:24px;padding-right:24px}.hero-content{padding-left:24px;padding-right:24px}
+    }
+    @media(max-width:640px){
+      .terminal-grid,.lead-grid,.awards-grid{grid-template-columns:1fr}
+      .stats-band{grid-template-columns:1fr}.band-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.15);padding:14px 0}
+      .band-stat:last-child{border-bottom:none}
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>Felix Lego City International Airport &nbsp;·&nbsp; Lego City, Republic States</span>
+  <div class="topbar-links">
+    <a href="departures.html">Live Flight Board</a>
+    <a href="cbp.html">RS Customs &amp; Border Protection</a>
+    <a href="admin.html">Staff Portal</a>
+  </div>
+</div>
+
+<header>
+  <a href="index.html" class="logo-area">
+    <div class="logo-code">FLX</div>
+    <div class="logo-div"></div>
+    <div class="logo-text">
+      <span class="logo-name">Felix Lego City</span>
+      <span class="logo-sub">International Airport</span>
+    </div>
+  </a>
+  <nav id="mainNav">
+    <a href="index.html">Home</a>
+    <a href="departures.html">Flights</a>
+    <a href="terminals.html">Terminals</a>
+    <a href="airlines.html">Airlines</a>
+    <a href="cbp.html">Customs</a>
+    <a href="about.html" class="active">About</a>
+    <a href="departures.html" class="nav-cta">Flight Status</a>
+  </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/LAX_aerial_cropped.jpg/1280px-LAX_aerial_cropped.jpg"
+    alt="Felix Lego City International Airport"
+    onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80'"
+  />
+  <div class="hero-content">
+    <div class="page-eyebrow">✈ IATA: FLX &nbsp;·&nbsp; ICAO: KFLX &nbsp;·&nbsp; Lego City, Republic States</div>
+    <h1 class="hero-title">About <em>Felix Lego City<br>International</em></h1>
+    <p class="hero-desc">An engineering masterpiece at the heart of the Republic States — connecting Lego City to the world since our founding, and building toward a future of world-class aviation.</p>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- INTRO -->
+  <div class="intro-grid">
+    <div class="intro-body">
+      <div class="sec-ey">Our Story</div>
+      <div class="sec-title">The Republic States' <em>Premier Gateway</em></div>
+      <p>Felix Lego City International Airport — known by its IATA code <strong>FLX</strong> and ICAO designation <strong>KFLX</strong> — is the primary international airport serving Lego City and the surrounding Republic States metropolitan area. As the Republic's busiest and most strategically positioned air hub, FLX connects millions of travelers each year to destinations across the Pacific, the Atlantic, and throughout the Republic States.</p>
+      <p>The airport is named in honor of <strong>Felix</strong>, a founding figure in Lego City's civic and infrastructure heritage. From its earliest single-terminal origins to today's two-terminal complex, FLX has grown alongside the city it serves — always pushing the standard of what an airport in the Republic States can be.</p>
+      <p>FLX is operated by the <strong>City Metro Department of Airports</strong>, a public authority under the Republic States Department of Infrastructure and Transport. The airport operates 24 hours a day, 365 days a year, supporting <strong>9 airlines</strong>, two world-class terminals, and a full on-site Republic States Customs and Border Protection facility — the only such facility in Lego City.</p>
+      <p>Terminal 1, our international gateway, underwent a <strong>complete refurbishment completed in May 2026</strong>, emerging as one of the most modern international terminal facilities in the region. Terminal 2, our domestic hub, was remodeled in <strong>September 2024</strong>, bringing upgraded concourses, expanded security lanes, and improved passenger amenities to domestic travelers.</p>
+    </div>
+    <div class="intro-side">
+      <div class="fact-card">
+        <div class="fact-card-hd"><div class="fact-card-title">Airport Quick Facts</div></div>
+        <div class="fact-card-body">
+          <div class="fact-row"><span class="fact-label">IATA Code</span><span class="fact-val">FLX</span></div>
+          <div class="fact-row"><span class="fact-label">ICAO Code</span><span class="fact-val">KFLX</span></div>
+          <div class="fact-row"><span class="fact-label">Location</span><span class="fact-val">Lego City, Republic States</span></div>
+          <div class="fact-row"><span class="fact-label">Operator</span><span class="fact-val">City Metro Department of Airports</span></div>
+          <div class="fact-row"><span class="fact-label">Terminals</span><span class="fact-val">2 (International + Domestic)</span></div>
+          <div class="fact-row"><span class="fact-label">Airlines</span><span class="fact-val">9</span></div>
+          <div class="fact-row"><span class="fact-label">Total Gates</span><span class="fact-val">16 (A, B, C Concourses)</span></div>
+          <div class="fact-row"><span class="fact-label">T1 Refurbished</span><span class="fact-val">May 2026</span></div>
+          <div class="fact-row"><span class="fact-label">T2 Remodeled</span><span class="fact-val">September 2025</span></div>
+          <div class="fact-row"><span class="fact-label">RS CBP On-Site</span><span class="fact-val">Yes — T1 Level 1</span></div>
+          <div class="fact-row"><span class="fact-label">Operations</span><span class="fact-val">24 / 7 / 365</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS BAND -->
+  <div class="stats-band">
+    <div class="band-stat"><div class="band-num">9</div><div class="band-lbl">Airline Partners</div></div>
+    <div class="band-stat"><div class="band-num">2</div><div class="band-lbl">World-Class Terminals</div></div>
+    <div class="band-stat"><div class="band-num">29</div><div class="band-lbl">Gates</div></div>
+    <div class="band-stat"><div class="band-num">24/7</div><div class="band-lbl">Operations</div></div>
+  </div>
+
+  <!-- MISSION -->
+  <div class="mission-block">
+    <div class="mission-item">
+      <div class="mission-eyebrow">Our Mission</div>
+      <div class="mission-text">"To provide the Republic States and Lego City with a <strong>world-class, safe, efficient, and welcoming</strong> air travel gateway — connecting our community to the world while setting the standard for innovation and passenger experience in the region."</div>
+    </div>
+    <div class="mission-item">
+      <div class="mission-eyebrow">Our Vision</div>
+      <div class="mission-text">"A future where FLX is recognized globally as a <strong>benchmark for airport excellence</strong> — a place where every traveler feels welcomed, every operation runs with precision, and every journey begins and ends with ease."</div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline">
+    <div class="sec-ey">Our History</div>
+    <div class="sec-title">A Legacy of <em>Growth</em></div>
+    <div class="tl-list">
+
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot"></div>
+          <div class="tl-year">Founded</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Airport Founding</div>
+          <div class="tl-desc">Felix Lego City Airport opens as a single-terminal facility serving the growing aviation needs of Lego City and the Republic States. Named in honor of Felix, a pioneer of Lego City's civic infrastructure, the airport begins with modest operations but an ambitious vision for the future.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot"></div>
+          <div class="tl-year">Expansion</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">International Service Launches</div>
+          <div class="tl-desc">FLX receives its international gateway designation from the Republic States Railway and Transportation Authority. The first international flights begin service, with British Airways and DreamPacific Airways as the founding international carriers. Republic States Customs and Border Protection establishes its first on-site processing facility.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot"></div>
+          <div class="tl-year">Growth</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Terminal 2 Opens for Domestic Operations</div>
+          <div class="tl-desc">As domestic traffic surges, FLX opens Terminal 2 as a dedicated domestic hub. Southwest Airlines and American Airlines anchor the new terminal with expanded frequency. The FLX Terminal Connector begins operations, linking the two terminals for connecting passengers.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot"></div>
+          <div class="tl-year">Sep 2025</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Terminal 2 Remodel Complete</div>
+          <div class="tl-desc">Terminal 2 completes a comprehensive remodel, unveiling expanded Concourse C gates, upgraded security screening with CLEAR lanes, modern dining and retail facilities, and improved accessibility throughout. The remodel positions Terminal 2 as one of the most passenger-friendly domestic terminals in the Republic States.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot"></div>
+          <div class="tl-year">May 2026</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Terminal 1 Grand Reopening — Fully Refurbished</div>
+          <div class="tl-desc">Terminal 1 reopens following an extensive refurbishment that transforms FLX's international gateway into one of the most modern facilities in the region. New concourses A and B, upgraded RS CBP processing, premium airline lounges, expanded duty-free retail, panoramic airfield views, and state-of-the-art passenger amenities mark a new era for international travel at FLX. United Airlines and GlobeStar Airlines join the terminal as new carriers.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot"></div>
+          <div class="tl-year">May 2026</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title">Curbside Vehicle Access Suspended — FLX Shuttle Program Launched</div>
+          <div class="tl-desc">Effective May 13, 2026, private vehicle curbside access to both Terminal 1 and Terminal 2 is suspended as part of FLX's commitment to sustainable, efficient airport operations. The FLX Consolidated Parking Lot and dedicated shuttle busway program launches, with buses running every 2–5 minutes and every 90 seconds during peak rush hours on a fully dedicated busway.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TERMINALS -->
+  <div class="sec-ey">Our Facilities</div>
+  <div class="sec-title">Two <em>Terminals</em></div>
+  <div class="terminal-grid">
+    <div class="tc">
+      <div class="tc-hd">
+        <div class="tc-badge t1b">● International</div>
+        <div class="tc-name">Terminal 1</div>
+        <div class="tc-desc">Newly refurbished May 2026 — FLX's gleaming international gateway connecting Lego City to the world.</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-row"><span class="tc-row-icon">✈️</span>7 international airlines: British Airways, Emirates, Hawaiian, United, DreamPacific, GlobeStar, JetBlue</div>
+        <div class="tc-row"><span class="tc-row-icon">🏛</span>Concourses A &amp; B — 10 international gates</div>
+        <div class="tc-row"><span class="tc-row-icon">🛂</span>Full RS Customs &amp; Border Protection — 3 All Passports lanes, 1 RS Citizens lane</div>
+        <div class="tc-row"><span class="tc-row-icon">🛋️</span>DreamPacific Plus Club</div>
+        <div class="tc-row"><span class="tc-row-icon">🛍️</span>FLX Duty Free, premium dining, currency exchange</div>
+        <div class="tc-row"><span class="tc-row-icon">🏗</span>Fully refurbished and reopened May 2025</div>
+      </div>
+    </div>
+    <div class="tc">
+      <div class="tc-hd">
+        <div class="tc-badge t2b">● Domestic</div>
+        <div class="tc-name">Terminal 2</div>
+        <div class="tc-desc">Remodeled September 2025 — the Republic States' streamlined domestic hub for efficient travel.</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-row"><span class="tc-row-icon">✈️</span>2 domestic airlines: Southwest Airlines, American Airlines</div>
+        <div class="tc-row"><span class="tc-row-icon">🏛</span>Concourse C — 6 domestic gates</div>
+        <div class="tc-row"><span class="tc-row-icon">🛡</span>1 standard security lane + 1 TSA PreCheck + CLEAR lanes</div>
+        <div class="tc-row"><span class="tc-row-icon">🍔</span>Republic Roast Coffee, T2 Diner, The Gate Bar &amp; Grill, and more</div>
+        <div class="tc-row"><span class="tc-row-icon">🐾</span>Indoor pet relief near Gate C2; outdoor relief at Level 1 east exit</div>
+        <div class="tc-row"><span class="tc-row-icon">🏗</span>Last remodeled September 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- LEADERSHIP -->
+  <div class="sec-ey">Airport Leadership</div>
+  <div class="sec-title">FLX <em>Leadership Team</em></div>
+  <div class="lead-grid">
+    <div class="lead-card">
+      <div class="lead-avatar">✈</div>
+      <div class="lead-name">Executive Director</div>
+      <div class="lead-title">City Metro Airports Divison</div>
+      <div class="lead-desc">Oversees all FLX airport operations, capital programs, airline relations, and strategic planning. Reports to the LCAA Board of Directors.</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-avatar">🛂</div>
+      <div class="lead-name">Director of Operations</div>
+      <div class="lead-title">Terminal &amp; Airfield Operations</div>
+      <div class="lead-desc">Responsible for day-to-day terminal operations, airfield safety, ground handling oversight, and emergency response coordination.</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-avatar">🌐</div>
+      <div class="lead-name">Director of Aviation &amp; Airline Affairs</div>
+      <div class="lead-title">Airline Relations &amp; Route Development</div>
+      <div class="lead-desc">Manages relationships with all nine FLX airline partners, leads route development initiatives, and represents FLX at international aviation forums.</div>
+    </div>
+  </div>
+
+  <!-- AWARDS -->
+  <div class="sec-ey">Recognition</div>
+  <div class="sec-title">Awards &amp; <em>Milestones</em></div>
+  <div class="awards-grid">
+    <div class="award-card">
+      <div class="award-icon">🏆</div>
+      <div>
+        <div class="award-title">Best Regional Airport — Republic States</div>
+        <div class="award-body">Recognized by the RS Aviation Association for excellence in passenger experience, safety record, and infrastructure investment.</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">🌿</div>
+      <div>
+        <div class="award-title">Sustainability Commendation 2026</div>
+        <div class="award-body">Awarded for the FLX Shuttle Program and the elimination of private vehicle curbside access — a landmark step in green airport operations.</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">🏗</div>
+      <div>
+        <div class="award-title">Engineering Excellence — T1 Refurbishment</div>
+        <div class="award-body">The Terminal 1 refurbishment project was recognized by the Republic States Institute of Architecture for its design innovation and engineering achievement.</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">🛂</div>
+      <div>
+        <div class="award-title">CBP Processing Excellence</div>
+        <div class="award-body">FLX's RS Customs and Border Protection facility received commendation for efficient processing times and traveler satisfaction among international airports in the RS.</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">♿</div>
+      <div>
+        <div class="award-title">Accessibility Gold Standard</div>
+        <div class="award-body">Both terminals received full accessibility certification following the 2025–2026 remodel programs, with newly upgraded elevators, companion restrooms, and wayfinding systems.</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">🌐</div>
+      <div>
+        <div class="award-title">International Connectivity Award</div>
+        <div class="award-body">FLX was recognized for expanding international connectivity with the addition of British Airways and GlobeStar Airlines, opening new Pacific Rim and Southern Hemisphere routes from Lego City.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="fc">© 2026 Felix Lego City International Airport · Lego City, Republic States. All rights reserved.</div>
+  <div class="fi">IATA: FLX &nbsp;·&nbsp; ICAO: KFLX</div>
+</footer>
+
+<script>
+  function toggleMenu(){document.getElementById('mainNav').classList.toggle('open');document.getElementById('hamburger').classList.toggle('open');}
+  document.querySelectorAll('#mainNav a').forEach(a=>a.addEventListener('click',()=>{document.getElementById('mainNav').classList.remove('open');document.getElementById('hamburger').classList.remove('open');}));
+  const style=document.createElement('style');
+  style.textContent='.fi{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease}.fi.vis{opacity:1;transform:none}';
+  document.head.appendChild(style);
+  const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){const sib=Array.from(en.target.parentNode.children);en.target.style.transitionDelay=(sib.indexOf(en.target)*55)+'ms';en.target.classList.add('vis');obs.unobserve(en.target);}});},{threshold:.07});
+  document.querySelectorAll('.tc,.lead-card,.award-card,.tl-item').forEach(el=>{el.classList.add('fi');obs.observe(el);});
+</script>
+
+</body>
+</html>
