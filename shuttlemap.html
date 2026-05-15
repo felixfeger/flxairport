@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FLX Shuttle Live Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#0a1628}
+
+  .hdr{
+    background:#0a1628;border-bottom:3px solid #e8a020;
+    padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .hdr-left{display:flex;align-items:center;gap:14px}
+  .hdr-code{font-size:1.7rem;font-weight:800;color:#e8a020;letter-spacing:-.02em}
+  .hdr-line{width:1px;height:28px;background:rgba(255,255,255,.18)}
+  .hdr-name{font-size:.78rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.05em}
+  .hdr-sub{font-size:.6rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+  .live-pill{display:flex;align-items:center;gap:6px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.35);border-radius:100px;padding:5px 14px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80}
+  .ldot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:p 1.8s ease-in-out infinite}
+  @keyframes p{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.65)}}
+
+  /* Map container — explicit height is critical for Leaflet */
+  #map-wrap{position:relative;width:100%;height:620px}
+  #flx-map{width:100%;height:100%}
+
+  /* Overlay panels */
+  .panel{
+    position:absolute;z-index:1000;
+    background:#fff;border-radius:10px;
+    box-shadow:0 4px 20px rgba(0,0,0,.22);
+    font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+    overflow:hidden;
+  }
+
+  /* Next bus */
+  #nbPanel{top:12px;right:12px;width:218px}
+  .nb-hd{background:#0a1628;padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+  .nb-hd-t{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+  .nb-stop{padding:9px 14px;border-bottom:1px solid rgba(0,0,0,.07)}
+  .nb-stop:last-child{border-bottom:none}
+  .nb-stop-n{font-size:.57rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#8898aa;margin-bottom:5px}
+  .nb-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;font-size:.62rem}
+  .nb-row:last-child{margin-bottom:0}
+  .nb-bus{display:flex;align-items:center;gap:5px;font-weight:800;color:#0a1628}
+  .nb-sw{width:8px;height:8px;border-radius:2px}
+  .c-here{color:#16a34a;font-weight:800}
+  .c-soon{color:#d97706;font-weight:800}
+  .c-ok{color:#1a6bcc;font-weight:800}
+  .c-far{color:#8898aa;font-weight:600}
+
+  /* Legend */
+  #busLeg{bottom:32px;left:12px;padding:10px 14px}
+  .leg-hd{font-size:.57rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8898aa;margin-bottom:7px}
+  .leg-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;font-size:.65rem;font-weight:700;color:#0a1628}
+  .leg-row:last-child{margin-bottom:0}
+  .leg-sw{width:24px;height:12px;border-radius:3px}
+
+  /* Route key */
+  #routeKey{bottom:32px;right:12px;padding:10px 14px;min-width:148px}
+  .rk-hd{font-size:.57rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8898aa;margin-bottom:7px}
+  .rk-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;font-size:.65rem;font-weight:600;color:#0a1628}
+  .rk-row:last-child{margin-bottom:0}
+  .rk-l{width:24px;height:4px;border-radius:2px}
+  .rk-circ{width:12px;height:12px;border-radius:50%;background:#e8a020;border:2.5px solid #fff;box-shadow:0 0 0 1.5px #e8a020;flex-shrink:0}
+
+  .leaflet-control-zoom{border:none!important;box-shadow:0 3px 10px rgba(0,0,0,.18)!important}
+  .leaflet-control-zoom a{font-size:16px!important;color:#0a1628!important}
+  .leaflet-control-attribution{font-size:9px!important}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-code">FLX</div>
+    <div class="hdr-line"></div>
+    <div>
+      <div class="hdr-name">Felix Lego City International — Shuttle Map</div>
+      <div class="hdr-sub">City Metro MCI Coach Service · Dedicated Busway · Live Tracking</div>
+    </div>
+  </div>
+  <div class="live-pill"><div class="ldot"></div>Live</div>
+</div>
+
+<div id="map-wrap">
+  <div id="flx-map"></div>
+
+  <!-- Next Bus Panel -->
+  <div class="panel" id="nbPanel">
+    <div class="nb-hd">
+      <div class="nb-hd-t">⏱ Next Bus Arrival</div>
+      <div class="ldot"></div>
+    </div>
+    <div id="nbRows"></div>
+  </div>
+
+  <!-- Bus Legend -->
+  <div class="panel" id="busLeg">
+    <div class="leg-hd">Active Buses — City Metro</div>
+    <div class="leg-row"><div class="leg-sw" style="background:#1a6bcc"></div>Bus 101 · MCI Coach</div>
+    <div class="leg-row"><div class="leg-sw" style="background:#16a34a"></div>Bus 102 · MCI Coach</div>
+    <div class="leg-row"><div class="leg-sw" style="background:#7c3aed"></div>Bus 103 · MCI Coach</div>
+  </div>
+
+  <!-- Route Key -->
+  <div class="panel" id="routeKey">
+    <div class="rk-hd">Route Key</div>
+    <div class="rk-row"><div class="rk-l" style="background:#e8a020"></div>Shuttle Route</div>
+    <div class="rk-row"><div class="rk-l" style="background:repeating-linear-gradient(90deg,#e8a020 0,#e8a020 5px,transparent 5px,transparent 9px)"></div>I-10 Tunnel</div>
+    <div class="rk-row"><div class="rk-circ"></div>Bus Stop</div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ─── TIMING ───────────────────────────────
+   LOT dwell 90s | LOT→T1 270s | T1 dwell 90s
+   T1→T2 240s    | T2 dwell 90s | T2→LOT 270s
+   Loop = 1050s ≈ 17.5 min
+─────────────────────────────────────────── */
+var LOOP = 1050;
+var DWELL = 90;
+
+/* Phase table: t0 = loop-seconds at phase start */
+var PHASES = [
+  {type:'dwell', stop:'LOT', idx:0,  t0:0,   dur:90},
+  {type:'move',  from:0,  to:5,      t0:90,  dur:270},
+  {type:'dwell', stop:'T1', idx:5,   t0:360, dur:90},
+  {type:'move',  from:5,  to:13,     t0:450, dur:240},
+  {type:'dwell', stop:'T2', idx:13,  t0:690, dur:90},
+  {type:'move',  from:13, to:20,     t0:780, dur:270}
+];
+
+var STOP_T = {LOT:0, T1:360, T2:690};
+
+/* ─── ROUTE WAYPOINTS [lat, lng] ───────────
+   I-10 runs N-S around lng -118.309
+   LOT = NW, T1 = west of I-10, T2 = east
+─────────────────────────────────────────── */
+var R = [
+  [34.0630,-118.3170], // 0  LOT STOP
+  [34.0580,-118.3170], // 1  south on west perimeter road
+  [34.0545,-118.3170], // 2  Airport Way junction
+  [34.0545,-118.3150], // 3  Airport Way eastbound
+  [34.0545,-118.3128], // 4  approaching T1
+  [34.0545,-118.3118], // 5  T1 STOP
+  [34.0545,-118.3108], // 6  depart T1 east
+  [34.0545,-118.3096], // 7  past cargo terminal
+  [34.0545,-118.3092], // 8  TUNNEL ENTER (outbound under I-10)
+  [34.0545,-118.3085], // 9  in tunnel
+  [34.0545,-118.3073], // 10 TUNNEL EXIT
+  [34.0538,-118.3048], // 11 Airport Way curves SE
+  [34.0518,-118.3010], // 12 toward T2
+  [34.0510,-118.2992], // 13 T2 STOP
+  [34.0524,-118.3008], // 14 depart T2 NW
+  [34.0572,-118.3038], // 15 north on east side I-10
+  [34.0626,-118.3058], // 16 continue north
+  [34.0628,-118.3088], // 17 TUNNEL ENTER (return under I-10)
+  [34.0628,-118.3132], // 18 TUNNEL EXIT
+  [34.0628,-118.3170], // 19 west to perimeter road junction
+  [34.0630,-118.3170]  // 20 LOT (completes loop = pt 0)
+];
+
+var BUSES = [
+  {id:'101', color:'#1a6bcc', offset:0},
+  {id:'102', color:'#16a34a', offset:350},
+  {id:'103', color:'#7c3aed', offset:700}
+];
+
+/* ─── MATH ─────────────────────────────── */
+function ptDist(a,b){
+  var dy=a[0]-b[0], dx=a[1]-b[1];
+  return Math.sqrt(dy*dy+dx*dx);
+}
+
+function interpSeg(fromI, toI, prog){
+  var pts=[];
+  for(var i=fromI;i<=toI;i++) pts.push(R[i]);
+  if(pts.length<2) return {lat:pts[0][0],lng:pts[0][1],nLat:pts[0][0],nLng:pts[0][1]};
+  var dists=[0];
+  for(var i=0;i<pts.length-1;i++) dists.push(dists[i]+ptDist(pts[i],pts[i+1]));
+  var total=dists[dists.length-1];
+  if(!total) return {lat:pts[0][0],lng:pts[0][1],nLat:pts[1][0],nLng:pts[1][1]};
+  var tgt=Math.min(prog,1)*total;
+  for(var i=0;i<pts.length-1;i++){
+    if(tgt<=dists[i+1]+1e-9){
+      var len=dists[i+1]-dists[i];
+      var t=len>0?Math.min(1,(tgt-dists[i])/len):0;
+      var ni=Math.min(i+1,pts.length-1);
+      return {
+        lat:pts[i][0]+(pts[i+1][0]-pts[i][0])*t,
+        lng:pts[i][1]+(pts[i+1][1]-pts[i][1])*t,
+        nLat:pts[ni][0], nLng:pts[ni][1]
+      };
+    }
+  }
+  var last=pts[pts.length-1];
+  return {lat:last[0],lng:last[1],nLat:last[0],nLng:last[1]};
+}
+
+function getBusState(offset, nowS){
+  var lp=((nowS+offset)%LOOP+LOOP)%LOOP;
+  for(var i=0;i<PHASES.length;i++){
+    var ph=PHASES[i];
+    if(lp<ph.t0+ph.dur){
+      var t=lp-ph.t0;
+      if(ph.type==='dwell'){
+        return {atStop:true, lat:R[ph.idx][0], lng:R[ph.idx][1], stop:ph.stop};
+      }
+      var pos=interpSeg(ph.from, ph.to, t/ph.dur);
+      return {atStop:false, lat:pos.lat, lng:pos.lng, stop:null};
+    }
+  }
+  return {atStop:true, lat:R[0][0], lng:R[0][1], stop:'LOT'};
+}
+
+/* ─── LEAFLET INIT ─────────────────────── */
+var map = L.map('flx-map', {
+  center:[34.057,-118.308],
+  zoom:15,
+  zoomControl:true
+});
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+  attribution:'&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors | FLX Airport KFLX',
+  maxZoom:19
+}).addTo(map);
+
+/* ─── AIRPORT FEATURES ─────────────────── */
+// Airport ground
+L.rectangle([[34.044,-118.328],[34.068,-118.291]],
+  {fillColor:'#d6d2be',fillOpacity:.5,color:'#b0ad98',weight:1}).addTo(map);
+
+// I-10 Freeway body
+L.polygon([
+  [34.043,-118.3102],[34.043,-118.3076],
+  [34.069,-118.3076],[34.069,-118.3102]
+],{fillColor:'#4a4a4a',fillOpacity:.9,color:'#2a2a2a',weight:0}).addTo(map);
+
+// Freeway centre stripe
+L.polyline([[34.043,-118.3089],[34.069,-118.3089]],
+  {color:'#ffd700',weight:2,dashArray:'14,10',opacity:.9}).addTo(map);
+
+// I-10 label marker
+L.marker([34.061,-118.3089],{icon:L.divIcon({
+  className:'',
+  html:'<div style="background:#333;color:#ffd700;font-size:9px;font-weight:900;padding:3px 9px;border-radius:4px;border:1px solid #ffd700;box-shadow:0 2px 6px rgba(0,0,0,.5);font-family:Helvetica Neue,Helvetica,Arial,sans-serif;white-space:nowrap">I-10 Freeway</div>',
+  iconSize:[90,20],iconAnchor:[45,10]
+})}).addTo(map);
+
+// Runway 24L/6R
+L.rectangle([[34.045,-118.3268],[34.067,-118.3240]],
+  {fillColor:'#3c3c3c',fillOpacity:.92,color:'#282828',weight:1}).addTo(map);
+L.polyline([[34.045,-118.3254],[34.067,-118.3254]],
+  {color:'white',weight:1.5,dashArray:'20,14',opacity:.65}).addTo(map);
+
+// Runway 24R/6L
+L.rectangle([[34.045,-118.3218],[34.067,-118.3190]],
+  {fillColor:'#3c3c3c',fillOpacity:.92,color:'#282828',weight:1}).addTo(map);
+L.polyline([[34.045,-118.3204],[34.067,-118.3204]],
+  {color:'white',weight:1.5,dashArray:'20,14',opacity:.65}).addTo(map);
+
+// Runway labels
+L.marker([34.0675,-118.325],{icon:L.divIcon({className:'',
+  html:'<div style="font-size:8px;font-weight:800;color:#444;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">RWY 24L / 6R</div>',
+  iconSize:[75,12],iconAnchor:[37,6]})}).addTo(map);
+L.marker([34.0675,-118.321],{icon:L.divIcon({className:'',
+  html:'<div style="font-size:8px;font-weight:800;color:#444;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">RWY 24R / 6L</div>',
+  iconSize:[75,12],iconAnchor:[37,6]})}).addTo(map);
+
+// Taxiway
+L.polyline([[34.057,-118.323],[34.057,-118.319]],
+  {color:'#5a5a50',weight:7,opacity:.5}).addTo(map);
+
+// Terminal 1 building
+L.rectangle([[34.051,-118.3185],[34.058,-118.3108]],
+  {fillColor:'#1a3a6b',fillOpacity:.9,color:'#0a1628',weight:2}).addTo(map);
+L.marker([34.0545,-118.3147],{icon:L.divIcon({className:'',
+  html:'<div style="text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif"><div style="font-size:11px;font-weight:900;color:white;text-shadow:0 1px 3px rgba(0,0,0,.9)">TERMINAL 1</div><div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.8);letter-spacing:.08em">INTERNATIONAL</div></div>',
+  iconSize:[110,28],iconAnchor:[55,14]})}).addTo(map);
+
+// Cargo terminal
+L.rectangle([[34.051,-118.3108],[34.056,-118.3094]],
+  {fillColor:'#686860',fillOpacity:.88,color:'#444',weight:1}).addTo(map);
+L.marker([34.0535,-118.3101],{icon:L.divIcon({className:'',
+  html:'<div style="font-size:8px;font-weight:800;color:white;text-shadow:0 1px 2px rgba(0,0,0,.9);font-family:Helvetica Neue,Helvetica,Arial,sans-serif">CARGO</div>',
+  iconSize:[44,12],iconAnchor:[22,6]})}).addTo(map);
+
+// Terminal 2 building
+L.rectangle([[34.048,-118.3028],[34.055,-118.2960]],
+  {fillColor:'#1a3a6b',fillOpacity:.9,color:'#0a1628',weight:2}).addTo(map);
+L.marker([34.0515,-118.2994],{icon:L.divIcon({className:'',
+  html:'<div style="text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif"><div style="font-size:11px;font-weight:900;color:white;text-shadow:0 1px 3px rgba(0,0,0,.9)">TERMINAL 2</div><div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.8);letter-spacing:.08em">DOMESTIC</div></div>',
+  iconSize:[110,28],iconAnchor:[55,14]})}).addTo(map);
+
+// Parking Lot
+L.rectangle([[34.061,-118.3220],[34.066,-118.3142]],
+  {fillColor:'#ebebdf',fillOpacity:.95,color:'#0a1628',weight:2}).addTo(map);
+for(var pi=0;pi<4;pi++){
+  var py=34.062+pi*0.001;
+  L.polyline([[py,-118.3215],[py,-118.3148]],{color:'#aaa',weight:1}).addTo(map);
+}
+L.marker([34.0635,-118.318],{icon:L.divIcon({className:'',
+  html:'<div style="font-size:10px;font-weight:900;color:#0a1628;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">&#x1F17F; FLX PARKING LOT</div>',
+  iconSize:[130,16],iconAnchor:[65,8]})}).addTo(map);
+
+// Roads
+L.polyline([[34.066,-118.317],[34.044,-118.317]],{color:'#a8a090',weight:5,opacity:.75}).addTo(map);
+L.polyline([[34.0545,-118.317],[34.0545,-118.293]],{color:'#a8a090',weight:5,opacity:.75}).addTo(map);
+L.polyline([[34.0628,-118.317],[34.0628,-118.297]],{color:'#a8a090',weight:4,opacity:.65}).addTo(map);
+L.polyline([[34.050,-118.300],[34.063,-118.306]],{color:'#a8a090',weight:4,opacity:.6}).addTo(map);
+
+L.marker([34.0545,-118.307],{icon:L.divIcon({className:'',
+  html:'<div style="font-size:9px;font-weight:700;color:#555;background:rgba(255,255,255,.78);padding:1px 5px;border-radius:3px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">Airport Way</div>',
+  iconSize:[80,16],iconAnchor:[40,8]})}).addTo(map);
+
+/* ─── SHUTTLE ROUTE ─────────────────────── */
+// Helper: draw a section of R between two indices
+function drawRouteSeg(fromI, toI, dashed){
+  var pts=[];
+  for(var i=fromI;i<=toI;i++) pts.push(R[i]);
+  // White outline
+  L.polyline(pts,{color:'white',weight:8,opacity:.9}).addTo(map);
+  if(dashed){
+    L.polyline(pts,{color:'#222',weight:10,opacity:.45}).addTo(map);
+    L.polyline(pts,{color:'#e8a020',weight:4,dashArray:'8,7',opacity:1}).addTo(map);
+  } else {
+    L.polyline(pts,{color:'#e8a020',weight:5,opacity:1}).addTo(map);
+  }
+}
+
+drawRouteSeg(0,8,false);   // LOT → tunnel entrance (outbound)
+drawRouteSeg(8,10,true);   // Outbound tunnel under I-10
+drawRouteSeg(10,13,false); // Tunnel exit → T2
+drawRouteSeg(13,17,false); // T2 → return tunnel entrance
+drawRouteSeg(17,18,true);  // Return tunnel under I-10
+drawRouteSeg(18,20,false); // Tunnel exit → LOT
+
+// Tunnel labels
+L.marker([34.0545,-118.3082],{icon:L.divIcon({className:'',
+  html:'<div style="font-size:8px;font-weight:700;color:#444;background:rgba(255,255,255,.85);padding:2px 6px;border-radius:3px;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.18)">Tunnel (under I-10)</div>',
+  iconSize:[105,16],iconAnchor:[52,8]})}).addTo(map);
+L.marker([34.0628,-118.3110],{icon:L.divIcon({className:'',
+  html:'<div style="font-size:8px;font-weight:700;color:#444;background:rgba(255,255,255,.85);padding:2px 6px;border-radius:3px;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.18)">Return Tunnel</div>',
+  iconSize:[90,16],iconAnchor:[45,8]})}).addTo(map);
+
+/* ─── STOP MARKERS ─────────────────────── */
+function makeStopMarker(lat, lng, label, col){
+  L.marker([lat,lng],{
+    icon:L.divIcon({
+      className:'',
+      html:'<div style="text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">'
+          +'<div style="width:18px;height:18px;background:'+col+';border:3.5px solid white;border-radius:50%;margin:0 auto 3px;box-shadow:0 2px 8px rgba(0,0,0,.4)"></div>'
+          +'<div style="background:'+col+';color:white;font-size:9px;font-weight:800;padding:3px 9px;border-radius:4px;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase;box-shadow:0 2px 6px rgba(0,0,0,.3)">'+label+'</div>'
+          +'</div>',
+      iconSize:[120,44],iconAnchor:[60,9]
+    }),
+    zIndexOffset:600
+  }).addTo(map);
+}
+
+makeStopMarker(R[0][0],  R[0][1],  '\uD83C\uDD7F Parking Lot','#0a1628');
+makeStopMarker(R[5][0],  R[5][1],  '\u2708 Terminal 1',       '#1a3a6b');
+makeStopMarker(R[13][0], R[13][1], '\u2708 Terminal 2',       '#1a4a8b');
+
+/* ─── BUS MARKERS ──────────────────────── */
+function makeBusIcon(busId, color, atStop){
+  var bg = atStop ? '#16a34a' : color;
+  var statusTxt = atStop ? 'AT STOP' : 'IN TRANSIT';
+  var html = '<div style="text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:60px;margin-left:-30px">'
+    + '<div style="width:42px;height:20px;background:'+bg+';border-radius:5px 5px 3px 3px;border:2.5px solid white;'
+    + 'box-shadow:0 3px 8px rgba(0,0,0,.4);margin:0 auto 3px;position:relative">'
+    + '<div style="position:absolute;top:1px;left:3px;right:3px;height:5px;background:rgba(255,255,255,.3);border-radius:2px"></div>'
+    + '<div style="position:absolute;bottom:2px;right:2px;width:6px;height:6px;background:rgba(255,255,255,.7);border-radius:50%"></div>'
+    + '</div>'
+    + '<div style="background:white;border:2px solid '+bg+';border-radius:4px;padding:2px 6px;'
+    + 'font-size:9px;font-weight:900;color:'+bg+';box-shadow:0 1px 5px rgba(0,0,0,.18);'
+    + 'white-space:nowrap;letter-spacing:.03em">Bus '+busId+'</div>'
+    + '</div>';
+  return L.divIcon({className:'',html:html,iconSize:[60,46],iconAnchor:[30,10]});
+}
+
+var EPOCH = Date.now();
+var busMarkers = {};
+
+BUSES.forEach(function(bus){
+  var s = getBusState(bus.offset, 0);
+  var m = L.marker([s.lat,s.lng],{
+    icon: makeBusIcon(bus.id, bus.color, s.atStop),
+    zIndexOffset: 2000
+  }).addTo(map);
+  m.bindPopup('<b>Bus '+bus.id+'</b><br>City Metro MCI Coach<br>FLX Shuttle Service');
+  busMarkers[bus.id] = m;
+});
+
+/* ─── NEXT BUS PANEL ───────────────────── */
+var NB_STOPS = [
+  {key:'LOT', label:'\uD83C\uDD7F Parking Lot', t:STOP_T.LOT},
+  {key:'T1',  label:'\u2708 Terminal 1',         t:STOP_T.T1},
+  {key:'T2',  label:'\u2708 Terminal 2',         t:STOP_T.T2}
+];
+
+function fmtArr(secs){
+  if(secs<=0) return {txt:'Here Now', cls:'c-here'};
+  if(secs<60) return {txt:secs+'s',   cls:'c-soon'};
+  var m=Math.floor(secs/60), s=secs%60;
+  var txt=m+' min'+(s>0?' '+s+'s':'');
+  return {txt:txt, cls:m<5?'c-soon':m<10?'c-ok':'c-far'};
+}
+
+function updateNB(nowS){
+  var html='';
+  NB_STOPS.forEach(function(stop){
+    html+='<div class="nb-stop"><div class="nb-stop-n">'+stop.label+'</div>';
+    var rows=BUSES.map(function(bus){
+      var lp=((nowS+bus.offset)%LOOP+LOOP)%LOOP;
+      var rem=(lp>=stop.t&&lp<stop.t+DWELL)?0:Math.round((stop.t-lp+LOOP)%LOOP);
+      return {bus:bus, rem:rem};
+    }).sort(function(a,b){return a.rem-b.rem;});
+    rows.forEach(function(r){
+      var f=fmtArr(r.rem);
+      html+='<div class="nb-row">'
+        +'<div class="nb-bus"><div class="nb-sw" style="background:'+r.bus.color+'"></div>Bus '+r.bus.id+'</div>'
+        +'<div class="'+f.cls+'">'+f.txt+'</div>'
+        +'</div>';
+    });
+    html+='</div>';
+  });
+  document.getElementById('nbRows').innerHTML=html;
+}
+
+/* ─── ANIMATION LOOP ───────────────────── */
+function tick(){
+  var nowS=(Date.now()-EPOCH)/1000;
+  BUSES.forEach(function(bus){
+    var s=getBusState(bus.offset, nowS);
+    busMarkers[bus.id].setLatLng([s.lat,s.lng]);
+    busMarkers[bus.id].setIcon(makeBusIcon(bus.id, bus.color, s.atStop));
+  });
+  updateNB(nowS);
+}
+
+/* Force Leaflet to recalculate size then start animation */
+window.addEventListener('load', function(){
+  map.invalidateSize();
+  tick();
+  setInterval(tick, 1000);
+});
+</script>
+</body>
+</html>
