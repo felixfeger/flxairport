@@ -2,203 +2,288 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FLX Shuttle Live Map</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FLX Shuttle — Live Map</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#0a1628}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#0a1628;overflow:hidden;height:100vh;display:flex;flex-direction:column}
 
-  .hdr{
-    background:#0a1628;border-bottom:3px solid #e8a020;
-    padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
-  }
-  .hdr-left{display:flex;align-items:center;gap:14px}
-  .hdr-code{font-size:1.7rem;font-weight:800;color:#e8a020;letter-spacing:-.02em}
-  .hdr-line{width:1px;height:28px;background:rgba(255,255,255,.18)}
-  .hdr-name{font-size:.78rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.05em}
-  .hdr-sub{font-size:.6rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
-  .live-pill{display:flex;align-items:center;gap:6px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.35);border-radius:100px;padding:5px 14px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80}
-  .ldot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:p 1.8s ease-in-out infinite}
-  @keyframes p{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.65)}}
+/* Header */
+.hdr{background:#0a1628;border-bottom:3px solid #e8a020;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.hl{display:flex;align-items:center;gap:12px}
+.hc{font-size:1.6rem;font-weight:800;color:#e8a020;letter-spacing:-.02em}
+.hd{width:1px;height:26px;background:rgba(255,255,255,.18)}
+.hn{font-size:.76rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.05em}
+.hs{font-size:.58rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.lp{display:flex;align-items:center;gap:6px;background:rgba(22,163,74,.14);border:1px solid rgba(22,163,74,.33);border-radius:100px;padding:5px 13px;font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80}
+.ld{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:p 1.8s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.28;transform:scale(.6)}}
 
-  /* Map container — explicit height is critical for Leaflet */
-  #map-wrap{position:relative;width:100%;height:620px}
-  #flx-map{width:100%;height:100%}
+/* Page body */
+.page{display:flex;flex:1;overflow:hidden}
 
-  /* Overlay panels */
-  .panel{
-    position:absolute;z-index:1000;
-    background:#fff;border-radius:10px;
-    box-shadow:0 4px 20px rgba(0,0,0,.22);
-    font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-    overflow:hidden;
-  }
+/* Map area */
+.map-wrap{position:relative;flex:1;overflow:hidden;background:#e8e3d8;cursor:grab}
+.map-wrap:active{cursor:grabbing}
+canvas#mc{display:block;width:100%;height:100%}
 
-  /* Next bus */
-  #nbPanel{top:12px;right:12px;width:218px}
-  .nb-hd{background:#0a1628;padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
-  .nb-hd-t{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff}
-  .nb-stop{padding:9px 14px;border-bottom:1px solid rgba(0,0,0,.07)}
-  .nb-stop:last-child{border-bottom:none}
-  .nb-stop-n{font-size:.57rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#8898aa;margin-bottom:5px}
-  .nb-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;font-size:.62rem}
-  .nb-row:last-child{margin-bottom:0}
-  .nb-bus{display:flex;align-items:center;gap:5px;font-weight:800;color:#0a1628}
-  .nb-sw{width:8px;height:8px;border-radius:2px}
-  .c-here{color:#16a34a;font-weight:800}
-  .c-soon{color:#d97706;font-weight:800}
-  .c-ok{color:#1a6bcc;font-weight:800}
-  .c-far{color:#8898aa;font-weight:600}
+/* Zoom controls */
+.zoom-ctrl{position:absolute;bottom:28px;left:16px;z-index:100;display:flex;flex-direction:column;gap:2px}
+.zb{width:32px;height:32px;background:#fff;border:1px solid rgba(0,0,0,.2);border-radius:4px;font-size:18px;font-weight:300;color:#3c3228;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.18);transition:background .15s;user-select:none}
+.zb:hover{background:#f5f0e8}
 
-  /* Legend */
-  #busLeg{bottom:32px;left:12px;padding:10px 14px}
-  .leg-hd{font-size:.57rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8898aa;margin-bottom:7px}
-  .leg-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;font-size:.65rem;font-weight:700;color:#0a1628}
-  .leg-row:last-child{margin-bottom:0}
-  .leg-sw{width:24px;height:12px;border-radius:3px}
+/* Map attribution */
+.attr{position:absolute;bottom:8px;right:8px;font-size:9px;color:rgba(0,0,0,.4);background:rgba(255,255,255,.75);padding:2px 6px;border-radius:3px}
 
-  /* Route key */
-  #routeKey{bottom:32px;right:12px;padding:10px 14px;min-width:148px}
-  .rk-hd{font-size:.57rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8898aa;margin-bottom:7px}
-  .rk-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;font-size:.65rem;font-weight:600;color:#0a1628}
-  .rk-row:last-child{margin-bottom:0}
-  .rk-l{width:24px;height:4px;border-radius:2px}
-  .rk-circ{width:12px;height:12px;border-radius:50%;background:#e8a020;border:2.5px solid #fff;box-shadow:0 0 0 1.5px #e8a020;flex-shrink:0}
+/* Side panel */
+.side{width:248px;background:#0d1f3c;border-left:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.ss{padding:15px 17px;border-bottom:1px solid rgba(255,255,255,.06)}
+.ss:last-child{border-bottom:none}
+.sh{font-size:.58rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#e8a020;margin-bottom:12px}
 
-  .leaflet-control-zoom{border:none!important;box-shadow:0 3px 10px rgba(0,0,0,.18)!important}
-  .leaflet-control-zoom a{font-size:16px!important;color:#0a1628!important}
-  .leaflet-control-attribution{font-size:9px!important}
+/* Bus cards */
+.bc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.bc:last-child{margin-bottom:0}
+.bct{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.bci{width:26px;height:26px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.bcn{font-size:.76rem;font-weight:800;color:#fff}
+.bcs{font-size:.6rem;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.06em}
+.bcd{font-size:.63rem;color:rgba(255,255,255,.5);line-height:1.5}
+.bdb{display:inline-block;font-size:.56rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:100px;margin-top:4px}
+.b-stop{background:rgba(22,163,74,.18);border:1px solid rgba(22,163,74,.38);color:#4ade80}
+.b-move{background:rgba(26,107,204,.18);border:1px solid rgba(26,107,204,.38);color:#60a5fa}
+.b-tun {background:rgba(217,119,6,.18);border:1px solid rgba(217,119,6,.38);color:#fbbf24}
+
+/* Next arrival */
+.nas{margin-bottom:12px}.nas:last-child{margin-bottom:0}
+.nasn{font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px}
+.nar{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.nar:last-child{margin-bottom:0}
+.nab{display:flex;align-items:center;gap:5px;font-size:.63rem;font-weight:700;color:#fff}
+.nabs{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.nat{font-size:.63rem;font-weight:800}
+.c-here{color:#4ade80}.c-soon{color:#fbbf24}.c-ok{color:#60a5fa}.c-far{color:rgba(255,255,255,.35)}
+
+/* Route key */
+.rr{display:flex;align-items:center;gap:8px;font-size:.63rem;color:rgba(255,255,255,.58);font-weight:600;margin-bottom:7px}
+.rr:last-child{margin-bottom:0}
+.rl{width:24px;height:4px;border-radius:2px;flex-shrink:0}
+.rc{width:12px;height:12px;border-radius:50%;background:#e8a020;border:2.5px solid #fff;box-shadow:0 0 0 1.5px #e8a020;flex-shrink:0}
+.rbus{width:20px;height:13px;background:#fff;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0}
+
+/* Tooltip */
+#tip{position:fixed;z-index:9999;background:#0a1628;border:2px solid #e8a020;border-radius:8px;padding:9px 13px;font-size:.7rem;font-weight:700;color:#fff;pointer-events:none;display:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.55);min-width:148px;line-height:1.65}
+#tip .tid{color:#e8a020;font-size:.8rem;font-weight:900;margin-bottom:3px}
+#tip .tst{font-size:.64rem;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.07em}
+#tip .tnx{color:#4ade80;font-size:.67rem;margin-top:3px}
 </style>
 </head>
 <body>
 
 <div class="hdr">
-  <div class="hdr-left">
-    <div class="hdr-code">FLX</div>
-    <div class="hdr-line"></div>
+  <div class="hl">
+    <div class="hc">FLX</div>
+    <div class="hd"></div>
     <div>
-      <div class="hdr-name">Felix Lego City International — Shuttle Map</div>
-      <div class="hdr-sub">City Metro MCI Coach Service · Dedicated Busway · Live Tracking</div>
+      <div class="hn">Felix Lego City International — Shuttle Live Map</div>
+      <div class="hs">City Metro MCI Coach · Dedicated Busway · One-way loop: Parking → T1 → T2 → Parking</div>
     </div>
   </div>
-  <div class="live-pill"><div class="ldot"></div>Live</div>
+  <div class="lp"><div class="ld"></div>Live Tracking</div>
 </div>
 
-<div id="map-wrap">
-  <div id="flx-map"></div>
+<div class="page">
 
-  <!-- Next Bus Panel -->
-  <div class="panel" id="nbPanel">
-    <div class="nb-hd">
-      <div class="nb-hd-t">⏱ Next Bus Arrival</div>
-      <div class="ldot"></div>
+  <div class="map-wrap" id="mw">
+    <canvas id="mc"></canvas>
+    <div class="zoom-ctrl">
+      <div class="zb" id="zin" title="Zoom in">+</div>
+      <div class="zb" id="zout" title="Zoom out">−</div>
+      <div class="zb" id="zreset" title="Reset view" style="font-size:12px">⊙</div>
     </div>
-    <div id="nbRows"></div>
+    <div class="attr">FLX Airport · Fictional Map · Not to Scale · KFLX</div>
   </div>
 
-  <!-- Bus Legend -->
-  <div class="panel" id="busLeg">
-    <div class="leg-hd">Active Buses — City Metro</div>
-    <div class="leg-row"><div class="leg-sw" style="background:#1a6bcc"></div>Bus 101 · MCI Coach</div>
-    <div class="leg-row"><div class="leg-sw" style="background:#16a34a"></div>Bus 102 · MCI Coach</div>
-    <div class="leg-row"><div class="leg-sw" style="background:#7c3aed"></div>Bus 103 · MCI Coach</div>
-  </div>
-
-  <!-- Route Key -->
-  <div class="panel" id="routeKey">
-    <div class="rk-hd">Route Key</div>
-    <div class="rk-row"><div class="rk-l" style="background:#e8a020"></div>Shuttle Route</div>
-    <div class="rk-row"><div class="rk-l" style="background:repeating-linear-gradient(90deg,#e8a020 0,#e8a020 5px,transparent 5px,transparent 9px)"></div>I-10 Tunnel</div>
-    <div class="rk-row"><div class="rk-circ"></div>Bus Stop</div>
+  <div class="side">
+    <div class="ss"><div class="sh">Bus Status</div><div id="bcards"></div></div>
+    <div class="ss"><div class="sh">Next Arrival</div><div id="narr"></div></div>
+    <div class="ss">
+      <div class="sh">Route Key</div>
+      <div class="rr"><div class="rl" style="background:#e8a020"></div>Shuttle Route (Surface)</div>
+      <div class="rr"><div class="rl" style="background:repeating-linear-gradient(90deg,#e8a020 0,#e8a020 5px,transparent 5px,transparent 9px)"></div>Tunnel (Underground)</div>
+      <div class="rr"><div class="rc"></div>Bus Stop</div>
+      <div class="rr"><div class="rbus">🚌</div>Active Bus</div>
+      <div style="margin-top:10px;font-size:.61rem;color:rgba(255,255,255,.28);line-height:1.65">
+        I-5 Fwy runs underground within FLX boundary (all south of red dashed line).<br>
+        Bus tunnel runs under airport tarmac between T1 and T2.<br>
+        I-5: 4 NB lanes (east) · 2 SB lanes (west)
+      </div>
+    </div>
   </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<div id="tip"><div class="tid" id="tid"></div><div class="tst" id="tst"></div><div class="tnx" id="tnx"></div></div>
+
 <script>
-/* ─── TIMING ───────────────────────────────
-   LOT dwell 90s | LOT→T1 270s | T1 dwell 90s
-   T1→T2 240s    | T2 dwell 90s | T2→LOT 270s
-   Loop = 1050s ≈ 17.5 min
-─────────────────────────────────────────── */
-var LOOP = 1050;
+/* ============================================================
+   WORLD COORDINATE MAP  (1000 × 680 world units)
+   N=up, S=down, E=right, W=left
+   Scale: ~1 unit ≈ 1m (approx)
+   ============================================================ */
+
+/* --- I-5 Freeway (N-S) ---
+   4 NB lanes east side, 2 SB lanes west side
+   Positioned roughly centre-left of map
+*/
+var I5x1 = 348;  // SB outer edge (west)
+var I5x2 = 375;  // SB inner edge (right of SB lanes)
+var I5xM1 = 375; // median left
+var I5xM2 = 384; // median right
+var I5x3 = 384;  // NB inner edge (left of NB lanes)
+var I5x4 = 432;  // NB outer edge (east)
+// I-5 underground zone (airport area): y = 235 to 490
+var I5_UG_TOP = 235;
+var I5_UG_BOT = 490;
+
+/* --- I-10 Freeway (E-W) ---
+   Runs E-W near top of map, south of Main St
+   6 lanes total, shown symmetric
+*/
+var I10y1 = 148; // north edge
+var I10y2 = 202; // south edge
+var I10yM = 175; // centre divider
+
+/* --- Main Street (E-W) --- */
+var MSy = 92;  // centreline y
+
+/* --- Parking lot --- */
+var PKx1=18, PKy1=10, PKx2=205, PKy2=82;
+
+/* --- Runways (E-W, horizontal) ---
+   R12R/30L = north runway
+   R12L/30R = south runway
+   Eastern end x=477 = T1 west wall
+*/
+var RWY_E = 477;
+var R1y1=242, R1y2=276; // R12R/30L  (north, upper)
+var R2y1=302, R2y2=336; // R12L/30R  (south, lower)
+
+/* --- Terminals --- */
+var T1x1=477, T1y1=218, T1x2=728, T1y2=462;
+var T2x1=752, T2y1=188, T2x2=955, T2y2=455;
+
+/* --- Cargo terminal --- */
+var CGx1=728, CGy1=258, CGx2=750, CGy2=420;
+
+/* --- AMTC (below T1) --- */
+var ATx1=477, ATy1=462, ATx2=728, ATy2=502;
+
+/* --- Airport tarmac boundary --- */
+var APx1=18, APy1=212, APx2=958, APy2=565;
+
+/* --- FLX Regional Rail (single track, N-S, east of I-5) --- */
+var RAILx = 458; // x position of track
+var RAILy1 = 82;
+var RAILy2 = 565;
+
+/* --- Airport Way (dedicated busway, diagonal SW-NE) ---
+   From I-5 offramp area → T1 stop
+*/
+var AWpts = [[408,468],[440,452],[472,420],[500,392],[516,370],[524,354]];
+
+/* ============================================================
+   SHUTTLE ROUTE WAYPOINTS  [x, y] in world coords
+   ============================================================ */
+var WP = [
+  [110, 46],   // 0  PARKING STOP
+  [110, 92],   // 1  exit parking → Main St
+  [395, 92],   // 2  east on Main St
+  [395, 122],  // 3  I-10 on-ramp (ramp curves south)
+  [375, 178],  // 4  on I-10 westbound
+  [388, 178],  // 5  I-5/I-10 interchange on-ramp
+  [400, 202],  // 6  I-5 southbound, entering airport
+  [400, 242],  // 7  UNDERGROUND START (under R12R/30L area)
+  [400, 288],  // 8  under R12R/30L [UG]
+  [400, 335],  // 9  under R12L/30R [UG]
+  [400, 420],  // 10 deeper underground [UG]
+  [400, 470],  // 11 approaching offramp [UG end zone]
+  [408, 490],  // 12 UNDERGROUND END — emerge at offramp
+  [440, 470],  // 13 Airport Way offramp begins (surface)
+  [470, 438],  // 14 Airport Way diagonal busway NE
+  [498, 405],  // 15 continuing NE on busway
+  [516, 378],  // 16 approaching T1
+  [524, 354],  // 17 T1 STOP
+  [572, 354],  // 18 depart T1 → TARMAC TUNNEL START
+  [640, 316],  // 19 through tarmac [TUN]
+  [715, 284],  // 20 emerging [TUN END]
+  [755, 268],  // 21 T2 STOP
+  [835, 242],  // 22 depart T2 NE
+  [946, 195],  // 23 east side road north
+  [946, 92],   // 24 reach Main St east end
+  [395, 92],   // 25 west on Main St
+  [110, 92],   // 26 approach parking
+  [110, 46]    // 27 PARKING STOP (=WP[0])
+];
+
+/* Underground segments: wpIndex => true if this WP is in a tunnel */
+var UG_WPS = {7:1,8:1,9:1,10:1,11:1,  18:1,19:1,20:1};
+function wpUnderground(i){ return !!UG_WPS[i]; }
+
+/* Stops */
+var STOPS = [
+  {name:'FLX Parking Lot', shortName:'Parking', wx:110, wy:46},
+  {name:'Terminal 1',       shortName:'T1',      wx:524, wy:354},
+  {name:'Terminal 2',       shortName:'T2',      wx:755, wy:268}
+];
+
+/* ============================================================
+   TIMING  (1050s loop)
+   Parking dwell 90s | Parking→T1 270s | T1 dwell 90s |
+   T1→T2 240s        | T2 dwell 90s    | T2→Parking 270s
+   ============================================================ */
+var LOOP  = 1050;
 var DWELL = 90;
-
-/* Phase table: t0 = loop-seconds at phase start */
 var PHASES = [
-  {type:'dwell', stop:'LOT', idx:0,  t0:0,   dur:90},
-  {type:'move',  from:0,  to:5,      t0:90,  dur:270},
-  {type:'dwell', stop:'T1', idx:5,   t0:360, dur:90},
-  {type:'move',  from:5,  to:13,     t0:450, dur:240},
-  {type:'dwell', stop:'T2', idx:13,  t0:690, dur:90},
-  {type:'move',  from:13, to:20,     t0:780, dur:270}
+  {type:'dwell', si:0, t0:0,   dur:90},
+  {type:'move',  wf:0,  wt:17, t0:90,  dur:270},
+  {type:'dwell', si:1, t0:360, dur:90},
+  {type:'move',  wf:17, wt:21, t0:450, dur:240},
+  {type:'dwell', si:2, t0:690, dur:90},
+  {type:'move',  wf:21, wt:27, t0:780, dur:270}
 ];
+var STOP_T = [0, 360, 690];
 
-var STOP_T = {LOT:0, T1:360, T2:690};
+var BUS_COLORS  = ['#1a6bcc','#16a34a','#7c3aed'];
+var BUS_IDS     = ['101','102','103'];
+var BUS_OFFSETS = [0, 350, 700];
 
-/* ─── ROUTE WAYPOINTS [lat, lng] ───────────
-   I-10 runs N-S around lng -118.309
-   LOT = NW, T1 = west of I-10, T2 = east
-─────────────────────────────────────────── */
-var R = [
-  [34.0630,-118.3170], // 0  LOT STOP
-  [34.0580,-118.3170], // 1  south on west perimeter road
-  [34.0545,-118.3170], // 2  Airport Way junction
-  [34.0545,-118.3150], // 3  Airport Way eastbound
-  [34.0545,-118.3128], // 4  approaching T1
-  [34.0545,-118.3118], // 5  T1 STOP
-  [34.0545,-118.3108], // 6  depart T1 east
-  [34.0545,-118.3096], // 7  past cargo terminal
-  [34.0545,-118.3092], // 8  TUNNEL ENTER (outbound under I-10)
-  [34.0545,-118.3085], // 9  in tunnel
-  [34.0545,-118.3073], // 10 TUNNEL EXIT
-  [34.0538,-118.3048], // 11 Airport Way curves SE
-  [34.0518,-118.3010], // 12 toward T2
-  [34.0510,-118.2992], // 13 T2 STOP
-  [34.0524,-118.3008], // 14 depart T2 NW
-  [34.0572,-118.3038], // 15 north on east side I-10
-  [34.0626,-118.3058], // 16 continue north
-  [34.0628,-118.3088], // 17 TUNNEL ENTER (return under I-10)
-  [34.0628,-118.3132], // 18 TUNNEL EXIT
-  [34.0628,-118.3170], // 19 west to perimeter road junction
-  [34.0630,-118.3170]  // 20 LOT (completes loop = pt 0)
-];
-
-var BUSES = [
-  {id:'101', color:'#1a6bcc', offset:0},
-  {id:'102', color:'#16a34a', offset:350},
-  {id:'103', color:'#7c3aed', offset:700}
-];
-
-/* ─── MATH ─────────────────────────────── */
-function ptDist(a,b){
-  var dy=a[0]-b[0], dx=a[1]-b[1];
-  return Math.sqrt(dy*dy+dx*dx);
-}
-
-function interpSeg(fromI, toI, prog){
+/* ============================================================
+   GEOMETRY HELPERS
+   ============================================================ */
+function interp(wf, wt, prog){
   var pts=[];
-  for(var i=fromI;i<=toI;i++) pts.push(R[i]);
-  if(pts.length<2) return {lat:pts[0][0],lng:pts[0][1],nLat:pts[0][0],nLng:pts[0][1]};
-  var dists=[0];
-  for(var i=0;i<pts.length-1;i++) dists.push(dists[i]+ptDist(pts[i],pts[i+1]));
-  var total=dists[dists.length-1];
-  if(!total) return {lat:pts[0][0],lng:pts[0][1],nLat:pts[1][0],nLng:pts[1][1]};
-  var tgt=Math.min(prog,1)*total;
+  for(var i=wf;i<=wt;i++) pts.push(WP[i]);
+  if(pts.length<2) return {x:pts[0][0],y:pts[0][1],wi:wf};
+  var ds=[0];
   for(var i=0;i<pts.length-1;i++){
-    if(tgt<=dists[i+1]+1e-9){
-      var len=dists[i+1]-dists[i];
-      var t=len>0?Math.min(1,(tgt-dists[i])/len):0;
-      var ni=Math.min(i+1,pts.length-1);
+    var dx=pts[i+1][0]-pts[i][0], dy=pts[i+1][1]-pts[i][1];
+    ds.push(ds[i]+Math.sqrt(dx*dx+dy*dy));
+  }
+  var total=ds[ds.length-1];
+  if(!total) return {x:pts[0][0],y:pts[0][1],wi:wf};
+  var tgt=Math.max(0,Math.min(1,prog))*total;
+  for(var i=0;i<pts.length-1;i++){
+    if(tgt<=ds[i+1]+1e-9){
+      var len=ds[i+1]-ds[i];
+      var t=len>0?Math.min(1,(tgt-ds[i])/len):0;
       return {
-        lat:pts[i][0]+(pts[i+1][0]-pts[i][0])*t,
-        lng:pts[i][1]+(pts[i+1][1]-pts[i][1])*t,
-        nLat:pts[ni][0], nLng:pts[ni][1]
+        x: pts[i][0]+(pts[i+1][0]-pts[i][0])*t,
+        y: pts[i][1]+(pts[i+1][1]-pts[i][1])*t,
+        wi: wf+i
       };
     }
   }
-  var last=pts[pts.length-1];
-  return {lat:last[0],lng:last[1],nLat:last[0],nLng:last[1]};
+  return {x:pts[pts.length-1][0],y:pts[pts.length-1][1],wi:wt};
 }
 
 function getBusState(offset, nowS){
@@ -208,246 +293,739 @@ function getBusState(offset, nowS){
     if(lp<ph.t0+ph.dur){
       var t=lp-ph.t0;
       if(ph.type==='dwell'){
-        return {atStop:true, lat:R[ph.idx][0], lng:R[ph.idx][1], stop:ph.stop};
+        var st=STOPS[ph.si];
+        return {atStop:true,x:st.wx,y:st.wy,si:ph.si,ug:false,wi:ph.si===0?0:ph.si===1?17:21};
       }
-      var pos=interpSeg(ph.from, ph.to, t/ph.dur);
-      return {atStop:false, lat:pos.lat, lng:pos.lng, stop:null};
+      var pos=interp(ph.wf,ph.wt,t/ph.dur);
+      var ug=wpUnderground(pos.wi)||(pos.wi>=7&&pos.wi<=11)||(pos.wi>=18&&pos.wi<=20);
+      return {atStop:false,x:pos.x,y:pos.y,si:-1,ug:ug,wi:pos.wi};
     }
   }
-  return {atStop:true, lat:R[0][0], lng:R[0][1], stop:'LOT'};
+  return {atStop:true,x:STOPS[0].wx,y:STOPS[0].wy,si:0,ug:false,wi:0};
 }
 
-/* ─── LEAFLET INIT ─────────────────────── */
-var map = L.map('flx-map', {
-  center:[34.057,-118.308],
-  zoom:15,
-  zoomControl:true
+/* ============================================================
+   CANVAS + PAN/ZOOM
+   ============================================================ */
+var canvas = document.getElementById('mc');
+var ctx    = canvas.getContext('2d');
+var mw     = document.getElementById('mw');
+
+var tx=0, ty=0, scale=1.0;
+var INIT_SCALE, INIT_TX, INIT_TY;
+
+function setCanvasSize(){
+  canvas.width  = mw.offsetWidth;
+  canvas.height = mw.offsetHeight;
+}
+
+function initView(){
+  var sw=canvas.width, sh=canvas.height;
+  var WW=1000, WH=680;
+  INIT_SCALE = Math.min((sw-20)/WW,(sh-20)/WH);
+  INIT_TX = (sw - WW*INIT_SCALE)/2;
+  INIT_TY = (sh - WH*INIT_SCALE)/2;
+  tx=INIT_TX; ty=INIT_TY; scale=INIT_SCALE;
+}
+
+/* World → canvas */
+function wx(x){ return x*scale+tx; }
+function wy(y){ return y*scale+ty; }
+/* Canvas → world */
+function cx(x){ return (x-tx)/scale; }
+function cy(y){ return (y-ty)/scale; }
+
+/* Pan */
+var dragging=false, dragX, dragY;
+canvas.addEventListener('mousedown',function(e){dragging=true;dragX=e.clientX;dragY=e.clientY;});
+window.addEventListener('mousemove',function(e){
+  if(dragging){tx+=e.clientX-dragX;ty+=e.clientY-dragY;dragX=e.clientX;dragY=e.clientY;drawAll();}
+  checkHover(e);
 });
+window.addEventListener('mouseup',function(){dragging=false;});
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-  attribution:'&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors | FLX Airport KFLX',
-  maxZoom:19
-}).addTo(map);
+/* Zoom */
+canvas.addEventListener('wheel',function(e){
+  e.preventDefault();
+  var rect=canvas.getBoundingClientRect();
+  var mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  var factor=e.deltaY<0?1.12:0.89;
+  tx = mx - (mx-tx)*factor;
+  ty = my - (my-ty)*factor;
+  scale*=factor;
+  scale=Math.max(0.3,Math.min(6,scale));
+  drawAll();
+},{passive:false});
 
-/* ─── AIRPORT FEATURES ─────────────────── */
-// Airport ground
-L.rectangle([[34.044,-118.328],[34.068,-118.291]],
-  {fillColor:'#d6d2be',fillOpacity:.5,color:'#b0ad98',weight:1}).addTo(map);
+document.getElementById('zin').addEventListener('click',function(){
+  var mx=canvas.width/2,my=canvas.height/2;
+  tx=mx-(mx-tx)*1.25;ty=my-(my-ty)*1.25;scale=Math.min(6,scale*1.25);drawAll();
+});
+document.getElementById('zout').addEventListener('click',function(){
+  var mx=canvas.width/2,my=canvas.height/2;
+  tx=mx-(mx-tx)*0.8;ty=my-(my-ty)*0.8;scale=Math.max(0.3,scale*0.8);drawAll();
+});
+document.getElementById('zreset').addEventListener('click',function(){initView();drawAll();});
 
-// I-10 Freeway body
-L.polygon([
-  [34.043,-118.3102],[34.043,-118.3076],
-  [34.069,-118.3076],[34.069,-118.3102]
-],{fillColor:'#4a4a4a',fillOpacity:.9,color:'#2a2a2a',weight:0}).addTo(map);
+window.addEventListener('resize',function(){setCanvasSize();initView();drawAll();});
 
-// Freeway centre stripe
-L.polyline([[34.043,-118.3089],[34.069,-118.3089]],
-  {color:'#ffd700',weight:2,dashArray:'14,10',opacity:.9}).addTo(map);
-
-// I-10 label marker
-L.marker([34.061,-118.3089],{icon:L.divIcon({
-  className:'',
-  html:'<div style="background:#333;color:#ffd700;font-size:9px;font-weight:900;padding:3px 9px;border-radius:4px;border:1px solid #ffd700;box-shadow:0 2px 6px rgba(0,0,0,.5);font-family:Helvetica Neue,Helvetica,Arial,sans-serif;white-space:nowrap">I-10 Freeway</div>',
-  iconSize:[90,20],iconAnchor:[45,10]
-})}).addTo(map);
-
-// Runway 24L/6R
-L.rectangle([[34.045,-118.3268],[34.067,-118.3240]],
-  {fillColor:'#3c3c3c',fillOpacity:.92,color:'#282828',weight:1}).addTo(map);
-L.polyline([[34.045,-118.3254],[34.067,-118.3254]],
-  {color:'white',weight:1.5,dashArray:'20,14',opacity:.65}).addTo(map);
-
-// Runway 24R/6L
-L.rectangle([[34.045,-118.3218],[34.067,-118.3190]],
-  {fillColor:'#3c3c3c',fillOpacity:.92,color:'#282828',weight:1}).addTo(map);
-L.polyline([[34.045,-118.3204],[34.067,-118.3204]],
-  {color:'white',weight:1.5,dashArray:'20,14',opacity:.65}).addTo(map);
-
-// Runway labels
-L.marker([34.0675,-118.325],{icon:L.divIcon({className:'',
-  html:'<div style="font-size:8px;font-weight:800;color:#444;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">RWY 24L / 6R</div>',
-  iconSize:[75,12],iconAnchor:[37,6]})}).addTo(map);
-L.marker([34.0675,-118.321],{icon:L.divIcon({className:'',
-  html:'<div style="font-size:8px;font-weight:800;color:#444;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">RWY 24R / 6L</div>',
-  iconSize:[75,12],iconAnchor:[37,6]})}).addTo(map);
-
-// Taxiway
-L.polyline([[34.057,-118.323],[34.057,-118.319]],
-  {color:'#5a5a50',weight:7,opacity:.5}).addTo(map);
-
-// Terminal 1 building
-L.rectangle([[34.051,-118.3185],[34.058,-118.3108]],
-  {fillColor:'#1a3a6b',fillOpacity:.9,color:'#0a1628',weight:2}).addTo(map);
-L.marker([34.0545,-118.3147],{icon:L.divIcon({className:'',
-  html:'<div style="text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif"><div style="font-size:11px;font-weight:900;color:white;text-shadow:0 1px 3px rgba(0,0,0,.9)">TERMINAL 1</div><div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.8);letter-spacing:.08em">INTERNATIONAL</div></div>',
-  iconSize:[110,28],iconAnchor:[55,14]})}).addTo(map);
-
-// Cargo terminal
-L.rectangle([[34.051,-118.3108],[34.056,-118.3094]],
-  {fillColor:'#686860',fillOpacity:.88,color:'#444',weight:1}).addTo(map);
-L.marker([34.0535,-118.3101],{icon:L.divIcon({className:'',
-  html:'<div style="font-size:8px;font-weight:800;color:white;text-shadow:0 1px 2px rgba(0,0,0,.9);font-family:Helvetica Neue,Helvetica,Arial,sans-serif">CARGO</div>',
-  iconSize:[44,12],iconAnchor:[22,6]})}).addTo(map);
-
-// Terminal 2 building
-L.rectangle([[34.048,-118.3028],[34.055,-118.2960]],
-  {fillColor:'#1a3a6b',fillOpacity:.9,color:'#0a1628',weight:2}).addTo(map);
-L.marker([34.0515,-118.2994],{icon:L.divIcon({className:'',
-  html:'<div style="text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif"><div style="font-size:11px;font-weight:900;color:white;text-shadow:0 1px 3px rgba(0,0,0,.9)">TERMINAL 2</div><div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.8);letter-spacing:.08em">DOMESTIC</div></div>',
-  iconSize:[110,28],iconAnchor:[55,14]})}).addTo(map);
-
-// Parking Lot
-L.rectangle([[34.061,-118.3220],[34.066,-118.3142]],
-  {fillColor:'#ebebdf',fillOpacity:.95,color:'#0a1628',weight:2}).addTo(map);
-for(var pi=0;pi<4;pi++){
-  var py=34.062+pi*0.001;
-  L.polyline([[py,-118.3215],[py,-118.3148]],{color:'#aaa',weight:1}).addTo(map);
+/* ============================================================
+   DRAWING HELPERS
+   ============================================================ */
+function R(x1,y1,x2,y2,fill,stroke,lw){
+  ctx.beginPath();
+  ctx.rect(wx(x1),wy(y1),(x2-x1)*scale,(y2-y1)*scale);
+  if(fill){ctx.fillStyle=fill;ctx.fill();}
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw||1;ctx.stroke();}
 }
-L.marker([34.0635,-118.318],{icon:L.divIcon({className:'',
-  html:'<div style="font-size:10px;font-weight:900;color:#0a1628;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">&#x1F17F; FLX PARKING LOT</div>',
-  iconSize:[130,16],iconAnchor:[65,8]})}).addTo(map);
 
-// Roads
-L.polyline([[34.066,-118.317],[34.044,-118.317]],{color:'#a8a090',weight:5,opacity:.75}).addTo(map);
-L.polyline([[34.0545,-118.317],[34.0545,-118.293]],{color:'#a8a090',weight:5,opacity:.75}).addTo(map);
-L.polyline([[34.0628,-118.317],[34.0628,-118.297]],{color:'#a8a090',weight:4,opacity:.65}).addTo(map);
-L.polyline([[34.050,-118.300],[34.063,-118.306]],{color:'#a8a090',weight:4,opacity:.6}).addTo(map);
+function poly(pts,fill,stroke,lw){
+  ctx.beginPath();
+  ctx.moveTo(wx(pts[0][0]),wy(pts[0][1]));
+  for(var i=1;i<pts.length;i++) ctx.lineTo(wx(pts[i][0]),wy(pts[i][1]));
+  ctx.closePath();
+  if(fill){ctx.fillStyle=fill;ctx.fill();}
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw||1;ctx.stroke();}
+}
 
-L.marker([34.0545,-118.307],{icon:L.divIcon({className:'',
-  html:'<div style="font-size:9px;font-weight:700;color:#555;background:rgba(255,255,255,.78);padding:1px 5px;border-radius:3px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">Airport Way</div>',
-  iconSize:[80,16],iconAnchor:[40,8]})}).addTo(map);
+function line(x1,y1,x2,y2,color,lw,dash){
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(wx(x1),wy(y1));
+  ctx.lineTo(wx(x2),wy(y2));
+  ctx.strokeStyle=color;
+  ctx.lineWidth=(lw||1)*Math.max(0.5,scale);
+  if(dash) ctx.setLineDash(dash.map(function(d){return d*scale;}));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.restore();
+}
 
-/* ─── SHUTTLE ROUTE ─────────────────────── */
-// Helper: draw a section of R between two indices
-function drawRouteSeg(fromI, toI, dashed){
-  var pts=[];
-  for(var i=fromI;i<=toI;i++) pts.push(R[i]);
-  // White outline
-  L.polyline(pts,{color:'white',weight:8,opacity:.9}).addTo(map);
-  if(dashed){
-    L.polyline(pts,{color:'#222',weight:10,opacity:.45}).addTo(map);
-    L.polyline(pts,{color:'#e8a020',weight:4,dashArray:'8,7',opacity:1}).addTo(map);
-  } else {
-    L.polyline(pts,{color:'#e8a020',weight:5,opacity:1}).addTo(map);
+function polyline(pts,color,lw,dash){
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(wx(pts[0][0]),wy(pts[0][1]));
+  for(var i=1;i<pts.length;i++) ctx.lineTo(wx(pts[i][0]),wy(pts[i][1]));
+  ctx.strokeStyle=color;
+  ctx.lineWidth=(lw||1)*Math.max(0.5,scale);
+  ctx.lineCap='round';ctx.lineJoin='round';
+  if(dash) ctx.setLineDash(dash.map(function(d){return d*scale;}));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.restore();
+}
+
+function label(text,x,y,size,color,bold,align,bg){
+  var fs=Math.max(8,size*scale);
+  ctx.font=(bold?'bold ':'')+fs+'px Helvetica Neue,Helvetica,Arial,sans-serif';
+  ctx.textAlign=align||'center';
+  ctx.textBaseline='middle';
+  if(bg){
+    var m=ctx.measureText(text);
+    var pad=3*scale;
+    ctx.fillStyle=bg;
+    ctx.fillRect(wx(x)-m.width/2-pad, wy(y)-fs/2-pad, m.width+pad*2, fs+pad*2);
+  }
+  ctx.fillStyle=color||'#333';
+  ctx.fillText(text,wx(x),wy(y));
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+}
+
+function circle(x,y,r,fill,stroke,lw){
+  ctx.beginPath();
+  ctx.arc(wx(x),wy(y),r*scale,0,Math.PI*2);
+  if(fill){ctx.fillStyle=fill;ctx.fill();}
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=(lw||1)*scale;ctx.stroke();}
+}
+
+function roundRect(x1,y1,x2,y2,rx,fill,stroke,lw){
+  var X=wx(x1),Y=wy(y1),W=(x2-x1)*scale,H=(y2-y1)*scale,RX=rx*scale;
+  ctx.beginPath();
+  ctx.moveTo(X+RX,Y);ctx.lineTo(X+W-RX,Y);ctx.arcTo(X+W,Y,X+W,Y+RX,RX);
+  ctx.lineTo(X+W,Y+H-RX);ctx.arcTo(X+W,Y+H,X+W-RX,Y+H,RX);
+  ctx.lineTo(X+RX,Y+H);ctx.arcTo(X,Y+H,X,Y+H-RX,RX);
+  ctx.lineTo(X,Y+RX);ctx.arcTo(X,Y,X+RX,Y,RX);ctx.closePath();
+  if(fill){ctx.fillStyle=fill;ctx.fill();}
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=(lw||1)*scale;ctx.stroke();}
+}
+
+/* ============================================================
+   DRAW STATIC MAP
+   ============================================================ */
+function drawMap(){
+
+  /* 1 ── BACKGROUND (land) */
+  R(0,0,1000,680,'#f2ede4');
+
+  /* 2 ── AIRPORT PERIMETER (outer grass) */
+  roundRect(12,205,965,570,6,'#cce0a8','#a8c888',1.5);
+
+  /* 3 ── AIRPORT APRON / TARMAC (large) */
+  roundRect(18,215,958,560,4,'#c8c4b4','#b0ac9c',1);
+
+  /* 4 ── UNDERGROUND ZONE (I-5 underground south of line, tarmac tunnel) */
+  /* Shade it slightly darker */
+  R(18,I5_UG_TOP,958,560,'rgba(0,0,0,0.07)');
+  /* Red dashed line marking top of underground zone */
+  polyline([[18,I5_UG_TOP],[962,I5_UG_TOP]],'#cc2020',1.5,[10,6]);
+  label('All I-5 south of this line is underground',490,I5_UG_TOP-6,7.5,'#cc2020',true,'center');
+
+  /* 5 ── RUNWAY GRASS INFIELD */
+  R(18,215,RWY_E,340,'#b8d898');
+
+  /* 6 ── RUNWAY R12R/30L (north, horizontal) */
+  R(18,R1y1,RWY_E,R1y2,'#7a7870','#68665e',0.5);
+  /* Runway centreline */
+  polyline([[22,( R1y1+R1y2)/2],[RWY_E-8,(R1y1+R1y2)/2]],'rgba(255,255,255,0.7)',0.8,[22,16]);
+  /* Runway threshold markings west */
+  for(var ti=0;ti<6;ti++){
+    R(24+ti*7, R1y1+4, 30+ti*7, R1y2-4,'rgba(255,255,255,0.75)');
+  }
+  /* Threshold markings east */
+  for(var ti=0;ti<6;ti++){
+    R(RWY_E-40+ti*6, R1y1+4, RWY_E-35+ti*6, R1y2-4,'rgba(255,255,255,0.75)');
+  }
+  label('R12R / 30L',50,(R1y1+R1y2)/2,7.5,'rgba(255,255,255,0.6)',true,'center');
+  label('30L                            12R',240,(R1y1+R1y2)/2+10,6.5,'rgba(255,255,255,0.4)',false,'center');
+
+  /* 7 ── RUNWAY R12L/30R (south, horizontal) */
+  R(18,R2y1,RWY_E,R2y2,'#7a7870','#68665e',0.5);
+  polyline([[22,(R2y1+R2y2)/2],[RWY_E-8,(R2y1+R2y2)/2]],'rgba(255,255,255,0.7)',0.8,[22,16]);
+  for(var ti=0;ti<6;ti++){
+    R(24+ti*7, R2y1+4, 30+ti*7, R2y2-4,'rgba(255,255,255,0.75)');
+  }
+  for(var ti=0;ti<6;ti++){
+    R(RWY_E-40+ti*6, R2y1+4, RWY_E-35+ti*6, R2y2-4,'rgba(255,255,255,0.75)');
+  }
+  label('R12L / 30R',50,(R2y1+R2y2)/2,7.5,'rgba(255,255,255,0.6)',true,'center');
+
+  /* Taxiways */
+  R(RWY_E-6, R1y2, RWY_E+2, T1y1,'#9a9688');
+  R(RWY_E-6, R2y2, RWY_E+2, T1y1+80,'#9a9688');
+  /* Taxiway yellow centrelines */
+  polyline([[RWY_E-2,(R1y2+T1y1)/2],[RWY_E-2,T1y1]],'rgba(255,200,0,0.5)',0.8,[8,6]);
+
+  /* 8 ── TERMINAL 1 */
+  roundRect(T1x1,T1y1,T1x2,T1y2,5,'#dbd6cc','#b8b4aa',1.5);
+  /* Roof detail strip (glazing) */
+  R(T1x1+4,T1y1+4,T1x2-4,T1y1+22,'#c8d4e4');
+  label('TERMINAL 1',603,290,13,'#2c2822',true,'center');
+  label('INTERNATIONAL',603,310,8,'#5a5650',true,'center');
+  label('Gates A · B · C',603,326,7.5,'#8a8680',false,'center');
+
+  /* Jetways / gate fingers (visual) */
+  for(var g=0;g<5;g++){
+    R(T1x1, T1y1+40+g*42, T1x1-22, T1y1+56+g*42,'#c8c4b8','#b0ac9c',1);
+  }
+
+  /* 9 ── CARGO TERMINAL */
+  R(CGx1,CGy1,CGx2,CGy2,'#c0bdb4','#a8a49c',1);
+  ctx.save();
+  ctx.translate(wx(739),wy((CGy1+CGy2)/2));ctx.rotate(-Math.PI/2);
+  label('CARGO',0,0,7,'rgba(60,50,40,0.6)',true,'center');
+  ctx.restore();
+
+  /* 10 ── AMTC */
+  roundRect(ATx1,ATy1,ATx2,ATy2,3,'#d0cdc4','#b8b4ac',1);
+  label('AMTC',603,482,8,'#5a5650',true,'center');
+
+  /* 11 ── TERMINAL 2 */
+  roundRect(T2x1,T2y1,T2x2,T2y2,5,'#dbd6cc','#b8b4aa',1.5);
+  R(T2x1+4,T2y1+4,T2x2-4,T2y1+22,'#c8d4e4');
+  label('TERMINAL 2',854,310,13,'#2c2822',true,'center');
+  label('DOMESTIC',854,330,8,'#5a5650',true,'center');
+  label('Gates D · E',854,346,7.5,'#8a8680',false,'center');
+  /* T2 gate fingers */
+  for(var g=0;g<4;g++){
+    R(T2x2, T2y1+45+g*52, T2x2+22, T2y1+60+g*52,'#c8c4b8','#b0ac9c',1);
+  }
+  /* T2 baggage tunnel notch */
+  R(T2x1+70,T2y1,T2x1+130,T2y1+25,'#bab6ac','#a0a09a',1);
+  label('Baggage Tunnel',T2x1+100,T2y1+12,6,'#6a6660',false,'center');
+
+  /* 12 ── I-5 FREEWAY (N-S) */
+  /* Draw above ground section (north of airport underground zone) */
+  /* Full strip — underground part will be re-drawn darker */
+
+  /* SB lanes (2, west side) */
+  R(I5x1,0,I5x2,I5_UG_TOP,'#ffc840'); /* above ground */
+  /* NB lanes (4, east side) */
+  R(I5x3,0,I5x4,I5_UG_TOP,'#ffc840');
+  /* Median */
+  R(I5xM1,0,I5xM2,I5_UG_TOP,'#c07800');
+  /* Shoulders */
+  R(I5x1-5,0,I5x1,I5_UG_TOP,'#e8e3d8');
+  R(I5x4,0,I5x4+5,I5_UG_TOP,'#e8e3d8');
+  /* Casing outline */
+  polyline([[I5x1-5,0],[I5x1-5,I5_UG_TOP]],'#c07818',0.8);
+  polyline([[I5x4+5,0],[I5x4+5,I5_UG_TOP]],'#c07818',0.8);
+  /* Lane markings NB (4 lanes) - dashed white */
+  var laneW=(I5x4-I5x3)/4;
+  for(var l=1;l<4;l++){
+    var lx=I5x3+l*laneW;
+    polyline([[lx,0],[lx,I5_UG_TOP]],'rgba(255,255,255,0.5)',0.5,[18,14]);
+  }
+  /* SB lane marking */
+  var sb_lx=(I5x1+I5x2)/2;
+  polyline([[sb_lx,0],[sb_lx,I5_UG_TOP]],'rgba(255,255,255,0.5)',0.5,[18,14]);
+  /* Outer white lines */
+  polyline([[I5x1,0],[I5x1,I5_UG_TOP]],'rgba(255,255,255,0.6)',0.6);
+  polyline([[I5x2,0],[I5x2,I5_UG_TOP]],'rgba(255,255,255,0.4)',0.4);
+  polyline([[I5x3,0],[I5x3,I5_UG_TOP]],'rgba(255,255,255,0.4)',0.4);
+  polyline([[I5x4,0],[I5x4,I5_UG_TOP]],'rgba(255,255,255,0.6)',0.6);
+
+  /* I-5 UNDERGROUND SECTION — shown as buried/covered */
+  /* Dark cover strip showing it goes underground */
+  R(I5x1-5,I5_UG_TOP,I5x4+5,APy2,'rgba(0,0,0,0.28)');
+  /* Ghost dashed outline to show path */
+  polyline([[I5x1-5,I5_UG_TOP],[I5x1-5,APy2]],'rgba(200,160,0,0.3)',0.6,[8,6]);
+  polyline([[I5x4+5,I5_UG_TOP],[I5x4+5,APy2]],'rgba(200,160,0,0.3)',0.6,[8,6]);
+  /* Portal markers */
+  R(I5x1-6,I5_UG_TOP-8,I5x4+6,I5_UG_TOP-2,'#a08020');
+  label('I-5 enters tunnel',390,I5_UG_TOP-14,7,'#8a6010',true,'center');
+
+  /* I-5 re-emerges south of airport */
+  R(I5x1,APy2,I5x2,680,'#ffc840');
+  R(I5x3,APy2,I5x4,680,'#ffc840');
+  R(I5xM1,APy2,I5xM2,680,'#c07800');
+  /* Portal south end */
+  R(I5x1-6,APy2,I5x4+6,APy2+8,'#a08020');
+  label('I-5 emerges',390,APy2+14,7,'#8a6010',true,'center');
+
+  /* I-5 shield badge */
+  roundRect(358,120,412,148,4,'#003087','#002060',1.5);
+  label('I-5',385,133,10.5,'#fff',true,'center');
+  label('FREEWAY',385,145,6,'rgba(255,255,255,0.6)',false,'center');
+
+  /* 13 ── I-10 FREEWAY (E-W) */
+  /* Full width, north section is "above" where bus is */
+  /* Draw from x=0 to x=1000 at y=I10y1 to I10y2 */
+  R(0,I10y1,1000,I10y2,'#ffc840','#c07818',1);
+  /* Median divider */
+  R(0,I10yM-3,1000,I10yM+3,'#a06800');
+  /* Lane markings — 3 lanes each side */
+  var I10h_top=(I10yM-I10y1)/3;
+  var I10h_bot=(I10y2-I10yM)/3;
+  for(var l=1;l<3;l++){
+    var ly_top=I10y1+l*I10h_top;
+    polyline([[0,ly_top],[1000,ly_top]],'rgba(255,255,255,0.45)',0.5,[18,14]);
+  }
+  for(var l=1;l<3;l++){
+    var ly_bot=I10yM+l*I10h_bot;
+    polyline([[0,ly_bot],[1000,ly_bot]],'rgba(255,255,255,0.45)',0.5,[18,14]);
+  }
+  /* Outer edge lines */
+  polyline([[0,I10y1],[1000,I10y1]],'rgba(255,255,255,0.6)',0.6);
+  polyline([[0,I10y2],[1000,I10y2]],'rgba(255,255,255,0.6)',0.6);
+
+  /* I-10 shield badge */
+  roundRect(148,I10y1+2,204,I10y2-2,4,'#003087','#002060',1.5);
+  label('I-10',176,162,9,'#fff',true,'center');
+  label('FREEWAY',176,175,5.5,'rgba(255,255,255,0.6)',false,'center');
+
+  /* 14 ── I-10 / I-5 INTERCHANGE */
+  /* Connection area */
+  R(I5x1-5,I10y1,I5x4+5,I10y2,'#ffcc40');
+  /* Ramp loops (simple arcs indicating the interchange) */
+  ctx.save();
+  ctx.fillStyle='#e8b828';
+  /* NW quadrant ramp */
+  ctx.beginPath();
+  ctx.arc(wx(I5x1),wy(I10y1),22*scale,0,Math.PI*0.5);
+  ctx.arc(wx(I5x1),wy(I10y1),12*scale,Math.PI*0.5,0,true);
+  ctx.closePath();ctx.fill();
+  /* NE quadrant ramp */
+  ctx.beginPath();
+  ctx.arc(wx(I5x4),wy(I10y1),22*scale,Math.PI*0.5,Math.PI);
+  ctx.arc(wx(I5x4),wy(I10y1),12*scale,Math.PI,Math.PI*0.5,true);
+  ctx.closePath();ctx.fill();
+  ctx.restore();
+  label('I-5 / I-10',390,185,7.5,'#604000',true,'center');
+  label('INTERCHANGE',390,196,6.5,'#604000',false,'center');
+
+  /* 15 ── MAIN STREET (E-W) */
+  /* Road casing */
+  polyline([[0,MSy],[1000,MSy]],'#bbb7ae',12);
+  /* Road fill */
+  polyline([[0,MSy],[1000,MSy]],'#ffffff',10);
+  /* Centreline */
+  polyline([[0,MSy],[1000,MSy]],'rgba(255,200,0,0.6)',0.6,[14,12]);
+  /* Lane edges */
+  polyline([[0,MSy-4],[1000,MSy-4]],'rgba(200,196,188,0.6)',0.4);
+  polyline([[0,MSy+4],[1000,MSy+4]],'rgba(200,196,188,0.6)',0.4);
+  label('MAIN ST',160,MSy-10,8,'#4a4640',true,'center');
+
+  /* 16 ── ONRAMP: Main St → I-10 West */
+  /* Ramp curves from Main St (x=395,y=92) down-left to I-10 westbound lane */
+  var rampPts=[[395,92],[395,100],[388,110],[382,125],[376,148]];
+  polyline(rampPts,'#c0b890',9); polyline(rampPts,'#f0e080',7);
+  label('I-10 W',380,118,7,'#806820',true,'center');
+
+  /* 17 ── LOCAL / PERIMETER ROADS */
+  /* West side road (north of parking → connects to Main St) */
+  polyline([[110,82],[110,92]],'#d0ccc4',8);polyline([[110,82],[110,92]],'#fff',6);
+
+  /* East perimeter road (north of T2 → Main St east) */
+  polyline([[946,185],[946,92]],'#d0ccc4',8);polyline([[946,185],[946,92]],'#fff',6);
+  /* East perimeter label */
+  label('Airport East Rd',946,140,7,'#4a4640',false,'right');
+
+  /* Access road east of T2, curves north */
+  polyline([[835,242],[900,215],[946,195]],'#d0ccc4',8);
+  polyline([[835,242],[900,215],[946,195]],'#fff',6);
+
+  /* South road connecting T2 to I-5 south / Airport Way area */
+  polyline([[T2x1,440],[650,470],[408,468],[408,490]],'#d0ccc4',8);
+  polyline([[T2x1,440],[650,470],[408,468],[408,490]],'#fff',6);
+
+  /* Road past Cargo between T1 east and T2 */
+  polyline([[T1x2,340],[T2x1,310]],'#d0ccc4',8);polyline([[T1x2,340],[T2x1,310]],'#fff',6);
+
+  /* T1 south access */
+  polyline([[T1x1+80,T1y2],[T1x1+80,500],[408,490]],'#d0ccc4',7);
+  polyline([[T1x1+80,T1y2],[T1x1+80,500],[408,490]],'#fff',5);
+
+  /* 18 ── AIRPORT WAY BUSWAY (dedicated, diagonal SW→NE) */
+  /* Casing */
+  polyline(AWpts,'#e09018',10);
+  /* Surface */
+  polyline(AWpts,'#ffd060',7);
+  /* Busway dashed centreline */
+  polyline(AWpts,'rgba(255,255,255,0.7)',1,[10,8]);
+  label('Airport Way Busway',500,445,7.5,'#604800',true,'center');
+
+  /* Airport Way offramp from I-5 */
+  polyline([[408,468],[408,490],[425,490],[445,478]],'#e09018',10);
+  polyline([[408,468],[408,490],[425,490],[445,478]],'#ffd060',7);
+  label('FLX Airport Way',410,505,6.5,'#604800',false,'center');
+  label('OFFRAMP',416,514,6.5,'#604800',false,'center');
+
+  /* 19 ── REGIONAL RAIL (single track, N-S, parallel east of I-5) */
+  /* Rail bed */
+  polyline([[RAILx,RAILy1],[RAILx,RAILy2]],'#a09080',3);
+  /* Ties */
+  for(var ty2=RAILy1+8; ty2<RAILy2; ty2+=18){
+    polyline([[RAILx-5,ty2],[RAILx+5,ty2]],'#7a7060',1.5);
+  }
+  /* Rail lines */
+  polyline([[RAILx-2,RAILy1],[RAILx-2,RAILy2]],'#888078',1.2);
+  polyline([[RAILx+2,RAILy1],[RAILx+2,RAILy2]],'#888078',1.2);
+  /* Station */
+  roundRect(RAILx-14,280,RAILx+14,308,3,'#d8d0c4','#a8a49c',1);
+  label('STN',RAILx,293,6.5,'#5a5650',true,'center');
+  /* Rail label */
+  ctx.save();
+  ctx.translate(wx(RAILx+14),wy(400));ctx.rotate(-Math.PI/2);
+  label('FLX Regional Rail — Single Track',0,0,6.5,'#8a8078',false,'center');
+  ctx.restore();
+
+  /* 20 ── PARKING LOT */
+  roundRect(PKx1,PKy1,PKx2,PKy2,5,'#e8e4d8','#c8c4b8',1.5);
+  /* Parking row lines */
+  for(var pr=1;pr<5;pr++){
+    var pry=PKy1+pr*(PKy2-PKy1)/5;
+    polyline([[PKx1+8,pry],[PKx2-8,pry]],'rgba(160,156,144,0.6)',0.6);
+  }
+  /* Space dividers */
+  for(var pc=1;pc<8;pc++){
+    var pcx=PKx1+pc*(PKx2-PKx1)/8;
+    polyline([[pcx,PKy1+8],[pcx,PKy2-8]],'rgba(160,156,144,0.4)',0.4);
+  }
+  label('\uD83C\uDD7F FLX PARKING',(PKx1+PKx2)/2,(PKy1+PKy2)/2-8,9,'#3c3228',true,'center');
+  label('Consolidated Lot',(PKx1+PKx2)/2,(PKy1+PKy2)/2+8,6.5,'#7a7870',false,'center');
+  /* Entry arrow */
+  polyline([[110,PKy2],[110,92]],'#c8a020',1.5,[6,5]);
+
+  /* 21 ── TARMAC TUNNEL MARKER (T1→T2) */
+  /* Underground marker strip between T1 east wall and T2 area */
+  R(T1x2,270,T2x1,340,'rgba(0,0,0,0.18)');
+  polyline([[T1x2,270],[T2x1,270]],'rgba(200,160,0,0.4)',0.8,[8,5]);
+  polyline([[T1x2,340],[T2x1,340]],'rgba(200,160,0,0.4)',0.8,[8,5]);
+  label('Tunnel (under tarmac)',739,305,7,'rgba(180,160,80,0.85)',true,'center');
+
+  /* 22 ── COMPASS */
+  var cpx=960, cpy=230;
+  circle(cpx,cpy,18,'rgba(255,255,255,0.92)','rgba(0,0,0,0.15)',0.5);
+  /* N pointer */
+  poly([[cpx,cpy-16],[cpx-5,cpy],[cpx+5,cpy]],'#cc2020');
+  /* S pointer */
+  poly([[cpx,cpy+16],[cpx-5,cpy],[cpx+5,cpy]],'#888');
+  label('N',cpx,cpy-22,8,'#cc2020',true,'center');
+
+  /* 23 ── SHUTTLE ROUTE (orange overlay) */
+  drawRoute();
+
+  /* 24 ── STOP MARKERS */
+  drawStop(STOPS[0].wx,STOPS[0].wy,'\uD83C\uDD7F Parking','#0a1628');
+  drawStop(STOPS[1].wx,STOPS[1].wy,'\u2708 Terminal 1','#1a3a6b');
+  drawStop(STOPS[2].wx,STOPS[2].wy,'\u2708 Terminal 2','#1a3a6b');
+
+  /* 25 ── LABELS */
+  /* North arrow / orientation note */
+  label('FLX AIRPORT',490,178,11,'#3c3228',true,'center');
+}
+
+function drawRoute(){
+  /* Build surface and underground segments */
+  var UG_RANGES = [[7,12],[18,20]]; // WP index ranges that are underground
+
+  function isUGRange(i){
+    for(var r=0;r<UG_RANGES.length;r++){
+      if(i>=UG_RANGES[r][0]&&i<=UG_RANGES[r][1]) return true;
+    }
+    return false;
+  }
+
+  /* Draw surface sections */
+  var seg=[];
+  for(var i=0;i<WP.length-1;i++){
+    if(!isUGRange(i) && !isUGRange(i+1)){
+      if(seg.length===0) seg.push(WP[i]);
+      seg.push(WP[i+1]);
+    } else {
+      if(seg.length>1){ drawSurfaceRoute(seg); }
+      seg=[];
+    }
+  }
+  if(seg.length>1) drawSurfaceRoute(seg);
+
+  /* Draw underground sections */
+  for(var r=0;r<UG_RANGES.length;r++){
+    var ugSeg=[];
+    for(var i=UG_RANGES[r][0];i<=UG_RANGES[r][1]+1&&i<WP.length;i++) ugSeg.push(WP[i]);
+    if(ugSeg.length>1) drawUGRoute(ugSeg);
   }
 }
 
-drawRouteSeg(0,8,false);   // LOT → tunnel entrance (outbound)
-drawRouteSeg(8,10,true);   // Outbound tunnel under I-10
-drawRouteSeg(10,13,false); // Tunnel exit → T2
-drawRouteSeg(13,17,false); // T2 → return tunnel entrance
-drawRouteSeg(17,18,true);  // Return tunnel under I-10
-drawRouteSeg(18,20,false); // Tunnel exit → LOT
-
-// Tunnel labels
-L.marker([34.0545,-118.3082],{icon:L.divIcon({className:'',
-  html:'<div style="font-size:8px;font-weight:700;color:#444;background:rgba(255,255,255,.85);padding:2px 6px;border-radius:3px;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.18)">Tunnel (under I-10)</div>',
-  iconSize:[105,16],iconAnchor:[52,8]})}).addTo(map);
-L.marker([34.0628,-118.3110],{icon:L.divIcon({className:'',
-  html:'<div style="font-size:8px;font-weight:700;color:#444;background:rgba(255,255,255,.85);padding:2px 6px;border-radius:3px;white-space:nowrap;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.18)">Return Tunnel</div>',
-  iconSize:[90,16],iconAnchor:[45,8]})}).addTo(map);
-
-/* ─── STOP MARKERS ─────────────────────── */
-function makeStopMarker(lat, lng, label, col){
-  L.marker([lat,lng],{
-    icon:L.divIcon({
-      className:'',
-      html:'<div style="text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">'
-          +'<div style="width:18px;height:18px;background:'+col+';border:3.5px solid white;border-radius:50%;margin:0 auto 3px;box-shadow:0 2px 8px rgba(0,0,0,.4)"></div>'
-          +'<div style="background:'+col+';color:white;font-size:9px;font-weight:800;padding:3px 9px;border-radius:4px;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase;box-shadow:0 2px 6px rgba(0,0,0,.3)">'+label+'</div>'
-          +'</div>',
-      iconSize:[120,44],iconAnchor:[60,9]
-    }),
-    zIndexOffset:600
-  }).addTo(map);
+function drawSurfaceRoute(pts){
+  polyline(pts,'rgba(255,255,255,0.7)',5);
+  polyline(pts,'#e8a020',3.5);
+  /* Direction arrows */
+  for(var i=0;i<pts.length-1;i++){
+    var mx=(pts[i][0]+pts[i+1][0])/2, my=(pts[i][1]+pts[i+1][1])/2;
+    var dx=pts[i+1][0]-pts[i][0], dy=pts[i+1][1]-pts[i][1];
+    var len=Math.sqrt(dx*dx+dy*dy);
+    if(len>25){
+      var ang=Math.atan2(dy,dx);
+      ctx.save();ctx.translate(wx(mx),wy(my));ctx.rotate(ang);
+      ctx.fillStyle='#e8a020';
+      ctx.beginPath();ctx.moveTo(0,-3*scale);ctx.lineTo(6*scale,0);ctx.lineTo(0,3*scale);
+      ctx.fill();ctx.restore();
+    }
+  }
 }
 
-makeStopMarker(R[0][0],  R[0][1],  '\uD83C\uDD7F Parking Lot','#0a1628');
-makeStopMarker(R[5][0],  R[5][1],  '\u2708 Terminal 1',       '#1a3a6b');
-makeStopMarker(R[13][0], R[13][1], '\u2708 Terminal 2',       '#1a4a8b');
-
-/* ─── BUS MARKERS ──────────────────────── */
-function makeBusIcon(busId, color, atStop){
-  var bg = atStop ? '#16a34a' : color;
-  var statusTxt = atStop ? 'AT STOP' : 'IN TRANSIT';
-  var html = '<div style="text-align:center;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:60px;margin-left:-30px">'
-    + '<div style="width:42px;height:20px;background:'+bg+';border-radius:5px 5px 3px 3px;border:2.5px solid white;'
-    + 'box-shadow:0 3px 8px rgba(0,0,0,.4);margin:0 auto 3px;position:relative">'
-    + '<div style="position:absolute;top:1px;left:3px;right:3px;height:5px;background:rgba(255,255,255,.3);border-radius:2px"></div>'
-    + '<div style="position:absolute;bottom:2px;right:2px;width:6px;height:6px;background:rgba(255,255,255,.7);border-radius:50%"></div>'
-    + '</div>'
-    + '<div style="background:white;border:2px solid '+bg+';border-radius:4px;padding:2px 6px;'
-    + 'font-size:9px;font-weight:900;color:'+bg+';box-shadow:0 1px 5px rgba(0,0,0,.18);'
-    + 'white-space:nowrap;letter-spacing:.03em">Bus '+busId+'</div>'
-    + '</div>';
-  return L.divIcon({className:'',html:html,iconSize:[60,46],iconAnchor:[30,10]});
+function drawUGRoute(pts){
+  polyline(pts,'rgba(0,0,0,0.4)',7);
+  polyline(pts,'#e8a020',2.5,[7,6]);
 }
 
-var EPOCH = Date.now();
-var busMarkers = {};
+function drawStop(x,y,lbl,bg){
+  circle(x,y,8,'#e8a020',null);
+  circle(x,y,4.5,'#fff',null);
+  /* Label */
+  var xx=x+14, yy=y;
+  var fs=Math.max(8,8.5*scale);
+  ctx.font='bold '+fs+'px Helvetica Neue,Helvetica,Arial,sans-serif';
+  ctx.textAlign='left';ctx.textBaseline='middle';
+  var m=ctx.measureText(lbl);
+  ctx.fillStyle='rgba(255,255,255,0.88)';
+  ctx.fillRect(wx(xx)-3,wy(yy)-fs/2-2,m.width+6,fs+4);
+  ctx.fillStyle=bg||'#1a1612';
+  ctx.fillText(lbl,wx(xx),wy(yy));
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+}
 
-BUSES.forEach(function(bus){
-  var s = getBusState(bus.offset, 0);
-  var m = L.marker([s.lat,s.lng],{
-    icon: makeBusIcon(bus.id, bus.color, s.atStop),
-    zIndexOffset: 2000
-  }).addTo(map);
-  m.bindPopup('<b>Bus '+bus.id+'</b><br>City Metro MCI Coach<br>FLX Shuttle Service');
-  busMarkers[bus.id] = m;
-});
+/* ============================================================
+   DRAW BUSES
+   ============================================================ */
+function drawBus(x,y,color,busId,atStop,ug){
+  var sw=22*scale, sh=14*scale, rx=3*scale;
+  var bx=wx(x)-sw/2, by=wy(y)-sh/2;
 
-/* ─── NEXT BUS PANEL ───────────────────── */
-var NB_STOPS = [
-  {key:'LOT', label:'\uD83C\uDD7F Parking Lot', t:STOP_T.LOT},
-  {key:'T1',  label:'\u2708 Terminal 1',         t:STOP_T.T1},
-  {key:'T2',  label:'\u2708 Terminal 2',         t:STOP_T.T2}
-];
+  /* Shadow */
+  ctx.shadowColor='rgba(0,0,0,0.3)';ctx.shadowBlur=4*scale;ctx.shadowOffsetY=2*scale;
+  /* Body */
+  ctx.fillStyle='#ffffff';
+  ctx.strokeStyle=atStop?'#16a34a':color;
+  ctx.lineWidth=2*scale;
+  ctx.beginPath();
+  ctx.moveTo(bx+rx,by);ctx.lineTo(bx+sw-rx,by);ctx.arcTo(bx+sw,by,bx+sw,by+rx,rx);
+  ctx.lineTo(bx+sw,by+sh-rx);ctx.arcTo(bx+sw,by+sh,bx+sw-rx,by+sh,rx);
+  ctx.lineTo(bx+rx,by+sh);ctx.arcTo(bx,by+sh,bx,by+sh-rx,rx);
+  ctx.lineTo(bx,by+rx);ctx.arcTo(bx,by,bx+rx,by,rx);ctx.closePath();
+  ctx.fill();ctx.stroke();
+  ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetY=0;
 
+  /* Bus emoji */
+  var fs=Math.max(8,10*scale);
+  ctx.font=fs+'px Helvetica Neue,Helvetica,Arial,sans-serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('\uD83D\uDE8C',wx(x),wy(y));
+
+  /* Underground overlay */
+  if(ug){
+    ctx.fillStyle='rgba(0,0,0,0.38)';
+    ctx.beginPath();
+    ctx.moveTo(bx+rx,by);ctx.lineTo(bx+sw-rx,by);ctx.arcTo(bx+sw,by,bx+sw,by+rx,rx);
+    ctx.lineTo(bx+sw,by+sh-rx);ctx.arcTo(bx+sw,by+sh,bx+sw-rx,by+sh,rx);
+    ctx.lineTo(bx+rx,by+sh);ctx.arcTo(bx,by+sh,bx,by+sh-rx,rx);
+    ctx.lineTo(bx,by+rx);ctx.arcTo(bx,by,bx+rx,by,rx);ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle='rgba(232,160,32,0.8)';ctx.lineWidth=scale;
+    ctx.setLineDash([3*scale,3*scale]);ctx.stroke();ctx.setLineDash([]);
+  }
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+}
+
+/* ============================================================
+   TOOLTIP & HOVER
+   ============================================================ */
+var busStates=[{},{},{}];
+var hovBus=-1;
+
+function checkHover(e){
+  if(dragging) return;
+  var rect=canvas.getBoundingClientRect();
+  var mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  var found=-1;
+  for(var i=0;i<3;i++){
+    var s=busStates[i];
+    if(s.x===undefined) continue;
+    if(Math.abs(mx-wx(s.x))<16*scale&&Math.abs(my-wy(s.y))<10*scale){found=i;break;}
+  }
+  hovBus=found;
+  var tip=document.getElementById('tip');
+  if(found>=0){
+    var s=busStates[found];
+    var nowS2=(Date.now()-EPOCH)/1000;
+    document.getElementById('tid').textContent='Bus '+BUS_IDS[found]+' · City Metro MCI Coach';
+    var st2='';
+    if(s.atStop) st2='At stop: '+STOPS[s.si].name;
+    else if(s.ug) st2='In tunnel (underground)';
+    else st2='In transit — surface route';
+    document.getElementById('tst').textContent=st2;
+    document.getElementById('tnx').textContent=getNextStop(found,nowS2);
+    tip.style.display='block';
+    tip.style.left=(e.clientX+16)+'px';
+    tip.style.top=(e.clientY-10)+'px';
+  } else {
+    tip.style.display='none';
+  }
+}
+
+canvas.addEventListener('mouseleave',function(){document.getElementById('tip').style.display='none';hovBus=-1;});
+
+function getNextStop(bi,nowS){
+  var s=busStates[bi];
+  if(s.atStop) return 'Currently: '+STOPS[s.si].name;
+  var lp=((nowS+BUS_OFFSETS[bi])%LOOP+LOOP)%LOOP;
+  var best=null,bestRem=LOOP+1;
+  for(var i=0;i<3;i++){
+    var rem=(STOP_T[i]-lp+LOOP)%LOOP;
+    if(rem>0&&rem<bestRem){bestRem=rem;best=i;}
+  }
+  if(best===null) return '';
+  var m=Math.floor(bestRem/60),sc=Math.round(bestRem%60);
+  return 'Next: '+STOPS[best].name+' in '+(m>0?m+'m ':'')+sc+'s';
+}
+
+/* ============================================================
+   SIDE PANEL
+   ============================================================ */
 function fmtArr(secs){
-  if(secs<=0) return {txt:'Here Now', cls:'c-here'};
-  if(secs<60) return {txt:secs+'s',   cls:'c-soon'};
-  var m=Math.floor(secs/60), s=secs%60;
-  var txt=m+' min'+(s>0?' '+s+'s':'');
-  return {txt:txt, cls:m<5?'c-soon':m<10?'c-ok':'c-far'};
+  if(secs<=0) return {t:'Here Now',c:'c-here'};
+  if(secs<60) return {t:secs+'s',c:'c-soon'};
+  var m=Math.floor(secs/60),s=secs%60;
+  return {t:m+'m'+(s>0?' '+s+'s':''),c:m<5?'c-soon':m<10?'c-ok':'c-far'};
 }
 
-function updateNB(nowS){
+function updatePanels(nowS){
+  /* Bus cards */
   var html='';
-  NB_STOPS.forEach(function(stop){
-    html+='<div class="nb-stop"><div class="nb-stop-n">'+stop.label+'</div>';
-    var rows=BUSES.map(function(bus){
-      var lp=((nowS+bus.offset)%LOOP+LOOP)%LOOP;
-      var rem=(lp>=stop.t&&lp<stop.t+DWELL)?0:Math.round((stop.t-lp+LOOP)%LOOP);
-      return {bus:bus, rem:rem};
-    }).sort(function(a,b){return a.rem-b.rem;});
+  for(var i=0;i<3;i++){
+    var s=busStates[i];
+    var col=BUS_COLORS[i];
+    var stxt='',badge='',bclass='';
+    if(s.atStop){
+      stxt='At: '+STOPS[s.si].name;
+      badge='AT STOP';bclass='b-stop';
+    } else if(s.ug){
+      stxt='Underground (tunnel)';
+      badge='TUNNEL';bclass='b-tun';
+    } else {
+      stxt=getNextStop(i,nowS);
+      badge='IN TRANSIT';bclass='b-move';
+    }
+    html+='<div class="bc">'
+      +'<div class="bct"><div class="bci" style="border:2px solid '+col+'">🚌</div>'
+      +'<div><div class="bcn">Bus '+BUS_IDS[i]+'</div>'
+      +'<div class="bcs">City Metro MCI Coach</div></div></div>'
+      +'<div class="bcd">'+stxt+'</div>'
+      +'<span class="bdb '+bclass+'">'+badge+'</span></div>';
+  }
+  document.getElementById('bcards').innerHTML=html;
+
+  /* Next arrival */
+  var naHtml='';
+  var stopDefs=[
+    {n:'\uD83C\uDD7F Parking',t:STOP_T[0]},
+    {n:'\u2708 Terminal 1',   t:STOP_T[1]},
+    {n:'\u2708 Terminal 2',   t:STOP_T[2]}
+  ];
+  stopDefs.forEach(function(sd){
+    naHtml+='<div class="nas"><div class="nasn">'+sd.n+'</div>';
+    var rows=[];
+    for(var i=0;i<3;i++){
+      var lp=((nowS+BUS_OFFSETS[i])%LOOP+LOOP)%LOOP;
+      var rem=(lp>=sd.t&&lp<sd.t+DWELL)?0:Math.round((sd.t-lp+LOOP)%LOOP);
+      rows.push({i:i,rem:rem});
+    }
+    rows.sort(function(a,b){return a.rem-b.rem;});
     rows.forEach(function(r){
       var f=fmtArr(r.rem);
-      html+='<div class="nb-row">'
-        +'<div class="nb-bus"><div class="nb-sw" style="background:'+r.bus.color+'"></div>Bus '+r.bus.id+'</div>'
-        +'<div class="'+f.cls+'">'+f.txt+'</div>'
-        +'</div>';
+      naHtml+='<div class="nar"><div class="nab">'
+        +'<div class="nabs" style="background:'+BUS_COLORS[r.i]+'"></div>Bus '+BUS_IDS[r.i]+'</div>'
+        +'<div class="nat '+f.c+'">'+f.t+'</div></div>';
     });
-    html+='</div>';
+    naHtml+='</div>';
   });
-  document.getElementById('nbRows').innerHTML=html;
+  document.getElementById('narr').innerHTML=naHtml;
 }
 
-/* ─── ANIMATION LOOP ───────────────────── */
-function tick(){
+/* ============================================================
+   MAIN LOOP
+   ============================================================ */
+var EPOCH=Date.now();
+
+function drawAll(){
+  canvas.width=mw.offsetWidth;
+  canvas.height=mw.offsetHeight;
   var nowS=(Date.now()-EPOCH)/1000;
-  BUSES.forEach(function(bus){
-    var s=getBusState(bus.offset, nowS);
-    busMarkers[bus.id].setLatLng([s.lat,s.lng]);
-    busMarkers[bus.id].setIcon(makeBusIcon(bus.id, bus.color, s.atStop));
-  });
-  updateNB(nowS);
+
+  /* Update bus states */
+  for(var i=0;i<3;i++) busStates[i]=getBusState(BUS_OFFSETS[i],nowS);
+
+  /* Draw map */
+  drawMap();
+
+  /* Draw buses ON TOP */
+  for(var i=0;i<3;i++){
+    var s=busStates[i];
+    drawBus(s.x,s.y,BUS_COLORS[i],BUS_IDS[i],s.atStop,s.ug);
+  }
+
+  updatePanels(nowS);
 }
 
-/* Force Leaflet to recalculate size then start animation */
-window.addEventListener('load', function(){
-  map.invalidateSize();
-  tick();
-  setInterval(tick, 1000);
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('load',function(){
+  setCanvasSize();
+  initView();
+  drawAll();
+  setInterval(drawAll,1000);
 });
 </script>
 </body>
